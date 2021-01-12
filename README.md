@@ -11,5 +11,5 @@ Build fat jar
 Run application
 > java -jar build/libs/auto-clicker-all.jar
 
-##Screenshot
+## Screenshot
 ![Alt text](pic/auto-clicker.png)
