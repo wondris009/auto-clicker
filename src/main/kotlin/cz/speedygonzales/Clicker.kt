@@ -4,7 +4,7 @@ import java.awt.Robot
 
 class Clicker(private val delay: Int) {
 
-    private val robot = Robot()
+    val robot = Robot()
 
     fun click(button: Int) {
         robot.mousePress(button)

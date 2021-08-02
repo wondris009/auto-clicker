@@ -2,6 +2,8 @@ package cz.speedygonzales
 
 import java.awt.BorderLayout
 import java.awt.Dimension
+import java.awt.MouseInfo
+import java.awt.Point
 import java.awt.event.InputEvent
 import javax.swing.*
 
@@ -28,8 +30,8 @@ class ClickerApplication {
     fun initGui() {
 
         button = JButton("Click")
-        button.size = Dimension(100, 30)
-        numberOfClicksField = JTextField("100")
+        button.size = Dimension(10, 30)
+        numberOfClicksField = JTextField("10")
         delayBeforeStartField = JTextField("5")
 
         val inputs = JPanel()
@@ -44,6 +46,10 @@ class ClickerApplication {
             Thread.sleep(delayBeforeStartField.text.toLong() * SECOND)
 
             val numberOfClicks = numberOfClicksField.text.toInt()
+            val point: Point = MouseInfo.getPointerInfo().location
+            println("Poloha mysi - X:${point.x}, Y:${point.y}")
+
+            autoClicker.robot.mouseMove(point.x,point.y)
 
             for (i in 1..numberOfClicks) {
                 autoClicker.click(InputEvent.BUTTON1_DOWN_MASK)
