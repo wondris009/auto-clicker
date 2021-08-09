@@ -47,21 +47,22 @@ class ClickerApplication {
 
             val numberOfClicks = numberOfClicksField.text.toInt()
             val point: Point = MouseInfo.getPointerInfo().location
-            println("Poloha mysi - X:${point.x}, Y:${point.y}")
+            println("Mouse point - X:${point.x}, Y:${point.y}")
 
             autoClicker.robot.mouseMove(point.x,point.y)
 
             for (i in 1..numberOfClicks) {
                 autoClicker.click(InputEvent.BUTTON1_DOWN_MASK)
+                frame.title = "Gririm's auto clicker | ${numberOfClicks - i}"
             }
         }
 
-        frame = JFrame("Gririm's auto clicker")
+        frame = JFrame("Gririm's auto clicker | ${numberOfClicksField.text}")
         frame.contentPane.add(inputs, BorderLayout.NORTH)
         frame.contentPane.add(button, BorderLayout.SOUTH)
         frame.defaultCloseOperation = JFrame.EXIT_ON_CLOSE
         frame.isAlwaysOnTop = true
-        frame.size = Dimension(220, 200)
+        frame.size = Dimension(320, 200)
         frame.setLocationRelativeTo(null)
         frame.isVisible = true
     }
