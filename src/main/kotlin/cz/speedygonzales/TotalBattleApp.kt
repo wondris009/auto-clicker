@@ -10,13 +10,13 @@ import javax.swing.*
 
 private const val SECOND = 1_000
 
-class ClickerApplication {
+class TotalBattleApp {
 
     companion object {
         @JvmStatic
         fun main(args: Array<String>) {
             SwingUtilities.invokeAndWait {
-                ClickerApplication().initGui()
+                TotalBattleApp().initGui()
             }
         }
     }
@@ -57,7 +57,7 @@ class ClickerApplication {
             }
         }
 
-        frame = JFrame("Gririm's auto clicker | ${numberOfClicksField.text}")
+        frame = JFrame("Total battle helper | ${numberOfClicksField.text}")
         frame.contentPane.add(inputs, BorderLayout.NORTH)
         frame.contentPane.add(button, BorderLayout.SOUTH)
         frame.defaultCloseOperation = JFrame.EXIT_ON_CLOSE
