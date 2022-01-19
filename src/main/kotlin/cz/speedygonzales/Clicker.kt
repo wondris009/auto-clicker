@@ -1,8 +1,11 @@
 package cz.speedygonzales
 
 import java.awt.Robot
+import java.awt.event.KeyEvent
 
-class Clicker(private val delay: Int) {
+class Clicker() {
+
+    var delay = 70
 
     val robot = Robot()
 
@@ -10,6 +13,13 @@ class Clicker(private val delay: Int) {
         robot.mousePress(button)
         robot.delay(delay)
         robot.mouseRelease(button)
+        robot.delay(delay)
+    }
+
+    fun pressEscape() {
+        robot.keyPress(KeyEvent.VK_ESCAPE)
+        robot.delay(delay)
+        robot.keyRelease(KeyEvent.VK_ESCAPE)
         robot.delay(delay)
     }
 }
