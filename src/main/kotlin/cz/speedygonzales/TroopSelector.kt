@@ -51,7 +51,7 @@ class TroopSelector(private val autoClicker: Clicker) {
         Thread.sleep(1L * SECOND)
     }
 
-    fun vultures7Monsters5Logor() {
+    fun vultures7Monsters5Logos() {
 
         //select monsters
         autoClicker.robot.mouseMove(619, 707)

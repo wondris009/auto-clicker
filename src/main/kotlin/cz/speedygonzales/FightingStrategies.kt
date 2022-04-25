@@ -11,7 +11,7 @@ class FightingStrategies(private val autoClicker: Clicker, private val troopSele
         when(type) {
             Troops.VULTURES7_M5_HERO -> troopSelector.vultures7Monsters5()
             Troops.G6_ALL -> troopSelector.griffins6All()
-            Troops.VULTURES7_M5_LOGOS -> troopSelector.vultures7Monsters5Logor()
+            Troops.VULTURES7_M5_LOGOS -> troopSelector.vultures7Monsters5Logos()
         }
 
         autoClicker.march(rounds, frame)
