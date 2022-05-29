@@ -33,7 +33,7 @@ class Strategies(private val autoClicker: Clicker, private val troopSelector: Tr
         val data = mutableSetOf<String>()
         data.add("autoClicker.robot.mouseMove(${point.x}, ${point.y})")
         println(data.elementAt(0))
-        println("Thread.sleep(4.5.toLong() * SECOND)")
+        println("Thread.sleep(2.toLong() * SECOND)")
     }
 
     fun fight(whenToRevive: Int, rounds: Int, waitBeforeRun: Long, type: TroopsType, frame: JFrame) {

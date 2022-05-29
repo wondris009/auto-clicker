@@ -71,11 +71,6 @@ class TotalBattleApp : MouseListener {
 
     override fun mouseClicked(e: MouseEvent) {
         println("${e.x} : ${e.y}")
-
-//                || e.isControlDown()
-//        if (SwingUtilities.isRightMouseButton(e)) {
-//            println("right")
-//        }
     }
 
     override fun mousePressed(e: MouseEvent?) {

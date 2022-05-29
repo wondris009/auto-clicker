@@ -5,6 +5,7 @@ import java.awt.Frame
 import java.awt.Robot
 import java.awt.event.InputEvent
 import java.awt.event.KeyEvent
+import java.awt.event.KeyEvent.*
 import javax.swing.JFrame
 
 class Clicker() {
@@ -25,9 +26,9 @@ class Clicker() {
     }
 
     private fun pressEscape() {
-        robot.keyPress(KeyEvent.VK_ESCAPE)
+        robot.keyPress(VK_ESCAPE)
         robot.delay(delay)
-        robot.keyRelease(KeyEvent.VK_ESCAPE)
+        robot.keyRelease(VK_ESCAPE)
         robot.delay(delay)
     }
 
@@ -41,105 +42,63 @@ class Clicker() {
     fun input200() {
         click(InputEvent.BUTTON1_DOWN_MASK)
         robot.delay(delay)
-        robot.keyPress(KeyEvent.VK_2)
-        robot.delay(delay)
-        robot.keyRelease(KeyEvent.VK_2)
-        robot.delay(delay)
-        robot.keyPress(KeyEvent.VK_0)
-        robot.delay(delay)
-        robot.keyRelease(KeyEvent.VK_0)
-        robot.delay(delay)
-        robot.keyPress(KeyEvent.VK_0)
-        robot.delay(delay)
-        robot.keyRelease(KeyEvent.VK_0)
-        robot.delay(delay)
+
+        keyPress(VK_2)
+        keyPress(VK_0)
+        keyPress(VK_0)
     }
 
     fun input55() {
         click(InputEvent.BUTTON1_DOWN_MASK)
         robot.delay(delay)
-        robot.keyPress(KeyEvent.VK_5)
-        robot.delay(delay)
-        robot.keyRelease(KeyEvent.VK_5)
-        robot.delay(delay)
-        robot.keyPress(KeyEvent.VK_5)
-        robot.delay(delay)
-        robot.keyRelease(KeyEvent.VK_5)
-        robot.delay(delay)
+
+        keyPress(VK_5)
+        keyPress(VK_5)
     }
 
     fun input38800() {
         click(InputEvent.BUTTON1_DOWN_MASK)
         robot.delay(delay)
-        keyPress(KeyEvent.VK_3)
-        keyPress(KeyEvent.VK_8)
-        keyPress(KeyEvent.VK_8)
-        keyPress(KeyEvent.VK_0)
-        keyPress(KeyEvent.VK_0)
+        keyPress(VK_3)
+        keyPress(VK_8)
+        keyPress(VK_8)
+        keyPress(VK_0)
+        keyPress(VK_0)
     }
 
     fun input53() {
         click(InputEvent.BUTTON1_DOWN_MASK)
         robot.delay(delay)
-        robot.keyPress(KeyEvent.VK_5)
-        robot.delay(delay)
-        robot.keyRelease(KeyEvent.VK_5)
-        robot.delay(delay)
-        robot.keyPress(KeyEvent.VK_3)
-        robot.delay(delay)
-        robot.keyRelease(KeyEvent.VK_3)
-        robot.delay(delay)
+
+        keyPress(VK_5)
+        keyPress(VK_3)
     }
 
     fun input123() {
         click(InputEvent.BUTTON1_DOWN_MASK)
         robot.delay(delay)
-        robot.keyPress(KeyEvent.VK_1)
-        robot.delay(delay)
-        robot.keyRelease(KeyEvent.VK_1)
-        robot.delay(delay)
-        robot.keyPress(KeyEvent.VK_2)
-        robot.delay(delay)
-        robot.keyRelease(KeyEvent.VK_2)
-        robot.delay(delay)
-        robot.keyPress(KeyEvent.VK_3)
-        robot.delay(delay)
-        robot.keyRelease(KeyEvent.VK_3)
-        robot.delay(delay)
+
+        keyPress(VK_1)
+        keyPress(VK_2)
+        keyPress(VK_3)
     }
 
     fun input290() {
         click(InputEvent.BUTTON1_DOWN_MASK)
         robot.delay(delay)
-        robot.keyPress(KeyEvent.VK_2)
-        robot.delay(delay)
-        robot.keyRelease(KeyEvent.VK_2)
-        robot.delay(delay)
-        robot.keyPress(KeyEvent.VK_9)
-        robot.delay(delay)
-        robot.keyRelease(KeyEvent.VK_9)
-        robot.delay(delay)
-        robot.keyPress(KeyEvent.VK_0)
-        robot.delay(delay)
-        robot.keyRelease(KeyEvent.VK_0)
-        robot.delay(delay)
+
+        keyPress(VK_2)
+        keyPress(VK_9)
+        keyPress(VK_0)
     }
 
     fun input318() {
         click(InputEvent.BUTTON1_DOWN_MASK)
         robot.delay(delay)
-        robot.keyPress(KeyEvent.VK_3)
-        robot.delay(delay)
-        robot.keyRelease(KeyEvent.VK_3)
-        robot.delay(delay)
-        robot.keyPress(KeyEvent.VK_1)
-        robot.delay(delay)
-        robot.keyRelease(KeyEvent.VK_1)
-        robot.delay(delay)
-        robot.keyPress(KeyEvent.VK_8)
-        robot.delay(delay)
-        robot.keyRelease(KeyEvent.VK_8)
-        robot.delay(delay)
+
+        keyPress(VK_3)
+        keyPress(VK_1)
+        keyPress(VK_8)
     }
 
     private fun cleanFailures(numberOfEscapePress: Int) {
