@@ -36,7 +36,7 @@ class Strategies(private val autoClicker: Clicker, private val troopSelector: Tr
         println("Thread.sleep(4.5.toLong() * SECOND)")
     }
 
-    fun fight(whenToRevive: Int, rounds: Int, waitBeforeRun: Long, troops: Troops, frame: JFrame) {
+    fun fight(whenToRevive: Int, rounds: Int, waitBeforeRun: Long, type: TroopsType, frame: JFrame) {
 
         autoClicker.delay = 135
 
@@ -44,7 +44,7 @@ class Strategies(private val autoClicker: Clicker, private val troopSelector: Tr
         for (i in rounds downTo 1) {
 
             frame.title = "$i round(s) left | at least 40s left"
-            fightingStrategies.selectFightingStrategy(i, troops, frame)
+            fightingStrategies.selectFightingStrategy(i, type, frame)
 
             if (i % whenToRevive == 0) {
                 autoClicker.revive()

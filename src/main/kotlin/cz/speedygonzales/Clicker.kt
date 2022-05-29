@@ -31,6 +31,13 @@ class Clicker() {
         robot.delay(delay)
     }
 
+    private fun keyPress(keyEvent: Int) {
+        robot.keyPress(keyEvent)
+        robot.delay(delay)
+        robot.keyRelease(keyEvent)
+        robot.delay(delay)
+    }
+
     fun input200() {
         click(InputEvent.BUTTON1_DOWN_MASK)
         robot.delay(delay)
@@ -59,6 +66,16 @@ class Clicker() {
         robot.delay(delay)
         robot.keyRelease(KeyEvent.VK_5)
         robot.delay(delay)
+    }
+
+    fun input38800() {
+        click(InputEvent.BUTTON1_DOWN_MASK)
+        robot.delay(delay)
+        keyPress(KeyEvent.VK_3)
+        keyPress(KeyEvent.VK_8)
+        keyPress(KeyEvent.VK_8)
+        keyPress(KeyEvent.VK_0)
+        keyPress(KeyEvent.VK_0)
     }
 
     fun input53() {

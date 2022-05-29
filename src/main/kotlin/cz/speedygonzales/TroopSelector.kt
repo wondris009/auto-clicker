@@ -81,4 +81,19 @@ class TroopSelector(private val autoClicker: Clicker) {
         autoClicker.click(InputEvent.BUTTON1_DOWN_MASK)
         Thread.sleep(1L * SECOND)
     }
+
+    fun vultures6Sedlak() {
+
+        //select monsters
+        autoClicker.robot.mouseMove(899, 728)
+        Thread.sleep(1.toLong() * SECOND)
+        autoClicker.click(InputEvent.BUTTON1_DOWN_MASK)
+        Thread.sleep(1L * SECOND)
+
+        autoClicker.robot.mouseMove(834, 696)
+        Thread.sleep(1.toLong() * SECOND)
+        autoClicker.click(InputEvent.BUTTON1_DOWN_MASK)
+        Thread.sleep(1L * SECOND)
+        autoClicker.input38800()
+    }
 }

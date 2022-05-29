@@ -23,6 +23,7 @@ class TotalBattleApp : MouseListener {
     private lateinit var button: JButton
     private lateinit var numberOfClicksField: JTextField
     private lateinit var delayBeforeStartField: JTextField
+    private lateinit var reviveAfterNRoundsField: JTextField
 
     private val autoClicker = Clicker()
     private val troopSelector = TroopSelector(autoClicker)
@@ -34,14 +35,16 @@ class TotalBattleApp : MouseListener {
         button.size = Dimension(10, 30)
         numberOfClicksField = JTextField("10")
         delayBeforeStartField = JTextField("3")
+        reviveAfterNRoundsField = JTextField("10")
 
         val inputs = JPanel()
         inputs.layout = BoxLayout(inputs, BoxLayout.Y_AXIS)
 
         inputs.add(getInputRow(numberOfClicksField, "Number of clicks:"))
         inputs.add(getInputRow(delayBeforeStartField, "Seconds before start:"))
+        inputs.add(getInputRow(reviveAfterNRoundsField, "Revive after N rounds:"))
 
-        val reviveAfterNRounds = 10
+        val reviveAfterNRounds = reviveAfterNRoundsField.text.toInt()
 
         button.addActionListener {
 
@@ -51,7 +54,7 @@ class TotalBattleApp : MouseListener {
                 reviveAfterNRounds,
                 numberOfClicksField.text.toInt(),
                 delayBeforeStartField.text.toLong(),
-                Troops.VULTURES7_M5_LOGOS,
+                TroopsType.VULTURES6_SEDLAK,
                 frame
             )
         }
