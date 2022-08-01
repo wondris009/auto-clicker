@@ -4,7 +4,6 @@ import cz.speedygonzales.Constants.SECOND
 import java.awt.Frame
 import java.awt.Robot
 import java.awt.event.InputEvent
-import java.awt.event.KeyEvent
 import java.awt.event.KeyEvent.*
 import javax.swing.JFrame
 
@@ -62,6 +61,16 @@ class Clicker() {
         keyPress(VK_3)
         keyPress(VK_8)
         keyPress(VK_8)
+        keyPress(VK_0)
+        keyPress(VK_0)
+    }
+
+    fun input45000() {
+        click(InputEvent.BUTTON1_DOWN_MASK)
+        robot.delay(delay)
+        keyPress(VK_4)
+        keyPress(VK_5)
+        keyPress(VK_0)
         keyPress(VK_0)
         keyPress(VK_0)
     }

@@ -84,16 +84,51 @@ class TroopSelector(private val autoClicker: Clicker) {
 
     fun vultures6Sedlak() {
 
-        //select monsters
-        autoClicker.robot.mouseMove(899, 728)
+        autoClicker.robot.mouseMove(900, 618)
+        Thread.sleep(1.toLong() * SECOND)
+        autoClicker.click(InputEvent.BUTTON1_DOWN_MASK)
+        Thread.sleep(1L * SECOND)
+        autoClicker.robot.mouseMove(657, 582)
         Thread.sleep(1.toLong() * SECOND)
         autoClicker.click(InputEvent.BUTTON1_DOWN_MASK)
         Thread.sleep(1L * SECOND)
 
-        autoClicker.robot.mouseMove(834, 696)
+
+        autoClicker.robot.mouseMove(901, 716)
         Thread.sleep(1.toLong() * SECOND)
         autoClicker.click(InputEvent.BUTTON1_DOWN_MASK)
         Thread.sleep(1L * SECOND)
-        autoClicker.input38800()
+        autoClicker.robot.mouseMove(648, 723)
+        Thread.sleep(1.toLong() * SECOND)
+        autoClicker.click(InputEvent.BUTTON1_DOWN_MASK)
+        Thread.sleep(1L * SECOND)
+        autoClicker.input45000()
+
+        //select monsters
+//        autoClicker.robot.mouseMove(899, 728)
+//        Thread.sleep(1.toLong() * SECOND)
+//        autoClicker.click(InputEvent.BUTTON1_DOWN_MASK)
+//        Thread.sleep(1L * SECOND)
+//
+//        autoClicker.robot.mouseMove(834, 630)
+//        Thread.sleep(1.toLong() * SECOND)
+//        autoClicker.click(InputEvent.BUTTON1_DOWN_MASK)
+//        Thread.sleep(1L * SECOND)
+
     }
+
+//    fun vultures6M5BeastsSedlak() {
+//
+//        //select monsters
+//        autoClicker.robot.mouseMove(899, 728)
+//        Thread.sleep(1.toLong() * SECOND)
+//        autoClicker.click(InputEvent.BUTTON1_DOWN_MASK)
+//        Thread.sleep(1L * SECOND)
+//
+//        autoClicker.robot.mouseMove(834, 630)
+//        Thread.sleep(1.toLong() * SECOND)
+//        autoClicker.click(InputEvent.BUTTON1_DOWN_MASK)
+//        Thread.sleep(1L * SECOND)
+//        autoClicker.input44000()
+//    }
 }

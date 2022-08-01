@@ -5,6 +5,7 @@ import java.awt.Dimension
 import java.awt.event.MouseEvent
 import java.awt.event.MouseListener
 import javax.swing.*
+import kotlin.system.exitProcess
 
 
 class TotalBattleApp : MouseListener {
@@ -33,9 +34,9 @@ class TotalBattleApp : MouseListener {
 
         button = JButton("Click")
         button.size = Dimension(10, 30)
-        numberOfClicksField = JTextField("10")
+        numberOfClicksField = JTextField("20")
         delayBeforeStartField = JTextField("3")
-        reviveAfterNRoundsField = JTextField("10")
+        reviveAfterNRoundsField = JTextField("3")
 
         val inputs = JPanel()
         inputs.layout = BoxLayout(inputs, BoxLayout.Y_AXIS)
@@ -44,14 +45,12 @@ class TotalBattleApp : MouseListener {
         inputs.add(getInputRow(delayBeforeStartField, "Seconds before start:"))
         inputs.add(getInputRow(reviveAfterNRoundsField, "Revive after N rounds:"))
 
-        val reviveAfterNRounds = reviveAfterNRoundsField.text.toInt()
-
         button.addActionListener {
 
 //            strategies.autoClick(delayBeforeStartField.text.toLong(), numberOfClicksField.text.toInt(), frame)
 //            strategies.checkMousePosition()
             strategies.fight(
-                reviveAfterNRounds,
+                reviveAfterNRoundsField.text.toInt(),
                 numberOfClicksField.text.toInt(),
                 delayBeforeStartField.text.toLong(),
                 TroopsType.VULTURES6_SEDLAK,

@@ -46,6 +46,7 @@ class Strategies(private val autoClicker: Clicker, private val troopSelector: Tr
             frame.title = "$i round(s) left | at least 40s left"
             fightingStrategies.selectFightingStrategy(i, type, frame)
 
+            //println("trying reviving i=$i, rounds=$rounds, whenToRevive=$whenToRevive....${i % whenToRevive == 0}")
             if (i % whenToRevive == 0) {
                 autoClicker.revive()
             }
