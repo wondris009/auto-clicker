@@ -7,7 +7,7 @@ import java.awt.event.InputEvent
 import java.awt.event.KeyEvent.*
 import javax.swing.JFrame
 
-class Clicker() {
+class Clicker {
 
     var delay = 70
 
