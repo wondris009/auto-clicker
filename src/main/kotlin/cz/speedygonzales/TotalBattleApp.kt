@@ -47,15 +47,15 @@ class TotalBattleApp : MouseListener {
 
         button.addActionListener {
 
-//            strategies.autoClick(delayBeforeStartField.text.toLong(), numberOfClicksField.text.toInt(), frame)
+            strategies.autoClick(delayBeforeStartField.text.toLong(), numberOfClicksField.text.toInt(), frame)
 //            strategies.checkMousePosition()
-            strategies.fight(
-                reviveAfterNRoundsField.text.toInt(),
-                numberOfClicksField.text.toInt(),
-                delayBeforeStartField.text.toLong(),
-                TroopsType.VULTURES6_SEDLAK,
-                frame
-            )
+//            strategies.fight(
+//                reviveAfterNRoundsField.text.toInt(),
+//                numberOfClicksField.text.toInt(),
+//                delayBeforeStartField.text.toLong(),
+//                TroopsType.VULTURES6_SEDLAK,
+//                frame
+//            )
         }
 
         frame = JFrame("${numberOfClicksField.text} round(s) left | at least 40s left")

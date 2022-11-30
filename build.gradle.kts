@@ -6,7 +6,7 @@ import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
  */
 
 plugins {
-    id("org.jetbrains.kotlin.jvm") version "1.4.21"
+    id("org.jetbrains.kotlin.jvm") version "1.7.21"
     id("com.github.johnrengelman.shadow") version "6.1.0"
 
     // Apply the application plugin to add support for building a CLI application.
