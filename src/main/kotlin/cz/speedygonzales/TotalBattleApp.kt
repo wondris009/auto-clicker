@@ -1,102 +1,55 @@
 package cz.speedygonzales
 
-import java.awt.BorderLayout
+import com.github.kwhat.jnativehook.GlobalScreen
 import java.awt.Dimension
-import java.awt.event.MouseEvent
-import java.awt.event.MouseListener
+import java.awt.Point
 import javax.swing.*
-import kotlin.system.exitProcess
 
 
-class TotalBattleApp : MouseListener {
+class TotalBattleApp {
+
+    private lateinit var frame: JFrame
+
+    private val clicker = Clicker()
+    private val troopSelector = TroopSelector(clicker)
+    private val points = mutableListOf<Point>()
+
+//    private val strategies = Strategies(clicker, troopSelector)
+
+    private val pointsTextArea = JTextArea()
+
+    private val autoClickPanel = AutoClickPanel(clicker)
+    private val checkPathPanel = CheckPathPanel(points, pointsTextArea)
+
+    private fun initGui() {
+
+        GlobalScreen.addNativeKeyListener(GlobalKeyListener(clicker))
+        GlobalScreen.addNativeMouseListener(GlobalMouseListener(points, pointsTextArea))
+
+        val tabs = JTabbedPane()
+        tabs.addTab("Auto click", autoClickPanel)
+        tabs.addTab("Check path", checkPathPanel)
+
+        frame = JFrame("TotalBattleApp")
+        frame.add(tabs)
+        frame.defaultCloseOperation = JFrame.EXIT_ON_CLOSE
+        frame.isAlwaysOnTop = true
+        frame.size = Dimension(320, 200)
+//        frame.setLocationRelativeTo(null) // center the application
+        frame.isVisible = true
+        frame.pack() //make frame as big as inner components
+        frame.setLocation(-1000, 400) //displays on main screen not on macbook screen
+    }
 
     companion object {
         @JvmStatic
         fun main(args: Array<String>) {
+            GlobalScreen.registerNativeHook()
+
             SwingUtilities.invokeAndWait {
                 TotalBattleApp().initGui()
             }
         }
     }
-
-    private lateinit var frame: JFrame
-
-    private lateinit var button: JButton
-    private lateinit var numberOfClicksField: JTextField
-    private lateinit var delayBeforeStartField: JTextField
-    private lateinit var reviveAfterNRoundsField: JTextField
-
-    private val autoClicker = Clicker()
-    private val troopSelector = TroopSelector(autoClicker)
-    private val strategies = Strategies(autoClicker, troopSelector)
-
-    fun initGui() {
-
-        button = JButton("Click")
-        button.size = Dimension(10, 30)
-        numberOfClicksField = JTextField("20")
-        delayBeforeStartField = JTextField("3")
-        reviveAfterNRoundsField = JTextField("3")
-
-        val inputs = JPanel()
-        inputs.layout = BoxLayout(inputs, BoxLayout.Y_AXIS)
-
-        inputs.add(getInputRow(numberOfClicksField, "Number of clicks:"))
-        inputs.add(getInputRow(delayBeforeStartField, "Seconds before start:"))
-        inputs.add(getInputRow(reviveAfterNRoundsField, "Revive after N rounds:"))
-
-        button.addActionListener {
-
-            strategies.autoClick(delayBeforeStartField.text.toLong(), numberOfClicksField.text.toInt(), frame)
-//            strategies.checkMousePosition()
-//            strategies.fight(
-//                reviveAfterNRoundsField.text.toInt(),
-//                numberOfClicksField.text.toInt(),
-//                delayBeforeStartField.text.toLong(),
-//                TroopsType.VULTURES6_SEDLAK,
-//                frame
-//            )
-        }
-
-        frame = JFrame("${numberOfClicksField.text} round(s) left | at least 40s left")
-        frame.contentPane.add(inputs, BorderLayout.NORTH)
-        frame.contentPane.add(button, BorderLayout.SOUTH)
-        frame.defaultCloseOperation = JFrame.EXIT_ON_CLOSE
-        frame.isAlwaysOnTop = true
-        frame.size = Dimension(320, 200)
-        frame.setLocationRelativeTo(null)
-        frame.isVisible = true
-    }
-
-    override fun mouseClicked(e: MouseEvent) {
-        println("${e.x} : ${e.y}")
-    }
-
-    override fun mousePressed(e: MouseEvent?) {
-        TODO("Not yet implemented")
-    }
-
-    override fun mouseReleased(e: MouseEvent?) {
-        TODO("Not yet implemented")
-    }
-
-    override fun mouseEntered(e: MouseEvent?) {
-        TODO("Not yet implemented")
-    }
-
-    override fun mouseExited(e: MouseEvent?) {
-        TODO("Not yet implemented")
-    }
-
-    private fun getInputRow(tf: JTextField, label: String): JPanel {
-
-        val container = JPanel()
-        container.size = Dimension(200, 50)
-        val boxLayout = BoxLayout(container, BoxLayout.X_AXIS)
-        container.layout = boxLayout
-        container.add(JLabel(label))
-        container.add(tf)
-
-        return container
-    }
 }
+

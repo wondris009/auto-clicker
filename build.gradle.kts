@@ -15,13 +15,13 @@ plugins {
 }
 
 repositories {
-    jcenter()
+    mavenCentral()
 }
 
 application {
     // Desired way mainClass.set("<main class>") causes an issue during jar packaging
     @Suppress("DEPRECATION")
-    mainClassName ="cz.speedygonzales.ClickerApplication"
+    mainClassName ="cz.speedygonzales.TotalBattleApp"
 }
 
 dependencies {
@@ -30,6 +30,8 @@ dependencies {
 
     // Use the Kotlin JDK 8 standard library.
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
+
+    implementation("com.github.kwhat:jnativehook:2.2.2")
 
     // Use the Kotlin test library.
     testImplementation("org.jetbrains.kotlin:kotlin-test")
@@ -41,6 +43,6 @@ dependencies {
 
 tasks.withType<ShadowJar>() {
     manifest {
-        attributes["Main-Class"] = "cz.speedygonzales.ClickerApplication"
+        attributes["Main-Class"] = "cz.speedygonzales.TotalBattleApp"
     }
 }

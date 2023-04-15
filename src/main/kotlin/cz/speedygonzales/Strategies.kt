@@ -4,41 +4,43 @@ import java.awt.MouseInfo
 import java.awt.Point
 import java.awt.event.InputEvent
 import javax.swing.JFrame
+import javax.swing.JLabel
+import javax.swing.JPanel
 
-class Strategies(private val autoClicker: Clicker, private val troopSelector: TroopSelector) {
+class Strategies(private val clicker: Clicker, troopSelector: TroopSelector) {
 
-    private val fightingStrategies = FightingStrategies(autoClicker, troopSelector)
+    private val fightingStrategies = FightingStrategies(clicker, troopSelector)
 
-    fun autoClick(delayBeforeStartField: Long, numberOfClicks: Int, frame: JFrame) {
+    fun autoClick(delayBeforeStartField: Long, numberOfClicks: Int, label: JLabel) {
 
-        autoClicker.delay = 70
+        clicker.delay = 70
 
         Thread.sleep(delayBeforeStartField * Constants.SECOND)
 
         val point: Point = MouseInfo.getPointerInfo().location
-        autoClicker.mouseMove(point.x, point.y)
+        clicker.mouseMove(point.x, point.y)
 
         for (i in 1..numberOfClicks) {
-            autoClicker.click(InputEvent.BUTTON1_DOWN_MASK)
-            frame.title = "Auto clicker | ${numberOfClicks - i}"
+            clicker.click(InputEvent.BUTTON1_DOWN_MASK)
+            label.text = "Auto clicker | ${numberOfClicks - i}"
         }
 
     }
 
-    fun checkMousePosition() {
-
-        autoClicker.delay = 70
-
-        val point: Point = MouseInfo.getPointerInfo().location
-        val data = mutableSetOf<String>()
-        data.add("autoClicker.robot.mouseMove(${point.x}, ${point.y})")
-        println(data.elementAt(0))
-        println("Thread.sleep(2.toLong() * SECOND)")
-    }
+//    fun checkMousePosition() {
+//
+//        clicker.delay = 70
+//
+//        val point: Point = MouseInfo.getPointerInfo().location
+//        val data = mutableSetOf<String>()
+//        data.add("autoClicker.robot.mouseMove(${point.x}, ${point.y})")
+//        println(data.elementAt(0))
+//        println("Thread.sleep(2.toLong() * SECOND)")
+//    }
 
     fun fight(whenToRevive: Int, rounds: Int, waitBeforeRun: Long, type: TroopsType, frame: JFrame) {
 
-        autoClicker.delay = 135
+        clicker.delay = 135
 
         Thread.sleep(waitBeforeRun * Constants.SECOND)
         for (i in rounds downTo 1) {
@@ -48,7 +50,7 @@ class Strategies(private val autoClicker: Clicker, private val troopSelector: Tr
 
             //println("trying reviving i=$i, rounds=$rounds, whenToRevive=$whenToRevive....${i % whenToRevive == 0}")
             if (i % whenToRevive == 0) {
-                autoClicker.revive()
+                clicker.revive()
             }
         }
 
