@@ -2,5 +2,5 @@ package cz.speedygonzales
 
 object Constants {
 
-    const val SECOND = 1000
+    const val SECOND = 1_000
 }
