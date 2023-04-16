@@ -19,16 +19,19 @@ class TotalBattleApp {
     private val pointsTextArea = JTextArea()
 
     private val autoClickPanel = AutoClickPanel(clicker)
-    private val checkPathPanel = CheckPathPanel(points, pointsTextArea)
+    private val setupPathPanel = SetupPathPanel(clicker, points, pointsTextArea)
 
     private fun initGui() {
+
+        //can't see setEnabled
+        pointsTextArea.enable(false)
 
         GlobalScreen.addNativeKeyListener(GlobalKeyListener(clicker))
         GlobalScreen.addNativeMouseListener(GlobalMouseListener(points, pointsTextArea))
 
         val tabs = JTabbedPane()
         tabs.addTab("Auto click", autoClickPanel)
-        tabs.addTab("Setup path", checkPathPanel)
+        tabs.addTab("Setup path", setupPathPanel)
         tabs.selectedIndex = 1
 
         frame = JFrame("TotalBattleApp")
