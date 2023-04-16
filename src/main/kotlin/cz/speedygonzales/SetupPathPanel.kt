@@ -5,11 +5,18 @@ import java.awt.BorderLayout
 import java.awt.Point
 import javax.swing.BoxLayout
 import javax.swing.JPanel
+import javax.swing.JScrollPane
 import javax.swing.JTextArea
+
 
 class SetupPathPanel(clicker: Clicker, private val points: MutableList<Point>, pointsTextArea: JTextArea) : JPanel() {
 
     init {
+        val scrollPane = JScrollPane(
+            pointsTextArea,
+            JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER
+        )
+
         this.layout = BorderLayout()
 
         val controlsPanel = JPanel()
@@ -42,7 +49,7 @@ class SetupPathPanel(clicker: Clicker, private val points: MutableList<Point>, p
         controlsPanel.add(click)
 
         this.add(controlsPanel, BorderLayout.NORTH)
-        this.add(pointsTextArea, BorderLayout.CENTER)
+        this.add(scrollPane, BorderLayout.CENTER)
     }
 }
 

@@ -34,15 +34,13 @@ class TotalBattleApp {
         tabs.addTab("Setup path", setupPathPanel)
         tabs.selectedIndex = 1
 
-        frame = JFrame("TotalBattleApp")
+        frame = JFrame("TotalBattleApp - !!! Press CTRL + ESC to exit application !!!")
         frame.add(tabs)
         frame.defaultCloseOperation = JFrame.EXIT_ON_CLOSE
         frame.isAlwaysOnTop = true
         frame.size = Dimension(640, 480)
         frame.isVisible = true
-//        frame.pack() //make frame as big as inner components
-//        frame.setLocationRelativeTo(null) // center the application
-        frame.setLocation(-1600, 250) //displays on main screen not on macbook screen
+        frame.setLocationRelativeTo(null) // center the application
     }
 
     companion object {
