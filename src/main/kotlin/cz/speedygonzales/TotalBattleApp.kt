@@ -3,7 +3,10 @@ package cz.speedygonzales
 import com.github.kwhat.jnativehook.GlobalScreen
 import java.awt.Dimension
 import java.awt.Point
-import javax.swing.*
+import javax.swing.JFrame
+import javax.swing.JTabbedPane
+import javax.swing.JTextArea
+import javax.swing.SwingUtilities
 
 
 class TotalBattleApp {
@@ -11,10 +14,7 @@ class TotalBattleApp {
     private lateinit var frame: JFrame
 
     private val clicker = Clicker()
-    private val troopSelector = TroopSelector(clicker)
     private val points = mutableListOf<Point>()
-
-//    private val strategies = Strategies(clicker, troopSelector)
 
     private val pointsTextArea = JTextArea()
 
@@ -28,17 +28,18 @@ class TotalBattleApp {
 
         val tabs = JTabbedPane()
         tabs.addTab("Auto click", autoClickPanel)
-        tabs.addTab("Check path", checkPathPanel)
+        tabs.addTab("Setup path", checkPathPanel)
+        tabs.selectedIndex = 1
 
         frame = JFrame("TotalBattleApp")
         frame.add(tabs)
         frame.defaultCloseOperation = JFrame.EXIT_ON_CLOSE
         frame.isAlwaysOnTop = true
-        frame.size = Dimension(320, 200)
-//        frame.setLocationRelativeTo(null) // center the application
+        frame.size = Dimension(640, 480)
         frame.isVisible = true
-        frame.pack() //make frame as big as inner components
-        frame.setLocation(-1000, 400) //displays on main screen not on macbook screen
+//        frame.pack() //make frame as big as inner components
+//        frame.setLocationRelativeTo(null) // center the application
+        frame.setLocation(-1600, 250) //displays on main screen not on macbook screen
     }
 
     companion object {

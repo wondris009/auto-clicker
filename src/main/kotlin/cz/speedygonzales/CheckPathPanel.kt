@@ -17,18 +17,17 @@ class CheckPathPanel(private val points: MutableList<Point>, pointsTextArea: JTe
         this.size = Dimension(100, 100)
         this.background = Color.LIGHT_GRAY
 
-
-        val removeLastValue = JButton("Remove last value")
-        removeLastValue.addActionListener {
+        val removeLastValueButton = JButton("Remove last value")
+        removeLastValueButton.addActionListener {
             if (points.isNotEmpty()) {
                 points.removeLast()
                 val linesCount = pointsTextArea.lineCount
-                val end = pointsTextArea.getLineEndOffset(linesCount - 1)
                 val start = pointsTextArea.getLineStartOffset(linesCount - 2)
+                val end = pointsTextArea.getLineEndOffset(linesCount - 1)
                 pointsTextArea.replaceRange("", start, end)
             }
         }
-        this.add(removeLastValue)
+        this.add(removeLastValueButton)
 
         val clearAllPointsButton = JButton("Clear all")
         clearAllPointsButton.addActionListener {
@@ -38,8 +37,6 @@ class CheckPathPanel(private val points: MutableList<Point>, pointsTextArea: JTe
         this.add(clearAllPointsButton)
 
         this.add(pointsTextArea)
-
-
     }
 }
 
