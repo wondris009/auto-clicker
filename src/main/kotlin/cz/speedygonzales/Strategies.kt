@@ -21,22 +21,11 @@ class Strategies(private val clicker: Clicker, troopSelector: TroopSelector) {
         clicker.mouseMove(point.x, point.y)
 
         for (i in 1..numberOfClicks) {
-            clicker.click(InputEvent.BUTTON1_DOWN_MASK)
+            clicker.clickLeftMouse()
             label.text = "Auto clicker | ${numberOfClicks - i}"
         }
 
     }
-
-//    fun checkMousePosition() {
-//
-//        clicker.delay = 70
-//
-//        val point: Point = MouseInfo.getPointerInfo().location
-//        val data = mutableSetOf<String>()
-//        data.add("autoClicker.robot.mouseMove(${point.x}, ${point.y})")
-//        println(data.elementAt(0))
-//        println("Thread.sleep(2.toLong() * SECOND)")
-//    }
 
     fun fight(whenToRevive: Int, rounds: Int, waitBeforeRun: Long, type: TroopsType, frame: JFrame) {
 

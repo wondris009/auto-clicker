@@ -1,7 +1,6 @@
 package cz.speedygonzales
 
 import cz.speedygonzales.Constants.SECOND
-import java.awt.event.InputEvent
 
 class TroopSelector(private val clicker: Clicker) {
 
@@ -10,13 +9,13 @@ class TroopSelector(private val clicker: Clicker) {
         //scroll
         clicker.mouseMove(958, 632)
         Thread.sleep(2L * SECOND)
-        clicker.click(InputEvent.BUTTON1_DOWN_MASK)
+        clicker.clickLeftMouse()
         Thread.sleep(2L * SECOND)
 
         //select griffin amount
         clicker.mouseMove(703, 643)
         Thread.sleep(2L * SECOND)
-        clicker.click(InputEvent.BUTTON1_DOWN_MASK)
+        clicker.clickLeftMouse()
         Thread.sleep(2L * SECOND)
     }
 
@@ -42,12 +41,12 @@ class TroopSelector(private val clicker: Clicker) {
         //select vultures
         clicker.robot.mouseMove(901, 656)
         Thread.sleep(1.toLong() * SECOND)
-        clicker.click(InputEvent.BUTTON1_DOWN_MASK)
+        clicker.clickLeftMouse()
         Thread.sleep(1L * SECOND)
 
         clicker.robot.mouseMove(876, 795)
         Thread.sleep(1.toLong() * SECOND)
-        clicker.click(InputEvent.BUTTON1_DOWN_MASK)
+        clicker.clickLeftMouse()
         Thread.sleep(1L * SECOND)
     }
 
@@ -73,12 +72,12 @@ class TroopSelector(private val clicker: Clicker) {
         //select vultures
         clicker.robot.mouseMove(901, 656)
         Thread.sleep(1.toLong() * SECOND)
-        clicker.click(InputEvent.BUTTON1_DOWN_MASK)
+        clicker.clickLeftMouse()
         Thread.sleep(1L * SECOND)
 
         clicker.robot.mouseMove(876, 795)
         Thread.sleep(1.toLong() * SECOND)
-        clicker.click(InputEvent.BUTTON1_DOWN_MASK)
+        clicker.clickLeftMouse()
         Thread.sleep(1L * SECOND)
     }
 
@@ -86,33 +85,33 @@ class TroopSelector(private val clicker: Clicker) {
 
         clicker.robot.mouseMove(900, 618)
         Thread.sleep(1.toLong() * SECOND)
-        clicker.click(InputEvent.BUTTON1_DOWN_MASK)
+        clicker.clickLeftMouse()
         Thread.sleep(1L * SECOND)
         clicker.robot.mouseMove(657, 582)
         Thread.sleep(1.toLong() * SECOND)
-        clicker.click(InputEvent.BUTTON1_DOWN_MASK)
+        clicker.clickLeftMouse()
         Thread.sleep(1L * SECOND)
 
 
         clicker.robot.mouseMove(901, 716)
         Thread.sleep(1.toLong() * SECOND)
-        clicker.click(InputEvent.BUTTON1_DOWN_MASK)
+        clicker.clickLeftMouse()
         Thread.sleep(1L * SECOND)
         clicker.robot.mouseMove(648, 723)
         Thread.sleep(1.toLong() * SECOND)
-        clicker.click(InputEvent.BUTTON1_DOWN_MASK)
+        clicker.clickLeftMouse()
         Thread.sleep(1L * SECOND)
         clicker.input45000()
 
         //select monsters
 //        autoClicker.robot.mouseMove(899, 728)
 //        Thread.sleep(1.toLong() * SECOND)
-//        autoClicker.click(InputEvent.BUTTON1_DOWN_MASK)
+//        autoclicker.clickLeftMouse()
 //        Thread.sleep(1L * SECOND)
 //
 //        autoClicker.robot.mouseMove(834, 630)
 //        Thread.sleep(1.toLong() * SECOND)
-//        autoClicker.click(InputEvent.BUTTON1_DOWN_MASK)
+//        autoclicker.clickLeftMouse()
 //        Thread.sleep(1L * SECOND)
 
     }
@@ -122,12 +121,12 @@ class TroopSelector(private val clicker: Clicker) {
 //        //select monsters
 //        autoClicker.robot.mouseMove(899, 728)
 //        Thread.sleep(1.toLong() * SECOND)
-//        autoClicker.click(InputEvent.BUTTON1_DOWN_MASK)
+//        autoclicker.clickLeftMouse()
 //        Thread.sleep(1L * SECOND)
 //
 //        autoClicker.robot.mouseMove(834, 630)
 //        Thread.sleep(1.toLong() * SECOND)
-//        autoClicker.click(InputEvent.BUTTON1_DOWN_MASK)
+//        autoclicker.clickLeftMouse()
 //        Thread.sleep(1L * SECOND)
 //        autoClicker.input44000()
 //    }

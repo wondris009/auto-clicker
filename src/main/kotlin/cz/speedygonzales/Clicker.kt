@@ -17,6 +17,10 @@ class Clicker {
         robot.mouseMove(x, y)
     }
 
+    fun clickLeftMouse() {
+        click(BUTTON1_DOWN_MASK)
+    }
+
     fun click(button: Int) {
         robot.mousePress(button)
         robot.delay(delay)
@@ -120,7 +124,7 @@ class Clicker {
         }
     }
 
-    private fun cleanFailures(numberOfEscapePress: Int = 3) {
+    fun cleanFailures(numberOfEscapePress: Int = 3) {
         repeat(numberOfEscapePress) {
             pressEscape()
             Thread.sleep(0.4.toLong() * SECOND)
@@ -198,16 +202,6 @@ class Clicker {
         Thread.sleep(1.4.toLong() * SECOND)
 
         pressEscape()
-    }
-
-    fun finishRound(rounds: Int, frame: Frame) {
-
-        (1..40).reversed().forEach {
-            Thread.sleep(1L * SECOND)
-            frame.title = "${rounds - 1} round(s) left | at least ${it - 1}s left"
-        }
-
-        cleanFailures()
     }
 
     fun moveLeft() {

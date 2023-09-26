@@ -10,12 +10,12 @@ class GlobalMouseListener(private val points: MutableList<Point>, private val po
     NativeMouseListener {
 
     override fun nativeMouseClicked(e: NativeMouseEvent) {
-        if (e.modifiers == 10) {
+        if (ctrlAltPressed(e)) {
             val position = MouseInfo.getPointerInfo().location
-            val positionMessage = "X: ${position.x}, Y: ${position.y}"
-//            Thread(AppendTextAreaRunnable(pointsTextArea, positionMessage)).start()
-            pointsTextArea.append("$positionMessage\n")
+            pointsTextArea.append("$position\n")
             points.add(position)
         }
     }
+
+    private fun ctrlAltPressed(e: NativeMouseEvent) = e.modifiers == 10
 }

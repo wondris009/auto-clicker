@@ -1,7 +1,5 @@
 package cz.speedygonzales
 
-import java.awt.Component
-import java.awt.event.InputEvent
 import javax.swing.*
 
 private const val DEFAULT_CLICK_COUNT = 20
@@ -32,13 +30,15 @@ class AutoClickPanel(clicker: Clicker) : JPanel() {
 
         override fun run() {
             setText("Clicking will start after 3 seconds")
-            Thread.sleep(3L * Constants.SECOND)
+
+            for(i in 2 downTo 0) {
+                Thread.sleep(1L * Constants.SECOND)
+                setText("Clicking will start after $i seconds")
+            }
+
             (1..count).reversed().forEach {
                 setText("Clicks left: ${it - 1}")
-
-                Thread.sleep(100)
-
-//                clicker.click(InputEvent.BUTTON1_DOWN_MASK)
+                clicker.clickLeftMouse()
             }
         }
 

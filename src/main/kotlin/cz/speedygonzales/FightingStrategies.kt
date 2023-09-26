@@ -17,6 +17,5 @@ class FightingStrategies(private val clicker: Clicker, private val troopSelector
         }
 
         clicker.march(rounds, frame)
-        clicker.finishRound(rounds, frame)
     }
 }
