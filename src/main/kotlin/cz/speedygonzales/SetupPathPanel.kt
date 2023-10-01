@@ -3,6 +3,7 @@ package cz.speedygonzales
 import cz.speedygonzales.GuiUtils.createButton
 import java.awt.BorderLayout
 import java.awt.Color
+import java.awt.Font
 import java.awt.Point
 import javax.swing.*
 
@@ -62,9 +63,10 @@ class SetupPathPanel(
         val infoLabel = JLabel("Ready for crypting madness ???")
         infoLabel.foreground = Color.RED
         controlsPanel.add(infoLabel)
+        infoLabel.setFont(Font("Verdana", Font.BOLD, 18))
 
         val goButton = createButton("Go CRYPTING !!!") {
-            Thread(Crypter(clicker, points, numberOfClicks.text.toInt(), infoLabel)).start()
+            Thread(CryptMarcher(clicker, points, numberOfClicks.text.toInt(), infoLabel)).start()
         }
         controlsPanel.add(goButton)
 

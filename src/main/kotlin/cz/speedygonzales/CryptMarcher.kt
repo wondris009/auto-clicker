@@ -3,17 +3,17 @@ package cz.speedygonzales
 import java.awt.Point
 import javax.swing.JLabel
 
-class Crypter(
+class CryptMarcher(
     private val clicker: Clicker,
     private val points: MutableList<Point>,
     private val rounds: Int,
     private val label: JLabel
-) : Runnable {
+) : Runnable, Notifier {
 
     override fun run() {
 
-        for (i in 3 downTo 1) {
-            setText("There will be $rounds of rounds. Start crypting in $i")
+        for (second in 3 downTo 1) {
+            setText("There will be $rounds rounds. Start crypting in $second")
             Thread.sleep(1_000)
         }
 
@@ -45,7 +45,7 @@ class Crypter(
         setText("$rounds crypts finished")
     }
 
-    fun setText(text: String) {
+    override fun setText(text: String) {
         label.text = text
     }
 }
