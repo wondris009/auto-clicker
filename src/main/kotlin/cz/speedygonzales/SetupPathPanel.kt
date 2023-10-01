@@ -7,9 +7,17 @@ import java.awt.Point
 import javax.swing.*
 
 
-class SetupPathPanel(clicker: Clicker, private val points: MutableList<Point>, pointsTextArea: JTextArea) : JPanel() {
+class SetupPathPanel(
+    clicker: Clicker,
+    private val points: MutableList<Point>,
+    pointsTextArea: JTextArea,
+    frame: TotalBattleFrame
+) : JPanel() {
 
     init {
+        //can't see setEnabled
+        pointsTextArea.enable(false)
+
         points.forEach { pointsTextArea.append("$it\n") }
 
         val scrollPane = JScrollPane(
@@ -62,6 +70,11 @@ class SetupPathPanel(clicker: Clicker, private val points: MutableList<Point>, p
 
         this.add(controlsPanel, BorderLayout.NORTH)
         this.add(scrollPane, BorderLayout.CENTER)
+
+        val tesTButton = createButton("Test") {
+            frame.showErrorMessage("Eggs are not supposed to be green.")
+        }
+        controlsPanel.add(tesTButton)
     }
 
     class Crypter(
@@ -78,8 +91,8 @@ class SetupPathPanel(clicker: Clicker, private val points: MutableList<Point>, p
                 Thread.sleep(1_000)
             }
 
-            for (i in rounds downTo 1) {
-                setText("Round $i")
+            for (round in rounds downTo 1) {
+                setText("Round $round")
                 clicker.mouseMove(points[0].x, points[0].y)
                 clicker.clickLeftMouse()
                 Thread.sleep(2_800)
@@ -100,22 +113,13 @@ class SetupPathPanel(clicker: Clicker, private val points: MutableList<Point>, p
                 clicker.clickLeftMouse()
                 Thread.sleep(2_800)
 
-                clicker.mouseMove(points[5].x, points[5].y)
-                for (j in 1..5) {
-                    clicker.clickLeftMouse()
-                    Thread.sleep(300)
-                }
-                clicker.cleanFailures(2)
-                (1..40).reversed().forEach {
-                    setText("Round $i | Waiting $it second(s) until next round")
-                    Thread.sleep(1L * Constants.SECOND)
-                }
-                clicker.cleanFailures()
+                clicker.speedUp(points)
+                clicker.waitAfterSpeedUps(round, this)
             }
             setText("$rounds crypts finished")
         }
 
-        private fun setText(text: String) {
+        fun setText(text: String) {
             label.text = text
         }
     }

@@ -1,7 +1,7 @@
 package cz.speedygonzales
 
 import cz.speedygonzales.Constants.SECOND
-import java.awt.Frame
+import java.awt.Point
 import java.awt.Robot
 import java.awt.event.InputEvent
 import java.awt.event.KeyEvent.*
@@ -204,7 +204,7 @@ class Clicker {
         pressEscape()
     }
 
-    fun moveLeft() {
+    fun moveLeftDoubleScreen() {
         robot.mouseMove(-2285, 439)
         robot.mousePress(InputEvent.BUTTON1_DOWN_MASK)
         Thread.sleep(100)
@@ -212,7 +212,7 @@ class Clicker {
         robot.mouseRelease(InputEvent.BUTTON1_DOWN_MASK)
     }
 
-    fun moveRight() {
+    fun moveRightDoubleScreen() {
         robot.mouseMove(-271, 439)
         robot.mousePress(InputEvent.BUTTON1_DOWN_MASK)
         Thread.sleep(100)
@@ -220,7 +220,7 @@ class Clicker {
         robot.mouseRelease(InputEvent.BUTTON1_DOWN_MASK)
     }
 
-    fun moveUp() {
+    fun moveUpDoubleScreen() {
         robot.mouseMove(-1240, 159)
         robot.mousePress(InputEvent.BUTTON1_DOWN_MASK)
         Thread.sleep(100)
@@ -228,11 +228,60 @@ class Clicker {
         robot.mouseRelease(InputEvent.BUTTON1_DOWN_MASK)
     }
 
-    fun moveDown() {
+    fun moveDownDoubleScreen() {
         robot.mouseMove(-1240, 819)
         robot.mousePress(InputEvent.BUTTON1_DOWN_MASK)
         Thread.sleep(100)
         robot.mouseMove(-1240, 519)
         robot.mouseRelease(InputEvent.BUTTON1_DOWN_MASK)
+    }
+
+    fun moveLeftMacOnly() {
+        robot.mouseMove(335, 439)
+        robot.mousePress(InputEvent.BUTTON1_DOWN_MASK)
+        Thread.sleep(100)
+        robot.mouseMove(735, 439)
+        robot.mouseRelease(InputEvent.BUTTON1_DOWN_MASK)
+    }
+
+    fun moveRightMacOnly() {
+        robot.mouseMove(1672, 439)
+        robot.mousePress(InputEvent.BUTTON1_DOWN_MASK)
+        Thread.sleep(100)
+        robot.mouseMove(1272, 439)
+        robot.mouseRelease(InputEvent.BUTTON1_DOWN_MASK)
+    }
+
+    fun moveUpMacOnly() {
+        robot.mouseMove(950, 1000)
+        robot.mousePress(InputEvent.BUTTON1_DOWN_MASK)
+        Thread.sleep(100)
+        robot.mouseMove(950, 1300)
+        robot.mouseRelease(InputEvent.BUTTON1_DOWN_MASK)
+    }
+
+    fun moveDownMacOnly() {
+        robot.mouseMove(950, 988)
+        robot.mousePress(InputEvent.BUTTON1_DOWN_MASK)
+        Thread.sleep(100)
+        robot.mouseMove(950, 688)
+        robot.mouseRelease(InputEvent.BUTTON1_DOWN_MASK)
+    }
+
+    fun speedUp(points: List<Point>) {
+        mouseMove(points[5].x, points[5].y)
+        for (j in 1..5) {
+            clickLeftMouse()
+            Thread.sleep(300)
+        }
+        cleanFailures(2)
+    }
+
+    fun waitAfterSpeedUps(round: Int, crypter: SetupPathPanel.Crypter) {
+        (1..40).reversed().forEach {
+            crypter.setText("Round $round | Waiting $it second(s) until next round")
+            Thread.sleep(1L * Constants.SECOND)
+        }
+        cleanFailures()
     }
 }

@@ -14,10 +14,10 @@ class GlobalKeyListener(private val clicker: Clicker) : NativeKeyListener {
         }
 
         when (e.keyCode) {
-//            NativeKeyEvent.VC_LEFT -> left()
-//            NativeKeyEvent.VC_RIGHT -> right()
-//            NativeKeyEvent.VC_UP -> up()
-//            NativeKeyEvent.VC_DOWN -> down()
+            NativeKeyEvent.VC_LEFT -> left()
+            NativeKeyEvent.VC_RIGHT -> right()
+            NativeKeyEvent.VC_UP -> up()
+            NativeKeyEvent.VC_DOWN -> down()
         }
     }
 
@@ -30,18 +30,22 @@ class GlobalKeyListener(private val clicker: Clicker) : NativeKeyListener {
     }
 
     private fun left() {
-        clicker.moveLeft()
+//        clicker.moveLeftDoubleScreen()
+        clicker.moveLeftMacOnly()
     }
 
     private fun right() {
-        clicker.moveRight()
+//        clicker.moveRightDoubleScreen()
+        clicker.moveRightMacOnly()
     }
 
     private fun up() {
-        clicker.moveUp()
+//        clicker.moveUpDoubleScreen()
+        clicker.moveUpMacOnly()
     }
 
     private fun down() {
-        clicker.moveDown()
+//        clicker.moveDownDoubleScreen()
+        clicker.moveDownMacOnly()
     }
 }

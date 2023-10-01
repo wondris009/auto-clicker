@@ -28,6 +28,9 @@ dependencies {
 
     implementation("com.github.kwhat:jnativehook:2.2.2")
 
+    implementation("io.github.microutils:kotlin-logging:3.0.5")
+    implementation("ch.qos.logback:logback-classic:1.4.11")
+
     // Use the Kotlin test library.
     testImplementation("org.jetbrains.kotlin:kotlin-test")
 
