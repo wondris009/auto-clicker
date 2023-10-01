@@ -72,11 +72,6 @@ class SetupPathPanel(
 
         this.add(controlsPanel, BorderLayout.NORTH)
         this.add(scrollPane, BorderLayout.CENTER)
-
-        val tesTButton = createButton("Test") {
-            frame.showErrorMessage("Eggs are not supposed to be green.")
-        }
-        controlsPanel.add(tesTButton)
     }
 }
 

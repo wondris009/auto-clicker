@@ -7,7 +7,7 @@ import java.nio.file.Files
 import java.nio.file.Paths
 import javax.swing.*
 
-private const val DEFAULT_PATH = "~/tmp/tbapp/coords.txt"
+private const val DEFAULT_PATH = "/Users/vondracek/tmp/tbapp/coords.txt"
 
 class TotalBattleApp {
 
@@ -22,8 +22,9 @@ class TotalBattleApp {
 
         frame = TotalBattleFrame("TotalBattleApp - !!! Press CTRL + ESC to exit application !!!", pointsPath, points)
 
-        val setupPathPanel = SetupPathPanel(clicker, points, pointsTextArea, frame)
         val autoClickPanel = AutoClickPanel(clicker)
+        val setupPathPanel = SetupPathPanel(clicker, points, pointsTextArea, frame)
+        val testPanel = TestPanel(frame)
 
         GlobalScreen.addNativeKeyListener(GlobalKeyListener(clicker))
         GlobalScreen.addNativeMouseListener(GlobalMouseListener(points, pointsTextArea))
@@ -31,6 +32,7 @@ class TotalBattleApp {
         val tabs = JTabbedPane()
         tabs.addTab("Auto click", autoClickPanel)
         tabs.addTab("Setup path", setupPathPanel)
+        tabs.addTab("Testing", testPanel)
         tabs.selectedIndex = 1
         frame.add(tabs)
     }
@@ -65,9 +67,9 @@ class TotalBattleApp {
 
             SwingUtilities.invokeAndWait {
 
-                var pointPaths = args.first()
+                var pointPaths = args.firstOrNull()
 
-                if (pointPaths.isEmpty()) {
+                if (pointPaths.isNullOrEmpty()) {
                     pointPaths = DEFAULT_PATH
                 }
 
