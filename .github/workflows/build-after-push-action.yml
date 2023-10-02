@@ -32,5 +32,5 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: Store JAR
-          path: build/libs/totalBattle-all.jar
+          path: build/libs/TotalBattleApp-all.jar
 
