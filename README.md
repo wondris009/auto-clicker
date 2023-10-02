@@ -41,10 +41,10 @@ First download the app [click here](https://github.com/wondris009/auto-clicker/a
 ![Alt text](pic/down1.jpeg)
 Download the ZIP file
 ![Alt text](pic/down2.jpeg)
-Unpack it somewhere on your disk `eg. HOME_DIR/tmp/tbapp/ - so there must be TotalBattleApp-all.jar file`
+Unpack it somewhere on your disk `eg. HOME_DIR/tmp/tbapp/` - **so there must be TotalBattleApp-all.jar file**
 
 ### Run application
-Got to the directory where you unpact the ZIP file. run command line and run there command:
+Go to the directory where you unpacked the ZIP file. Run command line / bash / terminal and run there command:
 > java -jar TotalBattleApp-all.jar
 
 ### Setup app for auto crypting
