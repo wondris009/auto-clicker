@@ -8,8 +8,6 @@ import java.nio.file.Files
 import java.nio.file.Paths
 import javax.swing.*
 
-private const val DEFAULT_PATH = "/Users/vondracek/tmp/tbapp/coords.txt"
-
 class TotalBattleApp {
 
     private lateinit var frame: TotalBattleFrame
@@ -25,16 +23,16 @@ class TotalBattleApp {
             frame = TotalBattleFrame("TotalBattleApp - !!! Press CTRL + ESC to exit application !!!", pointsPath, points)
 
             val autoClickPanel = AutoClickPanel(clicker)
-            val setupPathPanel = CryptPanel(clicker, points, pointsTextArea)
-            val testPanel = TestPanel(frame)
+            val cryptPanel = CryptPanel(clicker, points, pointsTextArea)
+//            val testPanel = TestPanel(frame)
 
             GlobalScreen.addNativeKeyListener(GlobalKeyListener(clicker, false))
             GlobalScreen.addNativeMouseListener(GlobalMouseListener(points, pointsTextArea))
 
             val tabs = JTabbedPane()
             tabs.addTab("Auto click", autoClickPanel)
-            tabs.addTab("Setup path", setupPathPanel)
-            tabs.addTab("Testing", testPanel)
+            tabs.addTab("Crypt maker", cryptPanel)
+//            tabs.addTab("Testing", testPanel)
             tabs.selectedIndex = 1
             frame.add(tabs)
         } catch (e: LoadPointsException) {
@@ -60,7 +58,7 @@ class TotalBattleApp {
                 Point(x.toInt(), y.toInt())
             }.toMutableList()
         } catch (e: Exception) {
-            logger.error(e) { "Unable to load points from $path, please specify where is the coords.txt file (eg.: /Users/ValhallaBoy/tmp/coords.txt)" }
+            logger.warn { "Coordinates file is missing, it will be created in HOME_DIR/tmp/tbapp/coords.txt" }
             mutableListOf()
         }
     }
@@ -73,12 +71,7 @@ class TotalBattleApp {
 
             SwingUtilities.invokeAndWait {
 
-                var pointPaths = args.firstOrNull()
-
-                if (pointPaths.isNullOrEmpty()) {
-                    pointPaths = DEFAULT_PATH
-                }
-
+                val pointPaths = "${System.getProperty("user.home")}${File.separator}tmp${File.separator}tbapp${File.separator}coords.txt"
                 TotalBattleApp().initGui(pointPaths)
             }
         }

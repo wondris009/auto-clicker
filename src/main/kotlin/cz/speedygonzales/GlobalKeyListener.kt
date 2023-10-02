@@ -1,9 +1,7 @@
 package cz.speedygonzales
 
-import com.github.kwhat.jnativehook.GlobalScreen
 import com.github.kwhat.jnativehook.keyboard.NativeKeyEvent
 import com.github.kwhat.jnativehook.keyboard.NativeKeyListener
-import kotlin.system.exitProcess
 
 class GlobalKeyListener(private val clicker: Clicker, private val enableScreenMoving: Boolean) : NativeKeyListener {
 

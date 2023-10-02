@@ -19,7 +19,7 @@ class TotalBattleFrame(title: String, pointsPath: String, points: List<Point>) :
 
         this.defaultCloseOperation = EXIT_ON_CLOSE
         this.isAlwaysOnTop = true
-        this.size = Dimension(640, 480)
+        this.size = Dimension(640, 370)
         this.isVisible = true
         this.setLocationRelativeTo(null) // center the application
 
@@ -33,8 +33,12 @@ class TotalBattleFrame(title: String, pointsPath: String, points: List<Point>) :
     class WindowCloser(private val pointsPath: String, private val points: List<Point>) : WindowAdapter() {
         override fun windowClosing(e: WindowEvent?) {
             logger.info { "Closing application" }
-            File(pointsPath).delete()
-            logger.info { "Deleting points configuration file $pointsPath" }
+            val coordsFile = File(pointsPath)
+            if(coordsFile.exists())  {
+                coordsFile.delete()
+                logger.info { "Deleting points configuration file $pointsPath" }
+            }
+            Files.createDirectories(Paths.get(pointsPath.removeSuffix("${File.separator}coords.txt")))
             Files.write(Paths.get(pointsPath), points.map { it.toString() }, StandardOpenOption.CREATE_NEW)
             logger.info { "Creating new points configuration file from ${points.size} points in $pointsPath" }
         }
