@@ -1,5 +1,11 @@
 # TotalBattleApp
-Allows doing automatic clicks by mouse. E.g. for some kind of games where you need periodically click on buttons to get reward.
+Allows doing automatic mouse operations. Currently, there are two functions. Autoclicking (eg: for opening tons of daily jobs). Auto crypter.
+
+## Auto Clicker Screenshot
+![Alt text](pic/auto-clicker.png)
+
+## Crypt Maker Screenshot
+![Alt text](pic/crypter.png)
 
 ## Technology stack
 **Kotlin, Swing, Gradle** 
@@ -29,15 +35,16 @@ OpenJDK 64-Bit Server VM Zulu19.32+13-CA (build 19.0.2+7, mixed mode, sharing)
 ```
 
 
-## How to run?
-Build fat jar
-> ./gradlew shadowJar
+## How to use the application?
+### Download
+First download the app [click here](https://github.com/wondris009/auto-clicker/actions). Click the on the most upper row in the table (in the picture there is "rename ZIP" but its just commit message of last code change, so in reality there will be something different).
+![Alt text](pic/down1.jpeg)
+Download the ZIP file
+![Alt text](pic/down2.jpeg)
+Unpack it somewhere on your disk `eg. HOME_DIR/tmp/tbapp/ - so there must be TotalBattleApp-all.jar file`
 
-Run application
-> java -jar build/libs/TotalBattleApp-all.jar
+### Run application
+Got to the directory where you unpact the ZIP file. run command line and run there command:
+> java -jar TotalBattleApp-all.jar
 
-## Auto Clicker Screenshot
-![Alt text](pic/auto-clicker.png)
-
-## Crypt Maker Screenshot
-![Alt text](pic/crypter.png)
+### Setup app for auto crypting
