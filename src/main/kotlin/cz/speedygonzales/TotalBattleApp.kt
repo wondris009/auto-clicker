@@ -3,6 +3,7 @@ package cz.speedygonzales
 import com.github.kwhat.jnativehook.GlobalScreen
 import mu.KotlinLogging
 import java.awt.Point
+import java.io.File
 import java.nio.file.Files
 import java.nio.file.Paths
 import javax.swing.*
@@ -18,23 +19,27 @@ class TotalBattleApp {
 
     private fun initGui(pointsPath: String) {
 
-        val points = loadPositions(pointsPath)
+        try {
+            val points = loadPositions(pointsPath)
 
-        frame = TotalBattleFrame("TotalBattleApp - !!! Press CTRL + ESC to exit application !!!", pointsPath, points)
+            frame = TotalBattleFrame("TotalBattleApp - !!! Press CTRL + ESC to exit application !!!", pointsPath, points)
 
-        val autoClickPanel = AutoClickPanel(clicker)
-        val setupPathPanel = SetupPathPanel(clicker, points, pointsTextArea, frame)
-        val testPanel = TestPanel(frame)
+            val autoClickPanel = AutoClickPanel(clicker)
+            val setupPathPanel = CryptPanel(clicker, points, pointsTextArea)
+            val testPanel = TestPanel(frame)
 
-        GlobalScreen.addNativeKeyListener(GlobalKeyListener(clicker))
-        GlobalScreen.addNativeMouseListener(GlobalMouseListener(points, pointsTextArea))
+            GlobalScreen.addNativeKeyListener(GlobalKeyListener(clicker, false))
+            GlobalScreen.addNativeMouseListener(GlobalMouseListener(points, pointsTextArea))
 
-        val tabs = JTabbedPane()
-        tabs.addTab("Auto click", autoClickPanel)
-        tabs.addTab("Setup path", setupPathPanel)
-        tabs.addTab("Testing", testPanel)
-        tabs.selectedIndex = 1
-        frame.add(tabs)
+            val tabs = JTabbedPane()
+            tabs.addTab("Auto click", autoClickPanel)
+            tabs.addTab("Setup path", setupPathPanel)
+            tabs.addTab("Testing", testPanel)
+            tabs.selectedIndex = 1
+            frame.add(tabs)
+        } catch (e: LoadPointsException) {
+            GuiUtils.exit()
+        }
     }
 
     private fun loadPositions(path: String): MutableList<Point> {
@@ -55,6 +60,7 @@ class TotalBattleApp {
                 Point(x.toInt(), y.toInt())
             }.toMutableList()
         } catch (e: Exception) {
+            logger.error(e) { "Unable to load points from $path, please specify where is the coords.txt file (eg.: /Users/ValhallaBoy/tmp/coords.txt)" }
             mutableListOf()
         }
     }
@@ -80,4 +86,6 @@ class TotalBattleApp {
 
     private val logger = KotlinLogging.logger {  }
 }
+
+class LoadPointsException : Throwable()
 

@@ -15,7 +15,7 @@ class TestPanel(
         val controlsPanel = JPanel()
         controlsPanel.layout = BoxLayout(controlsPanel, BoxLayout.Y_AXIS)
 
-        val tesTButton = createButton("Test") {
+        val tesTButton = createButton("Show error message dialog window") {
             frame.showErrorMessage("Eggs are not supposed to be green.")
         }
         controlsPanel.add(tesTButton)

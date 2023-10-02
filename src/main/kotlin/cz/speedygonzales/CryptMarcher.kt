@@ -2,6 +2,7 @@ package cz.speedygonzales
 
 import java.awt.Point
 import javax.swing.JLabel
+import javax.swing.SwingUtilities
 
 class CryptMarcher(
     private val clicker: Clicker,
@@ -12,13 +13,13 @@ class CryptMarcher(
 
     override fun run() {
 
-        for (second in 3 downTo 1) {
+        for (second in 3 downTo 0) {
             setText("There will be $rounds rounds. Start crypting in $second")
             Thread.sleep(1_000)
         }
 
-        for (round in rounds downTo 1) {
-            setText("Round $round")
+        for (round in 1..rounds) {
+
             clicker.mouseMove(points[0].x, points[0].y)
             clicker.clickLeftMouse()
             Thread.sleep(2_800)
@@ -31,6 +32,8 @@ class CryptMarcher(
             clicker.clickLeftMouse()
             Thread.sleep(2_800)
 
+            setText("Round $round of $rounds")
+
             clicker.mouseMove(points[3].x, points[3].y)
             clicker.clickLeftMouse()
             Thread.sleep(2_800)
@@ -40,12 +43,12 @@ class CryptMarcher(
             Thread.sleep(2_800)
 
             clicker.speedUp(points)
-            clicker.waitAfterSpeedUps(round, this)
+            clicker.waitAfterSpeedUps(rounds, round, this)
         }
         setText("$rounds crypts finished")
     }
 
     override fun setText(text: String) {
-        label.text = text
+        SwingUtilities.invokeLater { label.text = text }
     }
 }

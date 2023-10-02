@@ -277,9 +277,9 @@ class Clicker {
         cleanFailures(2)
     }
 
-    fun waitAfterSpeedUps(round: Int, notifier: Notifier) {
-        (1..40).reversed().forEach {
-            notifier.setText("Round $round | Waiting $it second(s) until next round")
+    fun waitAfterSpeedUps(rounds: Int, round: Int, notifier: Notifier) {
+        (0..40).reversed().forEach {
+            notifier.setText("Round $round of $rounds | Waiting $it second(s) until next round")
             Thread.sleep(1L * SECOND)
         }
         cleanFailures()

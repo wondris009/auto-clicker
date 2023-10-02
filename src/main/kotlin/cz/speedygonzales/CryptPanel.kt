@@ -2,17 +2,14 @@ package cz.speedygonzales
 
 import cz.speedygonzales.GuiUtils.createButton
 import java.awt.BorderLayout
-import java.awt.Color
-import java.awt.Font
 import java.awt.Point
 import javax.swing.*
 
 
-class SetupPathPanel(
+class CryptPanel(
     clicker: Clicker,
     private val points: MutableList<Point>,
-    pointsTextArea: JTextArea,
-    frame: TotalBattleFrame
+    pointsTextArea: JTextArea
 ) : JPanel() {
 
     init {
@@ -58,12 +55,11 @@ class SetupPathPanel(
         controlsPanel.add(simulatePathButton)
 
         val numberOfClicks = JTextField("10")
-        controlsPanel.add(numberOfClicks)
+        val numberOfClicksPanel = GuiUtils.getInputRow("Number of clicks", numberOfClicks)
+        controlsPanel.add(numberOfClicksPanel)
 
-        val infoLabel = JLabel("Ready for crypting madness ???")
-        infoLabel.foreground = Color.RED
+        val infoLabel = InfoLabel("Ready for crypting madness ???")
         controlsPanel.add(infoLabel)
-        infoLabel.setFont(Font("Verdana", Font.BOLD, 18))
 
         val goButton = createButton("Go CRYPTING !!!") {
             Thread(CryptMarcher(clicker, points, numberOfClicks.text.toInt(), infoLabel)).start()

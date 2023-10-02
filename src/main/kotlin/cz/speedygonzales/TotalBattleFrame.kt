@@ -34,7 +34,7 @@ class TotalBattleFrame(title: String, pointsPath: String, points: List<Point>) :
         override fun windowClosing(e: WindowEvent?) {
             logger.info { "Closing application" }
             File(pointsPath).delete()
-            logger.info { "Deleting points configuration from $pointsPath" }
+            logger.info { "Deleting points configuration file $pointsPath" }
             Files.write(Paths.get(pointsPath), points.map { it.toString() }, StandardOpenOption.CREATE_NEW)
             logger.info { "Creating new points configuration file from ${points.size} points in $pointsPath" }
         }
