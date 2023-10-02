@@ -28,3 +28,9 @@ jobs:
       - name: Execute Gradle Shaded Build
         run: ./gradlew shadowJar
 
+      - name: Archive test report
+        uses: actions/upload-artifact@v2
+        with:
+          name: Store JAR
+          path: build/libs/totalBattle-all.jar
+
