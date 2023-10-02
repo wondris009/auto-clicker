@@ -31,6 +31,6 @@ jobs:
       - name: Archive test report
         uses: actions/upload-artifact@v2
         with:
-          name: Store JAR
+          name: total-battle-app
           path: build/libs/TotalBattleApp-all.jar
 
