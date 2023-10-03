@@ -1,5 +1,6 @@
 package cz.speedygonzales
 
+import mu.KotlinLogging
 import java.awt.BorderLayout
 import java.awt.Dimension
 import javax.swing.JLabel
@@ -34,21 +35,22 @@ class AutoClickPanel(clicker: Clicker) : JPanel() {
     ) : Runnable, Notifier {
 
         override fun run() {
-            setText("Clicking will start after 3 seconds")
-
-            for (i in 2 downTo 0) {
-                Thread.sleep(1L * Constants.SECOND)
-                setText("Clicking will start after $i seconds")
+            for (second in 3 downTo 0) {
+                setText("Clicking will start after $second seconds")
+                Thread.sleep(1_000)
             }
 
             (1..count).reversed().forEach {
                 setText("Clicks left: ${it - 1}")
                 clicker.clickLeftMouse()
+                logger.info { "Click" }
             }
         }
 
         override fun setText(text: String) {
             SwingUtilities.invokeLater { label.text = text }
         }
+
+        private val logger = KotlinLogging.logger {  }
     }
 }

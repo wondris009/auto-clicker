@@ -12,6 +12,5 @@ object ScreenHelper {
         screenCount = screens.size
     }
 
-    fun getScreenCount() = screenCount
-
+    fun hasTwoScreens() = screenCount > 1
 }

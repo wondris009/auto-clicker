@@ -26,22 +26,34 @@ class GlobalKeyListener(private val clicker: Clicker, private val enableScreenMo
         e.modifiers == 2 && e.keyCode == NativeKeyEvent.VC_ESCAPE
 
     private fun left() {
-//        clicker.moveLeftDoubleScreen()
-        clicker.moveLeftMacOnly()
+        if(ScreenHelper.hasTwoScreens()) {
+            clicker.moveLeftDoubleScreen()
+        } else {
+            clicker.moveLeftMacOnly()
+        }
     }
 
     private fun right() {
-//        clicker.moveRightDoubleScreen()
-        clicker.moveRightMacOnly()
+        if(ScreenHelper.hasTwoScreens()) {
+            clicker.moveRightDoubleScreen()
+        } else {
+            clicker.moveRightMacOnly()
+        }
     }
 
     private fun up() {
-//        clicker.moveUpDoubleScreen()
-        clicker.moveUpMacOnly()
+        if(ScreenHelper.hasTwoScreens()) {
+            clicker.moveUpDoubleScreen()
+        } else {
+            clicker.moveUpMacOnly()
+        }
     }
 
     private fun down() {
-//        clicker.moveDownDoubleScreen()
-        clicker.moveDownMacOnly()
+        if(ScreenHelper.hasTwoScreens()) {
+            clicker.moveDownDoubleScreen()
+        } else {
+            clicker.moveDownMacOnly()
+        }
     }
 }

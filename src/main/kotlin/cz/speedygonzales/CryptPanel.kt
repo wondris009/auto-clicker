@@ -54,15 +54,15 @@ class CryptPanel(
         }
         controlsPanel.add(simulatePathButton)
 
-        val numberOfClicks = JTextField("10")
-        val numberOfClicksPanel = GuiUtils.getInputRow("Number of clicks", numberOfClicks)
-        controlsPanel.add(numberOfClicksPanel)
+        val numberOfRounds = JTextField("10")
+        val numberOfRoundsPanel = GuiUtils.getInputRow("Number of rounds", numberOfRounds)
+        controlsPanel.add(numberOfRoundsPanel)
 
         val infoLabel = InfoLabel("Ready for crypting madness ???")
         controlsPanel.add(infoLabel)
 
         val goButton = createButton("Go CRYPTING !!!") {
-            Thread(CryptMarcher(clicker, points, numberOfClicks.text.toInt(), infoLabel)).start()
+            Thread(CryptMarcher(clicker, points, numberOfRounds.text.toInt(), infoLabel)).start()
         }
         controlsPanel.add(goButton)
 
