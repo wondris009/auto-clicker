@@ -23,7 +23,7 @@ class GlobalKeyListener(private val clicker: Clicker, private val enableScreenMo
     }
 
     private fun controlEscapePressed(e: NativeKeyEvent) =
-        e.modifiers == 2 && e.keyCode == NativeKeyEvent.VC_ESCAPE
+        e.modifiers == 2 && e.keyCode == NativeKeyEvent.VC_F1
 
     private fun left() {
         if(ScreenHelper.hasTwoScreens()) {
