@@ -35,6 +35,17 @@ object GuiUtils {
         return button
     }
 
+    fun createExitButton(): JButton {
+        val button = JButton("EXIT")
+        button.setMnemonic('X')
+        button.setFont(Font(Font.MONOSPACED, Font.PLAIN, 16))
+        button.foreground = Color.RED
+        button.addActionListener {
+            exit()
+        }
+        return button
+    }
+
     fun exit() {
         GlobalScreen.unregisterNativeHook()
         exitProcess(-1)

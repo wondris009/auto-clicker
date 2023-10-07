@@ -7,6 +7,7 @@ import javax.swing.*
 
 
 class CryptPanel(
+    infoLabel: InfoLabel,
     clicker: Clicker,
     private val points: MutableList<Point>,
     pointsTextArea: JTextArea
@@ -57,9 +58,6 @@ class CryptPanel(
         val numberOfRounds = JTextField("10")
         val numberOfRoundsPanel = GuiUtils.getInputRow("Number of rounds", numberOfRounds)
         controlsPanel.add(numberOfRoundsPanel)
-
-        val infoLabel = InfoLabel("Ready for crypting madness ???")
-        controlsPanel.add(infoLabel)
 
         val goButton = createButton("Go CRYPTING !!!") {
             Thread(CryptMarcher(clicker, points, numberOfRounds.text.toInt(), infoLabel)).start()

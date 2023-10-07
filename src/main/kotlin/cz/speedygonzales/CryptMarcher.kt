@@ -1,5 +1,6 @@
 package cz.speedygonzales
 
+import cz.speedygonzales.TotalBattleApp.Companion.WAIT_BEFORE_SECONDS
 import java.awt.Point
 import javax.swing.JLabel
 import javax.swing.SwingUtilities
@@ -13,7 +14,7 @@ class CryptMarcher(
 
     override fun run() {
 
-        for (second in 3 downTo 0) {
+        for (second in WAIT_BEFORE_SECONDS downTo 0) {
             setText("There will be $rounds rounds. Start crypting in $second")
             Thread.sleep(1_000)
         }

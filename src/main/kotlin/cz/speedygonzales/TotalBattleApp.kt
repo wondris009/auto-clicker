@@ -10,31 +10,11 @@ import javax.swing.*
 
 class TotalBattleApp {
 
-    private lateinit var frame: TotalBattleFrame
-
-    private val clicker = Clicker()
-    private val pointsTextArea = JTextArea()
-
     private fun initGui(pointsPath: String) {
 
         try {
             val points = loadPositions(pointsPath)
-
-            frame = TotalBattleFrame("TotalBattleApp - !!! Press CTRL + ESC to exit application !!!", pointsPath, points)
-
-            val autoClickPanel = AutoClickPanel(clicker)
-            val cryptPanel = CryptPanel(clicker, points, pointsTextArea)
-//            val testPanel = TestPanel(frame)
-
-            GlobalScreen.addNativeKeyListener(GlobalKeyListener(clicker, false))
-            GlobalScreen.addNativeMouseListener(GlobalMouseListener(points, pointsTextArea))
-
-            val tabs = JTabbedPane()
-            tabs.addTab("Auto click", autoClickPanel)
-            tabs.addTab("Crypt maker", cryptPanel)
-//            tabs.addTab("Testing", testPanel)
-            tabs.selectedIndex = 1
-            frame.add(tabs)
+            TotalBattleFrame("TotalBattleApp - !!! Press CTRL + ESC to exit application !!!", pointsPath, points)
         } catch (e: LoadPointsException) {
             GuiUtils.exit()
         }
@@ -64,6 +44,8 @@ class TotalBattleApp {
     }
 
     companion object {
+
+        const val WAIT_BEFORE_SECONDS = 5
 
         @JvmStatic
         fun main(args: Array<String>) {

@@ -7,7 +7,7 @@ import javax.swing.JLabel
 class InfoLabel(text: String) : JLabel(text) {
 
     init {
-        this.foreground = Color.RED
+        this.foreground = Color.BLUE
         this.setFont(Font("Verdana", Font.BOLD, 18))
     }
 
