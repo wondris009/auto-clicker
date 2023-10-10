@@ -7,7 +7,7 @@ class GlobalKeyListener(private val clicker: Clicker, private val enableScreenMo
 
     override fun nativeKeyPressed(e: NativeKeyEvent) {
 
-        if (controlEscapePressed(e)) {
+        if (controlF1Pressed(e)) {
             GuiUtils.exit()
         }
 
@@ -22,7 +22,7 @@ class GlobalKeyListener(private val clicker: Clicker, private val enableScreenMo
 
     }
 
-    private fun controlEscapePressed(e: NativeKeyEvent) =
+    private fun controlF1Pressed(e: NativeKeyEvent) =
         e.modifiers == 2 && e.keyCode == NativeKeyEvent.VC_F1
 
     private fun left() {
