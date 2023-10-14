@@ -1,6 +1,10 @@
 # TotalBattleApp
 Allows doing automatic mouse operations. Currently, there are two functions. Autoclicking (eg: for opening tons of daily jobs). Auto crypter for **common** and **epic** crypts (rare needs additional click for opening, will implement in future).
 
+# Donation
+
+If the app helped you, feel free to donate [$$$](https://www.paypal.com/donate/?hosted_button_id=Z9RYF3N2UTQWQ) or [€€€](https://www.paypal.com/donate/?hosted_button_id=NNRNLQ3V2NJ9A)
+
 ## Technology stack
 **Kotlin, Swing, Gradle** 
 
