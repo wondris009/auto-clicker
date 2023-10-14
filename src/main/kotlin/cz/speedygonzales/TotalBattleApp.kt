@@ -14,7 +14,7 @@ class TotalBattleApp {
 
         try {
             val points = loadPositions(pointsPath)
-            TotalBattleFrame("TotalBattleApp - !!! Press CTRL + ESC to exit application !!!", pointsPath, points)
+            TotalBattleFrame("TotalBattleApp - !!! Press CTRL + F1 to exit application !!!", pointsPath, points)
         } catch (e: LoadPointsException) {
             GuiUtils.exit()
         }
