@@ -2,13 +2,18 @@ package cz.speedygonzales
 
 import com.github.kwhat.jnativehook.keyboard.NativeKeyEvent
 import com.github.kwhat.jnativehook.keyboard.NativeKeyListener
+import java.awt.Point
 
-class GlobalKeyListener(private val clicker: Clicker, private val enableScreenMoving: Boolean) : NativeKeyListener {
+class GlobalKeyListener(
+    private val clicker: Clicker,
+    private val enableScreenMoving: Boolean,
+    private val pointsPath: String,
+    private val points: MutableList<Point>
+) : NativeKeyListener {
 
     override fun nativeKeyPressed(e: NativeKeyEvent) {
-
         if (controlF1Pressed(e)) {
-            GuiUtils.exit()
+            GuiUtils.exit(pointsPath, points)
         }
 
         if (enableScreenMoving) {
@@ -19,7 +24,6 @@ class GlobalKeyListener(private val clicker: Clicker, private val enableScreenMo
                 NativeKeyEvent.VC_DOWN -> down()
             }
         }
-
     }
 
     private fun controlF1Pressed(e: NativeKeyEvent) =

@@ -1,10 +1,7 @@
 package cz.speedygonzales
 
 import com.github.kwhat.jnativehook.GlobalScreen
-import java.awt.Color
-import java.awt.Component
-import java.awt.Dimension
-import java.awt.Font
+import java.awt.*
 import java.awt.event.ActionEvent
 import javax.swing.*
 import kotlin.system.exitProcess
@@ -35,13 +32,13 @@ object GuiUtils {
         return button
     }
 
-    fun createExitButton(): JButton {
+    fun createExitButton(pointsPath: String, points: MutableList<Point>): JButton {
         val button = JButton("EXIT")
         button.setMnemonic('X')
         button.setFont(Font(Font.MONOSPACED, Font.PLAIN, 16))
         button.foreground = Color.RED
         button.addActionListener {
-            exit()
+            exit(pointsPath, points)
         }
         return button
     }
@@ -49,6 +46,11 @@ object GuiUtils {
     fun exit() {
         GlobalScreen.unregisterNativeHook()
         exitProcess(-1)
+    }
+
+    fun exit(pointsPath: String, points: List<Point>) {
+        FileUtils.savePoints(pointsPath, points)
+        exit()
     }
 
     fun showErrorMessage(parentComponent: JComponent, msg: JLabel) {
