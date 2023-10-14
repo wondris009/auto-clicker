@@ -61,7 +61,7 @@ class CryptPanel(
         val numberOfRoundsPanel = GuiUtils.getInputRow("Number of rounds", numberOfRounds)
         controlsPanel.add(numberOfRoundsPanel)
 
-        val goButton = createButton("Go CRYPTING !!!") {
+        val goButton = createButton("Make Common or Epic CRYPTS !!!") {
 
             if(points.size != 6) {
                 val errorMsg = InfoLabel(
@@ -86,18 +86,18 @@ class CryptPanel(
                 )
 
                 GuiUtils.showErrorMessage(this, errorMsg)
-            }
-
-            val warningMsg = InfoLabel(
-                "Are you sure you set your watchtower on correct level of crypts before you go?",
-                Color.BLUE,
-                "Verdana",
-                Font.PLAIN,
-                16
-            )
-            val yesNoResult = GuiUtils.showConfirmDialog(this, warningMsg)
-            if(yesNoResult == JOptionPane.YES_OPTION) {
-                Thread(CryptMarcher(clicker, points, numberOfRounds.text.toInt(), infoLabel)).start()
+            } else {
+                val warningMsg = InfoLabel(
+                    "Are you sure you set your watchtower on correct level of crypts before you go?",
+                    Color.BLUE,
+                    "Verdana",
+                    Font.PLAIN,
+                    16
+                )
+                val yesNoResult = GuiUtils.showConfirmDialog(this, warningMsg)
+                if(yesNoResult == JOptionPane.YES_OPTION) {
+                    Thread(CryptMarcher(clicker, points, numberOfRounds.text.toInt(), infoLabel)).start()
+                }
             }
         }
         controlsPanel.add(goButton)
