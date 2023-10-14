@@ -3,7 +3,15 @@ Allows doing automatic mouse operations. Currently, there are two functions. Aut
 
 # Donation
 
-If the app helped you, feel free to donate [$$$](https://www.paypal.com/donate/?hosted_button_id=Z9RYF3N2UTQWQ) or [€€€](https://www.paypal.com/donate/?hosted_button_id=NNRNLQ3V2NJ9A)
+If the app helped you, feel free to donate.
+
+### $$$
+
+[![Donate with PayPal USD](pic/pp.png)](https://www.paypal.com/donate/?hosted_button_id=Z9RYF3N2UTQWQ)
+
+### €€€
+
+[![Donate with PayPal USD](pic/pp.png)](https://www.paypal.com/donate/?hosted_button_id=GQTGJMF2CR592)
 
 ## Technology stack
 **Kotlin, Swing, Gradle** 
