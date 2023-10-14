@@ -48,7 +48,7 @@ Go to the directory where you unpacked the ZIP file. Run command line / bash / t
 
 ### Define points for crypting
 
-You need to select directly six points which crypter needs to work correctly. Points are selected when you hit CTRL + ALT + left mouse. After you select point it should appear in text area in the bottom part of Crypt maker tab. Try to click in the middle of the requested point / area.
+You need to select directly six points which crypter needs to work correctly. Points are selected when you hit CTRL + ALT + left mouse. After you select point it should appear in text area in the bottom part of Crypt maker tab. Try to click in the middle of the requested point / area. If you make mistake, zou can delete last point with button **Remove last value** button or you can delete all points with **Clear all button**. **Simulate** button just go through the points so you can see if it moves to right positions (not needed to use it).
 
 Points:
 1. Watchtower icon location
@@ -57,7 +57,7 @@ Points:
 
 2. Open watchtower and select any "Go button" with selected crypt
 
-![Alt text](pic/cr02-go.png)
+![Alt text](pic/cr02-go.jpg)
 
 3. Crypt position on the map.
 
@@ -83,3 +83,6 @@ Points:
 * Turn archeologist (optional).
 * In watchtower select crypt you want to make. When crypting starts it will open watchtower and there must be "Crypts and Arenas" tab selected.
 * Go to map and select highest zoom 125%
+* Select number of rounds you want to do (after 100 per day, crypts are not appearing in the middle of the screen - 3rd point in the list - and app starts failing)
+* Click **Make Common or Epic Crypts !!!** button - it will give you 5 seconds before it really starts clicking
+* **MOST IMPORTANT make focus on browser, which means just one time click there**
