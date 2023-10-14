@@ -2,6 +2,8 @@ package cz.speedygonzales
 
 import cz.speedygonzales.GuiUtils.createButton
 import java.awt.BorderLayout
+import java.awt.Color
+import java.awt.Font
 import java.awt.Point
 import javax.swing.*
 
@@ -60,7 +62,43 @@ class CryptPanel(
         controlsPanel.add(numberOfRoundsPanel)
 
         val goButton = createButton("Go CRYPTING !!!") {
-            Thread(CryptMarcher(clicker, points, numberOfRounds.text.toInt(), infoLabel)).start()
+
+            if(points.size != 6) {
+                val errorMsg = InfoLabel(
+                    "<html>You need to specify exactly 6 points." +
+                            "<br/><br/>" +
+                            "1> Watchtower icon location." +
+                            "<br/>" +
+                            "2> Go button with selected crypt" +
+                            "<br/>" +
+                            "3> Crypt position on the map" +
+                            "<br/>" +
+                            "4> Explore button" +
+                            "<br/>" +
+                            "5> Speedup button" +
+                            "<br/>" +
+                            "6> Use speedup button" +
+                            "</html>",
+                    Color.BLUE,
+                    "Verdana",
+                    Font.PLAIN,
+                    16
+                )
+
+                GuiUtils.showErrorMessage(this, errorMsg)
+            }
+
+            val warningMsg = InfoLabel(
+                "Are you sure you set your watchtower on correct level of crypts before you go?",
+                Color.BLUE,
+                "Verdana",
+                Font.PLAIN,
+                16
+            )
+            val yesNoResult = GuiUtils.showConfirmDialog(this, warningMsg)
+            if(yesNoResult == JOptionPane.YES_OPTION) {
+                Thread(CryptMarcher(clicker, points, numberOfRounds.text.toInt(), infoLabel)).start()
+            }
         }
         controlsPanel.add(goButton)
 

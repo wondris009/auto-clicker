@@ -50,4 +50,12 @@ object GuiUtils {
         GlobalScreen.unregisterNativeHook()
         exitProcess(-1)
     }
+
+    fun showErrorMessage(parentComponent: JComponent, msg: JLabel) {
+        JOptionPane.showMessageDialog(parentComponent, msg, "Error", JOptionPane.ERROR_MESSAGE)
+    }
+
+    fun showConfirmDialog(parentComponent: JComponent, msg: JLabel): Int {
+        return JOptionPane.showConfirmDialog(parentComponent, msg, "Warning", JOptionPane.YES_NO_OPTION)
+    }
 }

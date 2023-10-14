@@ -23,7 +23,7 @@ class TotalBattleFrame(title: String, pointsPath: String, points: MutableList<Po
 
         this.defaultCloseOperation = EXIT_ON_CLOSE
         this.isAlwaysOnTop = true
-        this.size = Dimension(600, 450)
+        this.size = Dimension(800, 450)
         this.isVisible = true
         this.setLocationRelativeTo(null) // center the application
 
@@ -45,20 +45,17 @@ class TotalBattleFrame(title: String, pointsPath: String, points: MutableList<Po
 
         val tabsPanel = JPanel()
         val tabs = JTabbedPane()
+        tabs.preferredSize = Dimension(760, 350)
         val autoClickPanel = AutoClickPanel(infoLabel, clicker)
         val cryptPanel = CryptPanel(infoLabel, clicker, points, pointsTextArea)
-//            val testPanel = TestPanel(frame)
+//        val testPanel = TestPanel()
         tabs.addTab("Auto click", autoClickPanel)
         tabs.addTab("Crypt maker", cryptPanel)
-//            tabs.addTab("Testing", testPanel)
+//        tabs.addTab("Testing", testPanel)
         tabs.selectedIndex = 1
         tabsPanel.add(tabs)
 
         this.add(tabsPanel, BorderLayout.CENTER)
-    }
-
-    fun showErrorMessage(msg: String) {
-        JOptionPane.showMessageDialog(this, msg, "Error", JOptionPane.ERROR_MESSAGE)
     }
 
     class WindowCloser(private val pointsPath: String, private val points: List<Point>) : WindowAdapter() {

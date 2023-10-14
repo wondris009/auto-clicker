@@ -11,4 +11,9 @@ class InfoLabel(text: String) : JLabel(text) {
         this.setFont(Font("Verdana", Font.BOLD, 18))
     }
 
+    constructor(text: String, textColor: Color, font: String, fontType: Int, size: Int) : this(text) {
+        this.foreground = textColor
+        this.setFont(Font(font, fontType, size))
+    }
+
 }
