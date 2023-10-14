@@ -52,6 +52,10 @@ At the end it should look like:
 
 or prefixed with c:/ on windows
 
+### Download
+
+Download application [from](https://github.com/wondris009/auto-clicker/tree/main/downloads)
+
 ### Run application
 Run command line / bash / terminal and run there command:
 > java -jar TotalBattleApp-all.jar
