@@ -93,11 +93,11 @@ Points:
 * Setup points (step above).
 * Set Carter as first captain. 
 * Set correct gear. 
-* Turn archeologist (optional).
+* Turn on archeologist (optional).
 * In watchtower select crypt you want to make. When crypting starts it will open watchtower and there must be "Crypts and Arenas" tab selected.
 * Go to map and select highest zoom 125%
 * Select number of rounds you want to do (after 100 per day, crypts are not appearing in the middle of the screen (3rd bullet in the point list) and app starts failing)
 * Click **Make Common or Epic Crypts !!!** button - it will give you 5 seconds before it really starts clicking
-* **MOST IMPORTANT make focus on browser, which means just one time click there**
+* **MOST IMPORTANT make focus on browser, so after Make Common and Epic Crypts button click there**
 
 In any trouble hit CTRL + F1 and it should close the application. I have seen bug when i hit the exit shortcut and it didn't exit. I had to restart computer. Happened one time. Shortcut is important for autoclicking and problematic scenarios. When you set 10000 autclicks and there is some initial problem (eg.: no focus on browser, wrong captain set, wrong gear) use it.
