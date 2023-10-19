@@ -53,7 +53,12 @@ class TotalBattleApp {
 
             SwingUtilities.invokeAndWait {
 
-                val pointPaths = "${System.getProperty("user.home")}${File.separator}tmp${File.separator}tbapp${File.separator}coords.txt"
+                var fileName = "coords.txt"
+                if(ScreenHelper.hasTwoScreens()) {
+                    fileName = "coords-second-screen.txt"
+                }
+
+                val pointPaths = "${System.getProperty("user.home")}${File.separator}tmp${File.separator}tbapp${File.separator}$fileName"
                 TotalBattleApp().initGui(pointPaths)
             }
         }
