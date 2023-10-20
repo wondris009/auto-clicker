@@ -40,7 +40,7 @@ jobs:
 #          if [[ $(git tag --points-at HEAD) != '' ]]; then
 #            PUBLISH_NEW_VERSION=true
 #          fi
-          echo "PUBLISH_NEW_VERSION=${PUBLISH_NEW_VERSION}" >> $GITHUB_OUTPUT
+#          echo "PUBLISH_NEW_VERSION=${PUBLISH_NEW_VERSION}" >> $GITHUB_OUTPUT
 
   publish-jar:
     runs-on: ubuntu-22.04
