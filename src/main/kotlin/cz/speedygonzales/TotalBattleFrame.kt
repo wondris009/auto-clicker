@@ -13,6 +13,8 @@ class TotalBattleFrame(title: String, pointsPath: String, points: MutableList<Po
     private val clicker = Clicker()
     private val pointsTextArea = JTextArea()
 
+    var enableScreenMove = false
+
     init {
         this.title = title
 
@@ -24,7 +26,7 @@ class TotalBattleFrame(title: String, pointsPath: String, points: MutableList<Po
 
         this.addWindowListener(WindowCloser(pointsPath, points))
 
-        GlobalScreen.addNativeKeyListener(GlobalKeyListener(clicker, false, pointsPath, points))
+        GlobalScreen.addNativeKeyListener(ExitButtonKeyListener(pointsPath, points))
         GlobalScreen.addNativeMouseListener(GlobalMouseListener(points, pointsTextArea))
 
         this.layout = BorderLayout()
@@ -43,10 +45,10 @@ class TotalBattleFrame(title: String, pointsPath: String, points: MutableList<Po
         tabs.preferredSize = Dimension(760, 350)
         val autoClickPanel = AutoClickPanel(infoLabel, clicker)
         val cryptPanel = CryptPanel(infoLabel, clicker, points, pointsTextArea)
-//        val testPanel = TestPanel()
+        val moveScreenPanel = MoveScreenPanel(clicker)
         tabs.addTab("Auto click", autoClickPanel)
         tabs.addTab("Crypt maker", cryptPanel)
-//        tabs.addTab("Testing", testPanel)
+        tabs.addTab("Move screen", moveScreenPanel)
         tabs.selectedIndex = 1
         tabsPanel.add(tabs)
 
