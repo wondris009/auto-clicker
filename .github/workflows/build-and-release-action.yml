@@ -36,11 +36,11 @@ jobs:
       - name: Determine should publish docker image
         id: determine_should_publish_new_version
         run: |
-          PUBLISH_NEW_VERSION=false
-          if [[ $(git tag --points-at HEAD) != '' ]]; then
-            PUBLISH_NEW_VERSION=true
-          fi
-          echo "PUBLISH_NEW_VERSION=${PUBLISH_NEW_VERSION}" >> $GITHUB_OUTPUT
+          PUBLISH_NEW_VERSION=true
+#          if [[ $(git tag --points-at HEAD) != '' ]]; then
+#            PUBLISH_NEW_VERSION=true
+#          fi
+#          echo "PUBLISH_NEW_VERSION=${PUBLISH_NEW_VERSION}" >> $GITHUB_OUTPUT
 
   publish-jar:
     runs-on: ubuntu-22.04
