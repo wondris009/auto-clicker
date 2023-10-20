@@ -4,7 +4,7 @@ on:
   push:
     branches: [ citadel-hunter ]
     tags:
-      - 'v0.1.0' # We will publish new version for tag which follows 'v*.*.*' format
+      - 'v*.*.*' # We will publish new version for tag which follows 'v*.*.*' format
 
 env:
   SERVICE_NAME: TotalBattleApp
@@ -36,7 +36,7 @@ jobs:
       - name: Determine should publish docker image
         id: determine_should_publish_new_version
         run: |
-          PUBLISH_NEW_VERSION=true
+          PUBLISH_NEW_VERSION=true >> $GITHUB_OUTPUT
 #          if [[ $(git tag --points-at HEAD) != '' ]]; then
 #            PUBLISH_NEW_VERSION=true
 #          fi
