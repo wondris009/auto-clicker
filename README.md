@@ -43,7 +43,7 @@ OpenJDK 64-Bit Server VM Zulu19.32+13-CA (build 19.0.2+7, mixed mode, sharing)
 ## Auto Clicker Screenshot
 ![Alt text](pic/auto-clicker.png)
 
-## Crypt Maker Screenshot
+## Crypt Hunter Screenshot
 ![Alt text](pic/crypter.png)
 
 ## How to use the application?
@@ -78,5 +78,5 @@ or prefixed with c:/ on windows
 
 # Planned features / upgrades
 * be able to hunt also rare crypts
-* moving map just be keys
+* moving map just by keys
 * hunt citadels
