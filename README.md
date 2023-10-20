@@ -47,3 +47,8 @@ OpenJDK 64-Bit Server VM Zulu19.32+13-CA (build 19.0.2+7, mixed mode, sharing)
 ![Alt text](pic/crypter.png)
 
 ## [How to use the application for hunting common and epic crypts?](https://github.com/wondris009/auto-clicker/wiki/Crypt-hunter)
+
+# Planned features / upgrades
+* be able to hunt also rare crypts
+* moving map just be keys
+* hunt citadels
