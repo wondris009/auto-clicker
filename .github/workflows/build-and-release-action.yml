@@ -4,7 +4,7 @@ on:
   push:
     branches: [ citadel-hunter ]
     tags:
-      - 'v*.*.*' # We will publish new version for tag which follows 'v*.*.*' format
+      - 'v0.1.0' # We will publish new version for tag which follows 'v*.*.*' format
 
 env:
   SERVICE_NAME: TotalBattleApp
