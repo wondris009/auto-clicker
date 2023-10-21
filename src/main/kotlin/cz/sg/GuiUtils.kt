@@ -1,4 +1,4 @@
-package cz.speedygonzales
+package cz.sg
 
 import com.github.kwhat.jnativehook.GlobalScreen
 import java.awt.*
@@ -24,10 +24,10 @@ object GuiUtils {
         return container
     }
 
-    fun createButton(buttonLabel: String, fn: (a: ActionEvent) -> Unit): JButton {
+    fun createButton(color: Color = Color.DARK_GRAY, buttonLabel: String, fn: (a: ActionEvent) -> Unit): JButton {
         val button = JButton(buttonLabel)
         button.setFont(Font(Font.MONOSPACED, Font.PLAIN, 14))
-        button.foreground = Color.DARK_GRAY
+        button.foreground = color
         button.addActionListener(fn)
         return button
     }

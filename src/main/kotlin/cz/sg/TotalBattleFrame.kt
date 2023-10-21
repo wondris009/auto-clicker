@@ -1,4 +1,4 @@
-package cz.speedygonzales
+package cz.sg
 
 import com.github.kwhat.jnativehook.GlobalScreen
 import java.awt.BorderLayout
@@ -13,13 +13,10 @@ class TotalBattleFrame(title: String, pointsPath: String, points: MutableList<Po
     private val clicker = Clicker()
     private val pointsTextArea = JTextArea()
 
-    var enableScreenMove = false
-
     init {
         this.title = title
 
         this.defaultCloseOperation = EXIT_ON_CLOSE
-        this.isAlwaysOnTop = true
         this.size = Dimension(800, 450)
         this.isVisible = true
         this.setLocationRelativeTo(null) // center the application
@@ -46,10 +43,13 @@ class TotalBattleFrame(title: String, pointsPath: String, points: MutableList<Po
         val autoClickPanel = AutoClickPanel(infoLabel, clicker)
         val cryptPanel = CryptPanel(infoLabel, clicker, points, pointsTextArea)
         val moveScreenPanel = MoveScreenPanel(clicker)
+        val fightPanel = FightPanel(infoLabel, clicker)
         tabs.addTab("Auto click", autoClickPanel)
         tabs.addTab("Crypt maker", cryptPanel)
         tabs.addTab("Move screen", moveScreenPanel)
-        tabs.selectedIndex = 1
+        tabs.addTab("Fight", fightPanel)
+
+        tabs.selectedIndex = 3
         tabsPanel.add(tabs)
 
         this.add(tabsPanel, BorderLayout.CENTER)

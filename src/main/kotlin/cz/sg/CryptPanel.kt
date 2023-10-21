@@ -1,6 +1,6 @@
-package cz.speedygonzales
+package cz.sg
 
-import cz.speedygonzales.GuiUtils.createButton
+import cz.sg.GuiUtils.createButton
 import java.awt.BorderLayout
 import java.awt.Color
 import java.awt.Font
@@ -31,7 +31,7 @@ class CryptPanel(
         val controlsPanel = JPanel()
         controlsPanel.layout = BoxLayout(controlsPanel, BoxLayout.Y_AXIS)
 
-        val removeLastValueButton = createButton("Remove last value") {
+        val removeLastValueButton = createButton(buttonLabel = "Remove last value") {
             if (points.isNotEmpty()) {
                 points.removeLast()
                 val linesCount = pointsTextArea.lineCount
@@ -42,26 +42,17 @@ class CryptPanel(
         }
         controlsPanel.add(removeLastValueButton)
 
-        val clearAllPointsButton = createButton("Clear all") {
+        val clearAllPointsButton = createButton(buttonLabel = "Clear all") {
             points.clear()
             pointsTextArea.text = ""
         }
         controlsPanel.add(clearAllPointsButton)
 
-        val simulatePathButton = createButton("Simulate") {
-            Thread.sleep(3_000)
-            points.forEach {
-                clicker.mouseMove(it.x, it.y)
-                Thread.sleep(Constants.SECOND.toLong())
-            }
-        }
-        controlsPanel.add(simulatePathButton)
-
         val numberOfRounds = JTextField("10")
         val numberOfRoundsPanel = GuiUtils.getInputRow("Number of rounds", numberOfRounds)
         controlsPanel.add(numberOfRoundsPanel)
 
-        val goButton = createButton("Make Common or Epic CRYPTS !!!") {
+        val goButton = createButton(color = Color.RED, buttonLabel = "Go") {
 
             if(points.size != 6) {
                 val errorMsg = InfoLabel(

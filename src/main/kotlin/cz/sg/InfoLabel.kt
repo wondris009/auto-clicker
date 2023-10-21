@@ -1,4 +1,4 @@
-package cz.speedygonzales
+package cz.sg
 
 import java.awt.Color
 import java.awt.Font
@@ -8,7 +8,7 @@ class InfoLabel(text: String) : JLabel(text) {
 
     init {
         this.foreground = Color.BLUE
-        this.setFont(Font("Verdana", Font.BOLD, 18))
+        this.setFont(Font("Verdana", Font.BOLD, 14))
     }
 
     constructor(text: String, textColor: Color, font: String, fontType: Int, size: Int) : this(text) {

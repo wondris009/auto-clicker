@@ -1,4 +1,4 @@
-package cz.speedygonzales
+package cz.sg
 
 import com.github.kwhat.jnativehook.mouse.NativeMouseEvent
 import com.github.kwhat.jnativehook.mouse.NativeMouseListener

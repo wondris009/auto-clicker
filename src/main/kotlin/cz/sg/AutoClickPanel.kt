@@ -1,6 +1,6 @@
-package cz.speedygonzales
+package cz.sg
 
-import cz.speedygonzales.TotalBattleApp.Companion.WAIT_BEFORE_SECONDS
+import cz.sg.TotalBattleApp.Companion.WAIT_BEFORE_SECONDS
 import java.awt.BorderLayout
 import java.awt.Dimension
 import javax.swing.JLabel
@@ -19,7 +19,7 @@ class AutoClickPanel(infoLabel: InfoLabel, clicker: Clicker) : JPanel() {
 
         this.add(GuiUtils.getInputRow("How many clicks?", numberOfCountsTextField), BorderLayout.NORTH)
 
-        val startClickingButton = GuiUtils.createButton("Start") {
+        val startClickingButton = GuiUtils.createButton(buttonLabel = "Start") {
             Thread(DisplayTextRunnable(clicker, infoLabel, numberOfCountsTextField.text.toInt())).start()
         }
         this.add(GuiUtils.getInputRow(labelComponent = startClickingButton), BorderLayout.SOUTH)

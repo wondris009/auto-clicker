@@ -1,6 +1,6 @@
-package cz.speedygonzales
+package cz.sg
 
-import cz.speedygonzales.TotalBattleApp.Companion.WAIT_BEFORE_SECONDS
+import cz.sg.TotalBattleApp.Companion.WAIT_BEFORE_SECONDS
 import java.awt.Point
 import javax.swing.JLabel
 import javax.swing.SwingUtilities

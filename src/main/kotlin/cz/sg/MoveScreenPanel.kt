@@ -1,4 +1,4 @@
-package cz.speedygonzales
+package cz.sg
 
 import com.github.kwhat.jnativehook.GlobalScreen
 import java.awt.BorderLayout

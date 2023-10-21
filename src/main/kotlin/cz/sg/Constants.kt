@@ -1,4 +1,4 @@
-package cz.speedygonzales
+package cz.sg
 
 object Constants {
 
