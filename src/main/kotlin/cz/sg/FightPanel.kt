@@ -4,12 +4,12 @@ import cz.sg.GuiUtils.createButton
 import mu.KotlinLogging
 import java.awt.BorderLayout
 import java.awt.Color
+import java.awt.Component
 import java.awt.Point
 import java.awt.event.MouseAdapter
 import java.awt.event.MouseEvent
 import java.io.File
 import javax.swing.*
-import javax.swing.border.LineBorder
 import javax.swing.event.DocumentEvent
 import javax.swing.event.DocumentListener
 import javax.swing.table.DefaultTableModel
@@ -29,7 +29,7 @@ class FightPanel(
     private val selectedPoints = mutableListOf<Point>()
 
     private val presetNameFileNameLabel = JLabel()
-    private val presetNameTextField = JTextField()
+    private lateinit var presetNameTextField: JTextField
 
     private val presetTable = JTable()
     private val presetTableModel = object : DefaultTableModel(0, 0) {
@@ -50,11 +50,18 @@ class FightPanel(
         val controlsPanel = JPanel()
         controlsPanel.layout = BoxLayout(controlsPanel, BoxLayout.Y_AXIS)
 
-        reactOnPresetNameChange(presetNameTextField)
-        controlsPanel.add(presetNameTextField)
-
         setFileNameLabel()
         controlsPanel.add(presetNameFileNameLabel)
+
+        presetNameTextField = JTextField()
+        val numberOfRoundsPanel = GuiUtils.getInputRow("Preset name", presetNameTextField)
+        controlsPanel.add(numberOfRoundsPanel)
+        reactOnPresetNameChange(presetNameTextField)
+        controlsPanel.add(numberOfRoundsPanel)
+
+        val presetControlsPanel = JPanel()
+        presetControlsPanel.layout = BoxLayout(presetControlsPanel, BoxLayout.X_AXIS)
+        presetControlsPanel.alignmentX = Component.LEFT_ALIGNMENT
 
         val addPresetButton = createButton(buttonLabel = "+") {
             if (presetNameTextField.text.isNotEmpty()) {
@@ -68,7 +75,7 @@ class FightPanel(
                 showError(infoLabel, "Preset already exists")
             }
         }
-        controlsPanel.add(addPresetButton)
+        presetControlsPanel.add(addPresetButton)
 
         val removePresetButton = createButton(buttonLabel = "-") {
             if (presetTable.selectedRow != -1) {
@@ -77,7 +84,8 @@ class FightPanel(
                 infoLabel.text = "Select preset from the table"
             }
         }
-        controlsPanel.add(removePresetButton)
+        presetControlsPanel.add(removePresetButton)
+        controlsPanel.add(presetControlsPanel)
 
         presetTableModel.setColumnIdentifiers(arrayOf("Preset"))
         presetTable.model = presetTableModel
@@ -88,6 +96,7 @@ class FightPanel(
             override fun mousePressed(e: MouseEvent) {
                 if (e.clickCount == 2 && presetTable.selectedRow != -1) {
                     val presetName = presetTable.model.getValueAt(presetTable.selectedRow, 0)
+                    presets[presetName]!!.selected = true
                     loadPoints(File("${FileUtils.APP_PATH}${File.separator}$presetName.txt"))
                 }
             }
@@ -101,6 +110,8 @@ class FightPanel(
             JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED
         )
         this.add(scrollPane, BorderLayout.CENTER)
+
+        presetTable.setRowSelectionInterval(0, 0)
     }
 
     private fun addPreset(presetName: String, infoLabel: InfoLabel) {
@@ -115,6 +126,10 @@ class FightPanel(
         val presetName = getPresetNameFromTable(presetTable.selectedRow)
         logger.info { "Removing preset with name: $presetName" }
         val preset = presets[presetName]!!
+        if (preset.selected) {
+            selectedPoints.clear()
+            pointsTextArea.text = ""
+        }
         presets.remove(presetName)
         FileUtils.deleteCoordsFile(preset)
         presetTableModel.removeRow(presetTable.selectedRow)
@@ -143,7 +158,7 @@ class FightPanel(
 
     private fun showError(infoLabel: InfoLabel, errorMessage: String) {
         infoLabel.text = errorMessage
-        presetNameTextField.border = LineBorder(Color.RED, 1)
+        presetNameTextField.background = Color.RED
     }
 
     private fun loadPresets() {
@@ -152,11 +167,13 @@ class FightPanel(
             .filter { it.name.startsWith("coords") }
             .sorted()
             .forEachIndexed { index, file ->
+                var selected = false
                 if (index == 0) {
                     loadPoints(file)
+                    selected = true
                 }
                 val presetName = file.name.removeSuffix(FileUtils.EXTENSION)
-                presets[presetName] = Preset(presetName)
+                presets[presetName] = Preset(presetName, selected)
             }
     }
 
@@ -174,7 +191,7 @@ class FightPanel(
 
     private fun setFileNameLabel(text: String = "") {
         presetNameFileNameLabel.text = "${PREFIX}coords-$text${FileUtils.EXTENSION}"
-        presetNameFileNameLabel.border = BorderFactory.createLineBorder(Color.DARK_GRAY)
+//        presetNameFileNameLabel.border = BorderFactory.createLineBorder(Color.DARK_GRAY)
     }
 
     private val logger = KotlinLogging.logger { }

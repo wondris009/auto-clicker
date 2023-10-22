@@ -2,7 +2,7 @@ package cz.sg
 
 import java.io.File
 
-class Preset(val presetName: String) {
+class Preset(val presetName: String, var selected: Boolean = false) {
 
     var presetFile: File
 
