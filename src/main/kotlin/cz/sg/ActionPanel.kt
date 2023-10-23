@@ -132,7 +132,7 @@ class ActionPanel(infoLabel: InfoLabel) : JPanel() {
 
             if (points.size != 7) {
                 val errorMsg = InfoLabel(
-                    "<html>You need to specify exactly 6 points." +
+                    "<html>You need to specify exactly 7 points." +
                             "<br/><br/>" +
                             "1> Watchtower icon location." +
                             "<br/>" +
