@@ -1,18 +1,13 @@
 package cz.sg
 
 import cz.sg.Constants.WAIT_BEFORE_SECONDS
-import java.awt.Dimension
-import java.awt.FlowLayout
 import javax.swing.JLabel
-import javax.swing.JPanel
 import javax.swing.JTextField
 import javax.swing.SwingUtilities
 
-class AutoClickPanel(infoLabel: InfoLabel) : JPanel() {
+class AutoClickPanel(infoLabel: InfoLabel) : FlowLeftPanel() {
 
     init {
-        this.layout = FlowLayout(FlowLayout.LEFT)
-
         val label = JLabel("How many clicks?")
         this.addLeft(label)
 

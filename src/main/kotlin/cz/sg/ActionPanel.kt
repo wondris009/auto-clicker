@@ -21,7 +21,7 @@ class ActionPanel(infoLabel: InfoLabel) : JPanel() {
     private val points = mutableListOf<Point>()
 
     private val presetNameFileNameLabel = JLabel()
-    private lateinit var presetNameTextField: JTextField
+    private var presetNameTextField: JTextField
     private val presetTable = JTable()
     private val presetTableModel = object : DefaultTableModel(0, 0) {
         override fun isCellEditable(row: Int, column: Int): Boolean {
@@ -44,8 +44,7 @@ class ActionPanel(infoLabel: InfoLabel) : JPanel() {
 
         setFileNameLabel()
 
-        val presetPanel = JPanel()
-        presetPanel.layout = FlowLayout(FlowLayout.LEFT)
+        val presetPanel = FlowLeftPanel()
         val presetNameLabel = JLabel("Preset name")
         presetNameLabel.border = BorderFactory.createEmptyBorder()
         presetPanel.addLeft(presetNameLabel)
@@ -101,8 +100,7 @@ class ActionPanel(infoLabel: InfoLabel) : JPanel() {
         )
         presetTableScrollPane.preferredSize = Dimension(presetTableScrollPane.width, 120)
 
-        val cryptPanel = JPanel()
-        cryptPanel.layout = FlowLayout(FlowLayout.LEFT)
+        val presetControlsPanel = FlowLeftPanel()
 
         val removeLastValueButton = createButton(buttonLabel = "Remove last value") {
             if (points.isNotEmpty()) {
@@ -114,19 +112,20 @@ class ActionPanel(infoLabel: InfoLabel) : JPanel() {
                 FileUtils.savePoints(presets.values.first { it.selected }, points)
             }
         }
-        cryptPanel.addLeft(removeLastValueButton)
+        presetControlsPanel.addLeft(removeLastValueButton)
 
         val clearAllPointsButton = createButton(buttonLabel = "Clear all") {
             points.clear()
             pointsTextArea.text = ""
             FileUtils.savePoints(presets.values.first { it.selected }, points)
         }
-        cryptPanel.addLeft(clearAllPointsButton)
+        presetControlsPanel.addLeft(clearAllPointsButton)
 
+        val actionPanel = FlowLeftPanel()
         val numberOfRoundsLabel = JLabel("Number of rounds")
-        cryptPanel.addLeft(numberOfRoundsLabel)
+        actionPanel.addLeft(numberOfRoundsLabel)
         val numberOfRoundsTextField = JTextField("10", 5)
-        cryptPanel.addLeft(numberOfRoundsTextField)
+        actionPanel.addLeft(numberOfRoundsTextField)
 
         val goButton = createButton(color = Color.RED, buttonLabel = "Go common/epic") {
 
@@ -165,6 +164,7 @@ class ActionPanel(infoLabel: InfoLabel) : JPanel() {
                 )
                 val yesNoResult = GuiUtils.showConfirmDialog(this, warningMsg)
                 if (yesNoResult == JOptionPane.YES_OPTION) {
+                    logger.info { "passing $rare" }
                     Thread(CryptMarcher(points, numberOfRoundsTextField.text.toInt(), rare, infoLabel)).start()
                 }
             }
@@ -179,13 +179,14 @@ class ActionPanel(infoLabel: InfoLabel) : JPanel() {
             }
 
         }
-        cryptPanel.addLeft(rareCryptCheckBox)
-        cryptPanel.addLeft(goButton)
+        actionPanel.addLeft(rareCryptCheckBox)
+        actionPanel.addLeft(goButton)
 
         this.addLeft(presetNameFileNameLabel)
         this.addLeft(presetPanel)
         this.addLeft(presetTableScrollPane)
-        this.addLeft(cryptPanel)
+        this.addLeft(presetControlsPanel)
+        this.addLeft(actionPanel)
 
         val scrollPane = JScrollPane(
             pointsTextArea,
