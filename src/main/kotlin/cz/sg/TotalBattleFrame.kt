@@ -2,17 +2,17 @@ package cz.sg
 
 import com.github.kwhat.jnativehook.GlobalScreen
 import java.awt.BorderLayout
+import java.awt.Color
 import java.awt.event.WindowAdapter
 import java.awt.event.WindowEvent
-import javax.swing.BorderFactory
-import javax.swing.JFrame
-import javax.swing.JPanel
-import javax.swing.JTabbedPane
+import javax.swing.*
 
 
 class TotalBattleFrame(title: String) : JFrame() {
 
     init {
+        UIManager.getLookAndFeelDefaults().putIfAbsent("Table.alternateRowColor", Color(240, 240, 240))
+
         this.title = title
 
         this.addWindowListener(WindowCloser())

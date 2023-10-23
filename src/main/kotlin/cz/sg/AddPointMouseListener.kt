@@ -4,6 +4,7 @@ import com.github.kwhat.jnativehook.mouse.NativeMouseEvent
 import com.github.kwhat.jnativehook.mouse.NativeMouseListener
 import java.awt.MouseInfo
 import java.awt.Point
+import javax.swing.JLabel
 import javax.swing.JTextArea
 
 class AddPointMouseListener(
@@ -14,10 +15,14 @@ class AddPointMouseListener(
 
     override fun nativeMouseClicked(e: NativeMouseEvent) {
         if (ctrlAltPressed(e)) {
-            val position = MouseInfo.getPointerInfo().location
-            pointsTextArea.append("$position\n")
-            points.add(position)
-            FileUtils.savePoints(presets.values.first { it.selected }, points)
+            if(presets.isEmpty()) {
+                GuiUtils.showErrorMessage(pointsTextArea, JLabel("Create preset first !!!"))
+            } else {
+                val position = MouseInfo.getPointerInfo().location
+                pointsTextArea.append("$position\n")
+                points.add(position)
+                FileUtils.savePoints(presets.values.first { it.selected }, points)
+            }
         }
     }
 

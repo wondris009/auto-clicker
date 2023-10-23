@@ -17,27 +17,22 @@ private const val PREFIX = "File name will be: "
 
 class ActionPanel(infoLabel: InfoLabel) : JPanel() {
 
-    private val pointsTextArea = JTextArea()
-
     private val presets = mutableMapOf<String, Preset>()
-
     private val points = mutableListOf<Point>()
 
     private val presetNameFileNameLabel = JLabel()
-    private var presetNameTextField: JTextField
-
+    private lateinit var presetNameTextField: JTextField
     private val presetTable = JTable()
     private val presetTableModel = object : DefaultTableModel(0, 0) {
         override fun isCellEditable(row: Int, column: Int): Boolean {
             return false
         }
     }
+    private val pointsTextArea = JTextArea()
 
     private var rare = false
 
     init {
-        UIManager.getLookAndFeelDefaults().putIfAbsent("Table.alternateRowColor", Color(240, 240, 240))
-
         GlobalScreen.addNativeMouseListener(AddPointMouseListener(presets, points, pointsTextArea))
 
         this.layout = BoxLayout(this, BoxLayout.Y_AXIS)
@@ -200,7 +195,9 @@ class ActionPanel(infoLabel: InfoLabel) : JPanel() {
         scrollPane.preferredSize = Dimension(scrollPane.width, 120)
         this.addLeft(scrollPane)
 
-        presetTable.setRowSelectionInterval(0, 0)
+        if (presets.isNotEmpty()) {
+            presetTable.setRowSelectionInterval(0, 0)
+        }
     }
 
     private fun addPreset(presetName: String, infoLabel: InfoLabel) {
@@ -209,7 +206,7 @@ class ActionPanel(infoLabel: InfoLabel) : JPanel() {
         presetNameTextField.border = JTextField().border
         presetNameTextField.background = JTextField().background
         infoLabel.text = "Preset $presetName created"
-        presets[presetName] = Preset(presetName)
+        presets[presetName] = Preset(presetName, presets.isEmpty())
     }
 
     private fun removePreset(infoLabel: InfoLabel) {
@@ -257,9 +254,7 @@ class ActionPanel(infoLabel: InfoLabel) : JPanel() {
             .none { it.name.startsWith("coords") }
 
         if (firstUsageOfApp) {
-            val path = "${FileUtils.APP_PATH}${File.separator}coords-first-preset.txt"
-//            logger.info { "There is no preset file, creating $path" }
-            File(path).createNewFile()
+            return
         }
 
         File(FileUtils.APP_PATH)
