@@ -1,35 +1,105 @@
 package cz.sg
 
+import com.github.kwhat.jnativehook.GlobalScreen
 import cz.sg.GuiUtils.createButton
-import java.awt.BorderLayout
-import java.awt.Color
-import java.awt.Font
-import java.awt.Point
+import mu.KotlinLogging
+import java.awt.*
+import java.awt.event.MouseAdapter
+import java.awt.event.MouseEvent
+import java.io.File
 import javax.swing.*
+import javax.swing.event.DocumentEvent
+import javax.swing.event.DocumentListener
+import javax.swing.table.DefaultTableModel
 
 
-class CryptPanel(
-    infoLabel: InfoLabel,
-    clicker: Clicker,
-    private val points: MutableList<Point>,
-    pointsTextArea: JTextArea
-) : JPanel() {
+private const val PREFIX = "File name will be: "
+
+class CryptPanel(infoLabel: InfoLabel) : JPanel() {
+
+    private val pointsTextArea = JTextArea()
+
+    private val presets = mutableMapOf<String, Preset>()
+
+    private val points = mutableListOf<Point>()
+
+    private val presetNameFileNameLabel = JLabel()
+    private var presetNameTextField: JTextField
+
+    private val presetTable = JTable()
+    private val presetTableModel = object : DefaultTableModel(0, 0) {
+        override fun isCellEditable(row: Int, column: Int): Boolean {
+            return false
+        }
+    }
+
+    private var rare = false
 
     init {
-        //can't see setEnabled
+        UIManager.getLookAndFeelDefaults().putIfAbsent("Table.alternateRowColor", Color(240, 240, 240))
+
+        GlobalScreen.addNativeMouseListener(AddPointMouseListener(presets, points, pointsTextArea))
+
+        this.layout = BoxLayout(this, BoxLayout.Y_AXIS)
+        @Suppress("DEPRECATION")
         pointsTextArea.enable(false)
 
-        points.forEach { pointsTextArea.append("$it\n") }
+        loadPresets()
 
-        val scrollPane = JScrollPane(
-            pointsTextArea,
-            JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER
-        )
+        setFileNameLabel()
 
-        this.layout = BorderLayout()
+        val presetPanel = JPanel()
+        presetPanel.layout = FlowLayout(FlowLayout.LEFT)
+        val presetNameLabel = JLabel("Preset name")
+        presetNameLabel.border = BorderFactory.createEmptyBorder()
+        presetPanel.addLeft(presetNameLabel)
+        presetNameTextField = JTextField("", 20)
+        reactOnPresetNameChange {
+            transformPresetNameToFileName()
+        }
+        presetPanel.addLeft(presetNameTextField)
 
-        val controlsPanel = JPanel()
-        controlsPanel.layout = BoxLayout(controlsPanel, BoxLayout.Y_AXIS)
+        val addPresetButton = createButton(buttonLabel = "+") {
+            if (presetNameTextField.text.isNotEmpty()) {
+                val presetName = presetNameFileNameLabel.text.replace(PREFIX, "").replace(FileUtils.EXTENSION, "")
+                if (!getPresetNames().contains(presetName)) {
+                    addPreset(presetName, infoLabel)
+                } else {
+                    showError(infoLabel, "Preset already exists")
+                }
+            } else {
+                showError(infoLabel, "Set preset name")
+            }
+        }
+        presetPanel.addLeft(addPresetButton)
+
+        val removePresetButton = createButton(buttonLabel = "-") {
+            if (presetTable.selectedRow != -1) {
+                removePreset(infoLabel)
+            } else {
+                infoLabel.text = "Select preset from the table"
+            }
+        }
+        presetPanel.addLeft(removePresetButton)
+
+        presetTableModel.setColumnIdentifiers(arrayOf("Preset"))
+        presetTable.model = presetTableModel
+        getPresetNames().forEach {
+            presetTableModel.addRow(arrayOf(it))
+        }
+        presetTable.addMouseListener(object : MouseAdapter() {
+            override fun mousePressed(e: MouseEvent) {
+                if (e.clickCount == 2 && presetTable.selectedRow != -1) {
+                    val presetName = presetTable.model.getValueAt(presetTable.selectedRow, 0)
+                    presets[presetName]!!.selected = true
+                    loadPoints(File("${FileUtils.APP_PATH}${File.separator}$presetName.txt"))
+                }
+            }
+        })
+        presetTable.preferredSize = Dimension(presetTable.width, 200)
+
+        val cryptPanel = JPanel()
+        cryptPanel.layout = FlowLayout(FlowLayout.LEFT)
 
         val removeLastValueButton = createButton(buttonLabel = "Remove last value") {
             if (points.isNotEmpty()) {
@@ -38,23 +108,26 @@ class CryptPanel(
                 val start = pointsTextArea.getLineStartOffset(linesCount - 2)
                 val end = pointsTextArea.getLineEndOffset(linesCount - 1)
                 pointsTextArea.replaceRange("", start, end)
+                FileUtils.savePoints(presets.values.first { it.selected }, points)
             }
         }
-        controlsPanel.add(removeLastValueButton)
+        cryptPanel.addLeft(removeLastValueButton)
 
         val clearAllPointsButton = createButton(buttonLabel = "Clear all") {
             points.clear()
             pointsTextArea.text = ""
+            FileUtils.savePoints(presets.values.first { it.selected }, points)
         }
-        controlsPanel.add(clearAllPointsButton)
+        cryptPanel.addLeft(clearAllPointsButton)
 
-        val numberOfRounds = JTextField("10")
-        val numberOfRoundsPanel = GuiUtils.getInputRow("Number of rounds", numberOfRounds)
-        controlsPanel.add(numberOfRoundsPanel)
+        val numberOfRoundsLabel = JLabel("Number of rounds")
+        cryptPanel.addLeft(numberOfRoundsLabel)
+        val numberOfRoundsTextField = JTextField("10", 5)
+        cryptPanel.addLeft(numberOfRoundsTextField)
 
-        val goButton = createButton(color = Color.RED, buttonLabel = "Go") {
+        val goButton = createButton(color = Color.RED, buttonLabel = "Go common/epic") {
 
-            if(points.size != 6) {
+            if (points.size != 7) {
                 val errorMsg = InfoLabel(
                     "<html>You need to specify exactly 6 points." +
                             "<br/><br/>" +
@@ -64,16 +137,18 @@ class CryptPanel(
                             "<br/>" +
                             "3> Crypt position on the map" +
                             "<br/>" +
-                            "4> Explore button" +
+                            "4> Open crypt - define and control crypt type with checkbox (for non rare, point skipped) " +
                             "<br/>" +
-                            "5> Speedup button" +
+                            "5> Explore button" +
                             "<br/>" +
-                            "6> Use speedup button" +
+                            "6> Speedup button" +
+                            "<br/>" +
+                            "7> Use speedup button" +
                             "</html>",
                     Color.BLUE,
                     "Verdana",
                     Font.PLAIN,
-                    16
+                    14
                 )
 
                 GuiUtils.showErrorMessage(this, errorMsg)
@@ -83,18 +158,131 @@ class CryptPanel(
                     Color.BLUE,
                     "Verdana",
                     Font.PLAIN,
-                    16
+                    14
                 )
                 val yesNoResult = GuiUtils.showConfirmDialog(this, warningMsg)
-                if(yesNoResult == JOptionPane.YES_OPTION) {
-                    Thread(CryptMarcher(clicker, points, numberOfRounds.text.toInt(), infoLabel)).start()
+                if (yesNoResult == JOptionPane.YES_OPTION) {
+                    Thread(CryptMarcher(points, numberOfRoundsTextField.text.toInt(), rare, infoLabel)).start()
                 }
             }
         }
-        controlsPanel.add(goButton)
+        val rareCryptCheckBox = JCheckBox("Rare crypt?", rare)
+        rareCryptCheckBox.addActionListener {
+            rare = !rare
+            if (rare) {
+                goButton.text = "Go rare"
+            } else {
+                goButton.text = "Go common/epic"
+            }
 
-        this.add(controlsPanel, BorderLayout.NORTH)
-        this.add(scrollPane, BorderLayout.CENTER)
+        }
+        cryptPanel.addLeft(rareCryptCheckBox)
+        cryptPanel.addLeft(goButton)
+
+        this.addLeft(presetNameFileNameLabel)
+        this.addLeft(presetPanel)
+        this.addLeft(presetTable)
+        this.addLeft(cryptPanel)
+
+        val scrollPane = JScrollPane(
+            pointsTextArea,
+            JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED
+        )
+        this.add(scrollPane)
+
+        presetTable.setRowSelectionInterval(0, 0)
     }
+
+    private fun addPreset(presetName: String, infoLabel: InfoLabel) {
+        logger.info { "Adding preset with name: $presetName" }
+        presetTableModel.addRow(arrayOf(presetName))
+        presetNameTextField.border = JTextField().border
+        presetNameTextField.background = JTextField().background
+        infoLabel.text = "Preset $presetName created"
+        presets[presetName] = Preset(presetName)
+    }
+
+    private fun removePreset(infoLabel: InfoLabel) {
+        val presetName = getPresetNameFromTable(presetTable.selectedRow)
+        logger.info { "Removing preset with name: $presetName" }
+        val preset = presets[presetName]!!
+        if (preset.selected) {
+            points.clear()
+            pointsTextArea.text = ""
+        }
+        presets.remove(presetName)
+        infoLabel.text = "Preset $presetName deleted"
+        FileUtils.deleteCoordsFile(preset)
+        presetTableModel.removeRow(presetTable.selectedRow)
+    }
+
+    private fun reactOnPresetNameChange(fn: () -> Unit) {
+        presetNameTextField.document.addDocumentListener(object : DocumentListener {
+            override fun insertUpdate(e: DocumentEvent?) {
+                fn()
+            }
+
+            override fun removeUpdate(e: DocumentEvent?) {
+                fn()
+            }
+
+            override fun changedUpdate(e: DocumentEvent?) {
+                fn()
+            }
+        })
+    }
+
+    private fun transformPresetNameToFileName() {
+        setFileNameLabel(presetNameTextField.text.replace(" ".toRegex(), "-").lowercase())
+    }
+
+    private fun showError(infoLabel: InfoLabel, errorMessage: String) {
+        infoLabel.text = errorMessage
+        presetNameTextField.background = Color(254, 204, 204)
+    }
+
+    private fun loadPresets() {
+        val firstUsageOfApp = File(FileUtils.APP_PATH)
+            .walkTopDown()
+            .none { it.name.startsWith("coords") }
+
+        if(firstUsageOfApp) {
+            val path = "${FileUtils.APP_PATH}${File.separator}coords-first-preset.txt"
+//            logger.info { "There is no preset file, creating $path" }
+            File(path).createNewFile()
+        }
+
+        File(FileUtils.APP_PATH)
+            .walkTopDown()
+            .filter { it.name.startsWith("coords") }
+            .sorted()
+            .forEachIndexed { index, file ->
+                var selected = false
+                if (index == 0) {
+                    loadPoints(file)
+                    selected = true
+                }
+                val presetName = file.name.removeSuffix(FileUtils.EXTENSION)
+                presets[presetName] = Preset(presetName, selected)
+            }
+    }
+
+    private fun getPresetNames() = presets.values.map { it.presetName }
+
+    private fun getPresetNameFromTable(selectedRow: Int) = presetTable.model.getValueAt(selectedRow, 0).toString()
+
+    private fun loadPoints(file: File) {
+        points.clear()
+        points.addAll(FileUtils.loadPoints(file.absolutePath))
+        pointsTextArea.text = ""
+        pointsTextArea.text = points.joinToString(separator = "\n", postfix = "\n")
+    }
+
+    private fun setFileNameLabel(text: String = "") {
+        presetNameFileNameLabel.text = "${PREFIX}coords-$text${FileUtils.EXTENSION}"
+        presetNameFileNameLabel.border = BorderFactory.createLineBorder(Color.DARK_GRAY)
+    }
+
+    private val logger = KotlinLogging.logger { }
 }
 

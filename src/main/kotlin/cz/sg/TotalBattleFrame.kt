@@ -3,28 +3,25 @@ package cz.sg
 import com.github.kwhat.jnativehook.GlobalScreen
 import java.awt.BorderLayout
 import java.awt.Dimension
-import java.awt.Point
 import java.awt.event.WindowAdapter
 import java.awt.event.WindowEvent
-import javax.swing.*
+import javax.swing.BorderFactory
+import javax.swing.JFrame
+import javax.swing.JPanel
+import javax.swing.JTabbedPane
 
-class TotalBattleFrame(title: String, pointsPath: String, points: MutableList<Point>) : JFrame() {
 
-    private val clicker = Clicker()
-    private val pointsTextArea = JTextArea()
+class TotalBattleFrame(title: String) : JFrame() {
+
+    private var maxW = 0
+    private var maxH = 0
 
     init {
         this.title = title
 
-        this.defaultCloseOperation = EXIT_ON_CLOSE
-        this.size = Dimension(800, 450)
-        this.isVisible = true
-        this.setLocationRelativeTo(null) // center the application
+        this.addWindowListener(WindowCloser())
 
-        this.addWindowListener(WindowCloser(pointsPath, points))
-
-        GlobalScreen.addNativeKeyListener(ExitButtonKeyListener(pointsPath, points))
-        GlobalScreen.addNativeMouseListener(GlobalMouseListener(points, pointsTextArea))
+        GlobalScreen.addNativeKeyListener(ExitButtonKeyListener())
 
         this.layout = BorderLayout()
 
@@ -33,31 +30,47 @@ class TotalBattleFrame(title: String, pointsPath: String, points: MutableList<Po
         controlPanel.layout = BorderLayout()
         val infoLabel = InfoLabel("Welcome Total Battle player")
         controlPanel.add(infoLabel, BorderLayout.WEST)
-        val exitButton = GuiUtils.createExitButton(pointsPath, points)
+        val exitButton = GuiUtils.createExitButton()
         controlPanel.add(exitButton, BorderLayout.EAST)
         this.add(controlPanel, BorderLayout.NORTH)
 
-        val tabsPanel = JPanel()
         val tabs = JTabbedPane()
-        tabs.preferredSize = Dimension(760, 350)
-        val autoClickPanel = AutoClickPanel(infoLabel, clicker)
-        val cryptPanel = CryptPanel(infoLabel, clicker, points, pointsTextArea)
-        val moveScreenPanel = MoveScreenPanel(clicker)
-        val fightPanel = FightPanel(infoLabel, clicker)
+
+        val autoClickPanel = AutoClickPanel(infoLabel)
+        val cryptPanel = CryptPanel(infoLabel)
+        val moveScreenPanel = MoveScreenPanel()
         tabs.addTab("Auto click", autoClickPanel)
         tabs.addTab("Crypt maker", cryptPanel)
         tabs.addTab("Move screen", moveScreenPanel)
-        tabs.addTab("Fight", fightPanel)
 
-        tabs.selectedIndex = 3
+        val originalTabsDim = tabs.preferredSize
+
+        tabs.addChangeListener {
+            val selectedTabComponent = (it.source as JTabbedPane).getSelectedComponent()
+            val selectedTabComponentDimension = selectedTabComponent.preferredSize
+
+            val newDimension = Dimension(
+                originalTabsDim.width - (maxW - selectedTabComponentDimension.width),
+                originalTabsDim.height - (maxH - selectedTabComponentDimension.height)
+            )
+            tabs.preferredSize = newDimension
+            this.pack()
+        }
+
+        tabs.selectedIndex = 1
+        val tabsPanel = JPanel()
         tabsPanel.add(tabs)
-
         this.add(tabsPanel, BorderLayout.CENTER)
+
+        this.defaultCloseOperation = EXIT_ON_CLOSE
+        this.pack()
+        this.setLocationRelativeTo(null)
+        this.isVisible = true
     }
 
-    class WindowCloser(private val pointsPath: String, private val points: List<Point>) : WindowAdapter() {
+    class WindowCloser : WindowAdapter() {
         override fun windowClosing(e: WindowEvent?) {
-            FileUtils.savePoints(pointsPath, points)
+            GuiUtils.exit()
         }
     }
 }

@@ -1,35 +1,34 @@
 package cz.sg
 
 import cz.sg.TotalBattleApp.Companion.WAIT_BEFORE_SECONDS
-import java.awt.BorderLayout
 import java.awt.Dimension
+import java.awt.FlowLayout
 import javax.swing.JLabel
 import javax.swing.JPanel
 import javax.swing.JTextField
 import javax.swing.SwingUtilities
 
-private const val DEFAULT_CLICK_COUNT = 20
-
-class AutoClickPanel(infoLabel: InfoLabel, clicker: Clicker) : JPanel() {
-
-    private val numberOfCountsTextField = JTextField(DEFAULT_CLICK_COUNT.toString())
+class AutoClickPanel(infoLabel: InfoLabel) : JPanel() {
 
     init {
-        this.layout = BorderLayout()
+        this.layout = FlowLayout(FlowLayout.LEFT)
 
-        this.add(GuiUtils.getInputRow("How many clicks?", numberOfCountsTextField), BorderLayout.NORTH)
+        val label = JLabel("How many clicks?")
+        this.addLeft(label)
+
+        val numberOfCountsTextField = JTextField("20", 5)
+        this.addLeft(numberOfCountsTextField)
 
         val startClickingButton = GuiUtils.createButton(buttonLabel = "Start") {
-            Thread(DisplayTextRunnable(clicker, infoLabel, numberOfCountsTextField.text.toInt())).start()
+            Thread(DisplayTextRunnable(infoLabel, numberOfCountsTextField.text.toInt())).start()
         }
-        this.add(GuiUtils.getInputRow(labelComponent = startClickingButton), BorderLayout.SOUTH)
+        this.addLeft(startClickingButton)
 
-        this.size = Dimension(500, 200)
-        this.preferredSize = Dimension(500, 200)
+        this.preferredSize = Dimension(this.width, 100)
     }
 
     class DisplayTextRunnable(
-        private val clicker: Clicker, private val label: JLabel, private val count: Int
+        private val label: JLabel, private val count: Int
     ) : Runnable, Notifier {
 
         override fun run() {
@@ -37,6 +36,8 @@ class AutoClickPanel(infoLabel: InfoLabel, clicker: Clicker) : JPanel() {
                 setText("Clicking will start after $second seconds")
                 Thread.sleep(1_000)
             }
+
+            val clicker = Clicker()
 
             (1..count).reversed().forEach {
                 setText("Clicks left: ${it - 1}")

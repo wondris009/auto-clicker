@@ -17,7 +17,7 @@ repositories {
 application {
     // Desired way mainClass.set("<main class>") causes an issue during jar packaging
     @Suppress("DEPRECATION")
-    mainClassName ="cz.speedygonzales.TotalBattleApp"
+    mainClassName ="cz.sg.TotalBattleApp"
 }
 
 dependencies {

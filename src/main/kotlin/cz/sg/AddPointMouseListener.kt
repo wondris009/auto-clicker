@@ -6,14 +6,22 @@ import java.awt.MouseInfo
 import java.awt.Point
 import javax.swing.JTextArea
 
-class GlobalMouseListener(private val points: MutableList<Point>, private val pointsTextArea: JTextArea) :
-    NativeMouseListener {
+class AddPointMouseListener(
+    private val presets: MutableMap<String, Preset>,
+    private val points: MutableList<Point>,
+    private val pointsTextArea: JTextArea
+) : NativeMouseListener {
 
     override fun nativeMouseClicked(e: NativeMouseEvent) {
         if (ctrlAltPressed(e)) {
             val position = MouseInfo.getPointerInfo().location
-            pointsTextArea.append("$position\n")
+//            if (pointsTextArea.text.isEmpty()) {
+                pointsTextArea.append("$position\n")
+//            } else {
+//                pointsTextArea.append("\n$position\n")
+//            }
             points.add(position)
+            FileUtils.savePoints(presets.values.first { it.selected }, points)
         }
     }
 

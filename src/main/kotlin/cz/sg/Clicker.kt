@@ -18,6 +18,7 @@ class Clicker {
 
     fun clickLeftMouse() {
         click()
+        robot.waitForIdle()
     }
 
     private fun click(button: Int = BUTTON1_DOWN_MASK) {
@@ -122,13 +123,14 @@ class Clicker {
         robot.mouseRelease(InputEvent.BUTTON1_DOWN_MASK)
     }
 
-    fun speedUp(points: List<Point>) {
-        mouseMove(points[5].x, points[5].y)
+    fun speedUp(points: List<Point>, speedUpButtonLocationIndex: Int) {
+        mouseMove(points[speedUpButtonLocationIndex].x, points[speedUpButtonLocationIndex].y)
         for (j in 1..5) {
             clickLeftMouse()
             Thread.sleep(300)
         }
         cleanFailures(2)
+        robot.waitForIdle()
     }
 
     fun waitAfterSpeedUps(rounds: Int, round: Int, notifier: Notifier) {

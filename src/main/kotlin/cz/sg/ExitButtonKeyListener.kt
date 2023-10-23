@@ -2,16 +2,12 @@ package cz.sg
 
 import com.github.kwhat.jnativehook.keyboard.NativeKeyEvent
 import com.github.kwhat.jnativehook.keyboard.NativeKeyListener
-import java.awt.Point
 
-class ExitButtonKeyListener(
-    private val pointsPath: String,
-    private val points: MutableList<Point>
-) : NativeKeyListener {
+class ExitButtonKeyListener : NativeKeyListener {
 
     override fun nativeKeyPressed(e: NativeKeyEvent) {
         if (controlF1Pressed(e)) {
-            GuiUtils.exit(pointsPath, points)
+            GuiUtils.exit()
         }
     }
 

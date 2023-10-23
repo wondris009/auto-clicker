@@ -1,56 +1,40 @@
 package cz.sg
 
 import com.github.kwhat.jnativehook.GlobalScreen
-import java.awt.*
+import mu.KotlinLogging
+import java.awt.Color
+import java.awt.Font
 import java.awt.event.ActionEvent
-import javax.swing.*
+import javax.swing.JButton
+import javax.swing.JComponent
+import javax.swing.JLabel
+import javax.swing.JOptionPane
 import kotlin.system.exitProcess
 
 object GuiUtils {
 
-    fun getInputRow(label: String = "", labelComponent: JComponent, alignment: Float = Component.LEFT_ALIGNMENT): JPanel {
-
-        val container = JPanel()
-        container.alignmentX = alignment
-        container.preferredSize = Dimension(200, 32)
-        container.size = Dimension(200, 32)
-        val boxLayout = BoxLayout(container, BoxLayout.X_AXIS)
-        container.layout = boxLayout
-        if (label.isNotEmpty()) {
-            container.add(JLabel(label))
-        }
-        container.add(labelComponent)
-
-        return container
-    }
-
     fun createButton(color: Color = Color.DARK_GRAY, buttonLabel: String, fn: (a: ActionEvent) -> Unit): JButton {
         val button = JButton(buttonLabel)
-        button.setFont(Font(Font.MONOSPACED, Font.PLAIN, 14))
+        button.setFont(Font(Font.MONOSPACED, Font.PLAIN, 12))
         button.foreground = color
         button.addActionListener(fn)
         return button
     }
 
-    fun createExitButton(pointsPath: String, points: MutableList<Point>): JButton {
+    fun createExitButton(): JButton {
         val button = JButton("EXIT")
-        button.setMnemonic('X')
-        button.setFont(Font(Font.MONOSPACED, Font.PLAIN, 16))
+        button.setFont(Font(Font.MONOSPACED, Font.BOLD, 12))
         button.foreground = Color.RED
         button.addActionListener {
-            exit(pointsPath, points)
+            exit()
         }
         return button
     }
 
     fun exit() {
+        logger.info { "Closing application" }
         GlobalScreen.unregisterNativeHook()
         exitProcess(-1)
-    }
-
-    fun exit(pointsPath: String, points: List<Point>) {
-        FileUtils.savePoints(pointsPath, points)
-        exit()
     }
 
     fun showErrorMessage(parentComponent: JComponent, msg: JLabel) {
@@ -60,4 +44,6 @@ object GuiUtils {
     fun showConfirmDialog(parentComponent: JComponent, msg: JLabel): Int {
         return JOptionPane.showConfirmDialog(parentComponent, msg, "Warning", JOptionPane.YES_NO_OPTION)
     }
+
+    private val logger = KotlinLogging.logger { }
 }

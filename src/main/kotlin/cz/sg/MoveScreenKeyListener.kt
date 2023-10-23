@@ -4,9 +4,9 @@ import com.github.kwhat.jnativehook.keyboard.NativeKeyEvent
 import com.github.kwhat.jnativehook.keyboard.NativeKeyListener
 import mu.KotlinLogging
 
-class MoveScreenKeyListener(
-    private val clicker: Clicker,
-) : NativeKeyListener {
+class MoveScreenKeyListener : NativeKeyListener {
+
+    private val clicker = Clicker()
 
     override fun nativeKeyPressed(e: NativeKeyEvent) {
         when (e.keyCode) {

@@ -7,11 +7,11 @@ import javax.swing.JCheckBox
 import javax.swing.JPanel
 
 
-class MoveScreenPanel(clicker: Clicker) : JPanel() {
+class MoveScreenPanel : JPanel() {
 
     private var enableScreenMove = false
 
-    private var moveScreenKeyListener = MoveScreenKeyListener(clicker)
+    private var moveScreenKeyListener = MoveScreenKeyListener()
 
     init {
         this.layout = BorderLayout()

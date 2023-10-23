@@ -13,4 +13,6 @@ class Preset(val presetName: String, var selected: Boolean = false) {
             presetFile.createNewFile()
         }
     }
+
+    fun getPath(): String = presetFile.absolutePath
 }
