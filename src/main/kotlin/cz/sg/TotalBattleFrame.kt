@@ -2,7 +2,6 @@ package cz.sg
 
 import com.github.kwhat.jnativehook.GlobalScreen
 import java.awt.BorderLayout
-import java.awt.Dimension
 import java.awt.event.WindowAdapter
 import java.awt.event.WindowEvent
 import javax.swing.BorderFactory
@@ -12,9 +11,6 @@ import javax.swing.JTabbedPane
 
 
 class TotalBattleFrame(title: String) : JFrame() {
-
-    private var maxW = 0
-    private var maxH = 0
 
     init {
         this.title = title
@@ -36,28 +32,13 @@ class TotalBattleFrame(title: String) : JFrame() {
 
         val tabs = JTabbedPane()
 
+        val actionPanel = ActionPanel(infoLabel)
         val autoClickPanel = AutoClickPanel(infoLabel)
-        val cryptPanel = CryptPanel(infoLabel)
         val moveScreenPanel = MoveScreenPanel()
+        tabs.addTab("Action panel", actionPanel)
         tabs.addTab("Auto click", autoClickPanel)
-        tabs.addTab("Crypt maker", cryptPanel)
         tabs.addTab("Move screen", moveScreenPanel)
-
-        val originalTabsDim = tabs.preferredSize
-
-        tabs.addChangeListener {
-            val selectedTabComponent = (it.source as JTabbedPane).getSelectedComponent()
-            val selectedTabComponentDimension = selectedTabComponent.preferredSize
-
-            val newDimension = Dimension(
-                originalTabsDim.width - (maxW - selectedTabComponentDimension.width),
-                originalTabsDim.height - (maxH - selectedTabComponentDimension.height)
-            )
-            tabs.preferredSize = newDimension
-            this.pack()
-        }
-
-        tabs.selectedIndex = 1
+        tabs.selectedIndex = 0
         val tabsPanel = JPanel()
         tabsPanel.add(tabs)
         this.add(tabsPanel, BorderLayout.CENTER)

@@ -15,7 +15,7 @@ import javax.swing.table.DefaultTableModel
 
 private const val PREFIX = "File name will be: "
 
-class CryptPanel(infoLabel: InfoLabel) : JPanel() {
+class ActionPanel(infoLabel: InfoLabel) : JPanel() {
 
     private val pointsTextArea = JTextArea()
 
@@ -41,6 +41,7 @@ class CryptPanel(infoLabel: InfoLabel) : JPanel() {
         GlobalScreen.addNativeMouseListener(AddPointMouseListener(presets, points, pointsTextArea))
 
         this.layout = BoxLayout(this, BoxLayout.Y_AXIS)
+        this.preferredSize = Dimension(800, 400)
         @Suppress("DEPRECATION")
         pointsTextArea.enable(false)
 
@@ -82,8 +83,10 @@ class CryptPanel(infoLabel: InfoLabel) : JPanel() {
         }
         presetPanel.addLeft(removePresetButton)
 
-        presetTableModel.setColumnIdentifiers(arrayOf("Preset"))
+        presetTableModel.setColumnIdentifiers(arrayOf("Preset name"))
         presetTable.model = presetTableModel
+        presetTable.tableHeader.isOpaque = false
+        presetTable.tableHeader.background = Color(204, 229, 255)
         getPresetNames().forEach {
             presetTableModel.addRow(arrayOf(it))
         }
@@ -96,7 +99,12 @@ class CryptPanel(infoLabel: InfoLabel) : JPanel() {
                 }
             }
         })
-        presetTable.preferredSize = Dimension(presetTable.width, 200)
+        val presetTableScrollPane = JScrollPane(
+            presetTable,
+            JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+            JScrollPane.HORIZONTAL_SCROLLBAR_NEVER
+        )
+        presetTableScrollPane.preferredSize = Dimension(presetTableScrollPane.width, 120)
 
         val cryptPanel = JPanel()
         cryptPanel.layout = FlowLayout(FlowLayout.LEFT)
@@ -181,14 +189,16 @@ class CryptPanel(infoLabel: InfoLabel) : JPanel() {
 
         this.addLeft(presetNameFileNameLabel)
         this.addLeft(presetPanel)
-        this.addLeft(presetTable)
+        this.addLeft(presetTableScrollPane)
         this.addLeft(cryptPanel)
 
         val scrollPane = JScrollPane(
             pointsTextArea,
-            JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED
+            JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+            JScrollPane.HORIZONTAL_SCROLLBAR_NEVER
         )
-        this.add(scrollPane)
+        scrollPane.preferredSize = Dimension(scrollPane.width, 120)
+        this.addLeft(scrollPane)
 
         presetTable.setRowSelectionInterval(0, 0)
     }
@@ -246,7 +256,7 @@ class CryptPanel(infoLabel: InfoLabel) : JPanel() {
             .walkTopDown()
             .none { it.name.startsWith("coords") }
 
-        if(firstUsageOfApp) {
+        if (firstUsageOfApp) {
             val path = "${FileUtils.APP_PATH}${File.separator}coords-first-preset.txt"
 //            logger.info { "There is no preset file, creating $path" }
             File(path).createNewFile()
@@ -275,7 +285,7 @@ class CryptPanel(infoLabel: InfoLabel) : JPanel() {
         points.clear()
         points.addAll(FileUtils.loadPoints(file.absolutePath))
         pointsTextArea.text = ""
-        pointsTextArea.text = points.joinToString(separator = "\n", postfix = "\n")
+        if (points.isNotEmpty()) pointsTextArea.text = points.joinToString(separator = "\n", postfix = "\n")
     }
 
     private fun setFileNameLabel(text: String = "") {

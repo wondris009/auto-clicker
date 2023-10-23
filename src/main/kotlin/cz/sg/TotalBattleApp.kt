@@ -15,8 +15,6 @@ class TotalBattleApp {
 
     companion object {
 
-        const val WAIT_BEFORE_SECONDS = 5
-
         @JvmStatic
         fun main(args: Array<String>) {
             GlobalScreen.registerNativeHook()

@@ -15,11 +15,7 @@ class AddPointMouseListener(
     override fun nativeMouseClicked(e: NativeMouseEvent) {
         if (ctrlAltPressed(e)) {
             val position = MouseInfo.getPointerInfo().location
-//            if (pointsTextArea.text.isEmpty()) {
-                pointsTextArea.append("$position\n")
-//            } else {
-//                pointsTextArea.append("\n$position\n")
-//            }
+            pointsTextArea.append("$position\n")
             points.add(position)
             FileUtils.savePoints(presets.values.first { it.selected }, points)
         }

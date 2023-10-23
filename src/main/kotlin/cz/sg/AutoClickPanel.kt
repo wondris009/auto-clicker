@@ -1,6 +1,6 @@
 package cz.sg
 
-import cz.sg.TotalBattleApp.Companion.WAIT_BEFORE_SECONDS
+import cz.sg.Constants.WAIT_BEFORE_SECONDS
 import java.awt.Dimension
 import java.awt.FlowLayout
 import javax.swing.JLabel
@@ -23,8 +23,6 @@ class AutoClickPanel(infoLabel: InfoLabel) : JPanel() {
             Thread(DisplayTextRunnable(infoLabel, numberOfCountsTextField.text.toInt())).start()
         }
         this.addLeft(startClickingButton)
-
-        this.preferredSize = Dimension(this.width, 100)
     }
 
     class DisplayTextRunnable(

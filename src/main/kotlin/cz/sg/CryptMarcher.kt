@@ -1,6 +1,6 @@
 package cz.sg
 
-import cz.sg.TotalBattleApp.Companion.WAIT_BEFORE_SECONDS
+import cz.sg.Constants.WAIT_BEFORE_SECONDS
 import java.awt.Point
 import javax.swing.JLabel
 import javax.swing.SwingUtilities
@@ -35,7 +35,7 @@ class CryptMarcher(
             clicker.clickLeftMouse()
             Thread.sleep(2_800)
 
-            if(rare) {
+            if (rare) {
                 clicker.mouseMove(points[3].x, points[3].y)
                 clicker.clickLeftMouse()
                 Thread.sleep(2_800)
