@@ -133,8 +133,8 @@ class Clicker {
         robot.waitForIdle()
     }
 
-    fun waitAfterSpeedUps(rounds: Int, round: Int, notifier: Notifier) {
-        (0..40).reversed().forEach {
+    fun waitAfterSpeedUps(rounds: Int, secondsAfterAction: Int,  round: Int, notifier: Notifier) {
+        (0..secondsAfterAction).reversed().forEach {
             notifier.setText("Round $round of $rounds | Waiting $it second(s) until next round")
             Thread.sleep(1L * SECOND)
         }

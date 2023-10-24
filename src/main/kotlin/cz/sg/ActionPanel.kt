@@ -124,8 +124,13 @@ class ActionPanel(infoLabel: InfoLabel) : JPanel() {
         val actionPanel = FlowLeftPanel()
         val numberOfRoundsLabel = JLabel("Number of rounds")
         actionPanel.addLeft(numberOfRoundsLabel)
-        val numberOfRoundsTextField = JTextField("10", 5)
+        val numberOfRoundsTextField = JTextField("10", 4)
         actionPanel.addLeft(numberOfRoundsTextField)
+
+        val waitAfterActionLabel = JLabel("Seconds after action")
+        actionPanel.addLeft(waitAfterActionLabel)
+        val waitAfterActionTextField = JTextField("40", 4)
+        actionPanel.addLeft(waitAfterActionTextField)
 
         val goButton = createButton(color = Color.RED, buttonLabel = "Go common/epic") {
 
@@ -165,7 +170,7 @@ class ActionPanel(infoLabel: InfoLabel) : JPanel() {
                 val yesNoResult = GuiUtils.showConfirmDialog(this, warningMsg)
                 if (yesNoResult == JOptionPane.YES_OPTION) {
                     logger.info { "passing $rare" }
-                    Thread(CryptMarcher(points, numberOfRoundsTextField.text.toInt(), rare, infoLabel)).start()
+                    Thread(CryptMarcher(points, numberOfRoundsTextField.text.toInt(), waitAfterActionTextField.text.toInt(), rare, infoLabel)).start()
                 }
             }
         }
@@ -193,7 +198,7 @@ class ActionPanel(infoLabel: InfoLabel) : JPanel() {
             JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
             JScrollPane.HORIZONTAL_SCROLLBAR_NEVER
         )
-        scrollPane.preferredSize = Dimension(scrollPane.width, 120)
+        scrollPane.preferredSize = Dimension(scrollPane.width, 150)
         this.addLeft(scrollPane)
 
         if (presets.isNotEmpty()) {
