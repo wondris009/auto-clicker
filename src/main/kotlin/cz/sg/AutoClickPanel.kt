@@ -8,16 +8,16 @@ import javax.swing.SwingUtilities
 class AutoClickPanel(infoLabel: InfoLabel) : FlowLeftPanel() {
 
     init {
-        val label = JLabel("How many clicks?")
-        this.addLeft(label)
+        val l = JLabel("How many clicks?")
+        this.addLeft(l)
 
-        val numberOfCountsTextField = JTextField("20", 5)
-        this.addLeft(numberOfCountsTextField)
+        val numberOfCountsTF = JTextField("20", 5)
+        this.addLeft(numberOfCountsTF)
 
-        val startClickingButton = GuiUtils.createButton(buttonLabel = "Start") {
-            Thread(DisplayTextRunnable(infoLabel, numberOfCountsTextField.text.toInt())).start()
+        val startClickingB = GuiUtils.createButton(buttonLabel = "Start") {
+            Thread(DisplayTextRunnable(infoLabel, numberOfCountsTF.text.toInt())).start()
         }
-        this.addLeft(startClickingButton)
+        this.addLeft(startClickingB)
     }
 
     class DisplayTextRunnable(

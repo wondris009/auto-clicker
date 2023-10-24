@@ -16,11 +16,11 @@ class MoveScreenPanel : JPanel() {
     init {
         this.layout = BorderLayout()
 
-        val controlsPanel = JPanel()
-        controlsPanel.layout = BoxLayout(controlsPanel, BoxLayout.Y_AXIS)
+        val controlsP = JPanel()
+        controlsP.layout = BoxLayout(controlsP, BoxLayout.Y_AXIS)
 
-        val checkBox = JCheckBox("Enable / disable screen moving", enableScreenMove)
-        checkBox.addActionListener {
+        val cb = JCheckBox("Enable / disable screen moving", enableScreenMove)
+        cb.addActionListener {
             enableScreenMove = !enableScreenMove
 
             if(enableScreenMove) {
@@ -30,9 +30,9 @@ class MoveScreenPanel : JPanel() {
             }
 
         }
-        controlsPanel.add(checkBox)
+        controlsP.add(cb)
 
-        this.add(controlsPanel)
+        this.add(controlsP)
     }
 }
 

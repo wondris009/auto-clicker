@@ -20,8 +20,8 @@ class ActionPanel(infoLabel: InfoLabel) : JPanel() {
     private val presets = mutableMapOf<String, Preset>()
     private val points = mutableListOf<Point>()
 
-    private val presetNameFileNameLabel = JLabel()
-    private var presetNameTextField: JTextField
+    private val presetNameFileNameL = JLabel()
+    private var presetNameTF: JTextField
     private val presetTable = JTable()
     private val presetTableModel = object : DefaultTableModel(0, 0) {
         override fun isCellEditable(row: Int, column: Int): Boolean {
@@ -44,19 +44,19 @@ class ActionPanel(infoLabel: InfoLabel) : JPanel() {
 
         setFileNameLabel()
 
-        val presetPanel = FlowLeftPanel()
-        val presetNameLabel = JLabel("Preset name")
-        presetNameLabel.border = BorderFactory.createEmptyBorder()
-        presetPanel.addLeft(presetNameLabel)
-        presetNameTextField = JTextField("", 20)
+        val presetP = FlowLeftPanel()
+        val presetNameL = JLabel("Preset name")
+        presetNameL.border = BorderFactory.createEmptyBorder()
+        presetP.addLeft(presetNameL)
+        presetNameTF = JTextField("", 20)
         reactOnPresetNameChange {
             transformPresetNameToFileName()
         }
-        presetPanel.addLeft(presetNameTextField)
+        presetP.addLeft(presetNameTF)
 
-        val addPresetButton = createButton(buttonLabel = "+") {
-            if (presetNameTextField.text.isNotEmpty()) {
-                val presetName = presetNameFileNameLabel.text.replace(PREFIX, "").replace(FileUtils.EXTENSION, "")
+        val addPresetB = createButton(buttonLabel = "+") {
+            if (presetNameTF.text.isNotEmpty()) {
+                val presetName = presetNameFileNameL.text.replace(PREFIX, "").replace(FileUtils.EXTENSION, "")
                 if (!getPresetNames().contains(presetName)) {
                     addPreset(presetName, infoLabel)
                 } else {
@@ -66,16 +66,16 @@ class ActionPanel(infoLabel: InfoLabel) : JPanel() {
                 showError(infoLabel, "Set preset name")
             }
         }
-        presetPanel.addLeft(addPresetButton)
+        presetP.addLeft(addPresetB)
 
-        val removePresetButton = createButton(buttonLabel = "-") {
+        val removePresetB = createButton(buttonLabel = "-") {
             if (presetTable.selectedRow != -1) {
                 removePreset(infoLabel)
             } else {
                 infoLabel.text = "Select preset from the table"
             }
         }
-        presetPanel.addLeft(removePresetButton)
+        presetP.addLeft(removePresetB)
 
         presetTableModel.setColumnIdentifiers(arrayOf("Preset name"))
         presetTable.model = presetTableModel
@@ -93,16 +93,16 @@ class ActionPanel(infoLabel: InfoLabel) : JPanel() {
                 }
             }
         })
-        val presetTableScrollPane = JScrollPane(
+        val presetTableSP = JScrollPane(
             presetTable,
             JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
             JScrollPane.HORIZONTAL_SCROLLBAR_NEVER
         )
-        presetTableScrollPane.preferredSize = Dimension(presetTableScrollPane.width, 120)
+        presetTableSP.preferredSize = Dimension(presetTableSP.width, 120)
 
-        val presetControlsPanel = FlowLeftPanel()
+        val presetControlsP = FlowLeftPanel()
 
-        val removeLastValueButton = createButton(buttonLabel = "Remove last value") {
+        val removeLastValueB = createButton(buttonLabel = "Remove last value") {
             if (points.isNotEmpty()) {
                 points.removeLast()
                 val linesCount = pointsTextArea.lineCount
@@ -112,27 +112,27 @@ class ActionPanel(infoLabel: InfoLabel) : JPanel() {
                 FileUtils.savePoints(presets.values.first { it.selected }, points)
             }
         }
-        presetControlsPanel.addLeft(removeLastValueButton)
+        presetControlsP.addLeft(removeLastValueB)
 
-        val clearAllPointsButton = createButton(buttonLabel = "Clear all") {
+        val clearAllPointsB = createButton(buttonLabel = "Clear all") {
             points.clear()
             pointsTextArea.text = ""
             FileUtils.savePoints(presets.values.first { it.selected }, points)
         }
-        presetControlsPanel.addLeft(clearAllPointsButton)
+        presetControlsP.addLeft(clearAllPointsB)
 
-        val actionPanel = FlowLeftPanel()
-        val numberOfRoundsLabel = JLabel("Number of rounds")
-        actionPanel.addLeft(numberOfRoundsLabel)
-        val numberOfRoundsTextField = JTextField("10", 4)
-        actionPanel.addLeft(numberOfRoundsTextField)
+        val actionP = FlowLeftPanel()
+        val numberOfRoundsL = JLabel("Number of rounds")
+        actionP.addLeft(numberOfRoundsL)
+        val numberOfRoundsTF = JTextField("10", 4)
+        actionP.addLeft(numberOfRoundsTF)
 
-        val waitAfterActionLabel = JLabel("Seconds after action")
-        actionPanel.addLeft(waitAfterActionLabel)
-        val waitAfterActionTextField = JTextField("40", 4)
-        actionPanel.addLeft(waitAfterActionTextField)
+        val waitAfterActionL = JLabel("Seconds after action")
+        actionP.addLeft(waitAfterActionL)
+        val waitAfterSpeedUpsTF = JTextField("40", 4)
+        actionP.addLeft(waitAfterSpeedUpsTF)
 
-        val goButton = createButton(color = Color.RED, buttonLabel = "Go common/epic") {
+        val goB = createButton(color = Color.RED, buttonLabel = "Go common/epic") {
 
             if (points.size != 7) {
                 val errorMsg = InfoLabel(
@@ -170,28 +170,28 @@ class ActionPanel(infoLabel: InfoLabel) : JPanel() {
                 val yesNoResult = GuiUtils.showConfirmDialog(this, warningMsg)
                 if (yesNoResult == JOptionPane.YES_OPTION) {
                     logger.info { "passing $rare" }
-                    Thread(CryptMarcher(points, numberOfRoundsTextField.text.toInt(), waitAfterActionTextField.text.toInt(), rare, infoLabel)).start()
+                    Thread(CryptMarcher(points, numberOfRoundsTF.text.toInt(), waitAfterSpeedUpsTF.text.toInt(), rare, infoLabel)).start()
                 }
             }
         }
-        val rareCryptCheckBox = JCheckBox("Rare crypt?", rare)
-        rareCryptCheckBox.addActionListener {
+        val rareCryptCB = JCheckBox("Rare crypt?", rare)
+        rareCryptCB.addActionListener {
             rare = !rare
             if (rare) {
-                goButton.text = "Go rare"
+                goB.text = "Go rare"
             } else {
-                goButton.text = "Go common/epic"
+                goB.text = "Go common/epic"
             }
 
         }
-        actionPanel.addLeft(rareCryptCheckBox)
-        actionPanel.addLeft(goButton)
+        actionP.addLeft(rareCryptCB)
+        actionP.addLeft(goB)
 
-        this.addLeft(presetNameFileNameLabel)
-        this.addLeft(presetPanel)
-        this.addLeft(presetTableScrollPane)
-        this.addLeft(presetControlsPanel)
-        this.addLeft(actionPanel)
+        this.addLeft(presetNameFileNameL)
+        this.addLeft(presetP)
+        this.addLeft(presetTableSP)
+        this.addLeft(presetControlsP)
+        this.addLeft(actionP)
 
         val scrollPane = JScrollPane(
             pointsTextArea,
@@ -209,8 +209,8 @@ class ActionPanel(infoLabel: InfoLabel) : JPanel() {
     private fun addPreset(presetName: String, infoLabel: InfoLabel) {
         logger.info { "Adding preset with name: $presetName" }
         presetTableModel.addRow(arrayOf(presetName))
-        presetNameTextField.border = JTextField().border
-        presetNameTextField.background = JTextField().background
+        presetNameTF.border = JTextField().border
+        presetNameTF.background = JTextField().background
         infoLabel.text = "Preset $presetName created"
         presets[presetName] = Preset(presetName, presets.isEmpty())
     }
@@ -230,7 +230,7 @@ class ActionPanel(infoLabel: InfoLabel) : JPanel() {
     }
 
     private fun reactOnPresetNameChange(fn: () -> Unit) {
-        presetNameTextField.document.addDocumentListener(object : DocumentListener {
+        presetNameTF.document.addDocumentListener(object : DocumentListener {
             override fun insertUpdate(e: DocumentEvent?) {
                 fn()
             }
@@ -246,12 +246,12 @@ class ActionPanel(infoLabel: InfoLabel) : JPanel() {
     }
 
     private fun transformPresetNameToFileName() {
-        setFileNameLabel(presetNameTextField.text.replace(" ".toRegex(), "-").lowercase())
+        setFileNameLabel(presetNameTF.text.replace(" ".toRegex(), "-").lowercase())
     }
 
     private fun showError(infoLabel: InfoLabel, errorMessage: String) {
         infoLabel.text = errorMessage
-        presetNameTextField.background = Color(254, 204, 204)
+        presetNameTF.background = Color(254, 204, 204)
     }
 
     private fun loadPresets() {
@@ -290,8 +290,8 @@ class ActionPanel(infoLabel: InfoLabel) : JPanel() {
     }
 
     private fun setFileNameLabel(text: String = "") {
-        presetNameFileNameLabel.text = "${PREFIX}coords-$text${FileUtils.EXTENSION}"
-        presetNameFileNameLabel.border = BorderFactory.createLineBorder(Color.DARK_GRAY)
+        presetNameFileNameL.text = "${PREFIX}coords-$text${FileUtils.EXTENSION}"
+        presetNameFileNameL.border = BorderFactory.createLineBorder(Color.DARK_GRAY)
     }
 
     private val logger = KotlinLogging.logger { }

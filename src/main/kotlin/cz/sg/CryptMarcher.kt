@@ -8,7 +8,7 @@ import javax.swing.SwingUtilities
 class CryptMarcher(
     private val points: MutableList<Point>,
     private val rounds: Int,
-    private val secondsAfterAction: Int,
+    private val waitAfterSpeedUps: Int,
     private val rare: Boolean,
     private val label: JLabel
 ) : Runnable, Notifier {
@@ -53,7 +53,7 @@ class CryptMarcher(
             Thread.sleep(2_800)
 
             clicker.speedUp(points, 6)
-            clicker.waitAfterSpeedUps(rounds, secondsAfterAction, round, this)
+            clicker.waitAfterSpeedUps(rounds, waitAfterSpeedUps, round, this)
         }
         setText("$rounds crypts finished")
     }
