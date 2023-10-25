@@ -3,7 +3,10 @@ package cz.sg
 import com.github.kwhat.jnativehook.GlobalScreen
 import cz.sg.GuiUtils.createButton
 import mu.KotlinLogging
-import java.awt.*
+import java.awt.Color
+import java.awt.Dimension
+import java.awt.Font
+import java.awt.Point
 import java.awt.event.MouseAdapter
 import java.awt.event.MouseEvent
 import java.io.File
@@ -22,6 +25,7 @@ class ActionPanel(infoLabel: InfoLabel) : JPanel() {
 
     private val presetNameFileNameL = JLabel()
     private var presetNameTF: JTextField
+    private var troopsCountTF = JTextField("6-1000", 48)
     private val presetTable = JTable()
     private val presetTableModel = object : DefaultTableModel(0, 0) {
         override fun isCellEditable(row: Int, column: Int): Boolean {
@@ -88,6 +92,8 @@ class ActionPanel(infoLabel: InfoLabel) : JPanel() {
             override fun mousePressed(e: MouseEvent) {
                 if (e.clickCount == 2 && presetTable.selectedRow != -1) {
                     val presetName = presetTable.model.getValueAt(presetTable.selectedRow, 0)
+                    logger.info { "Selecting preset $presetName" }
+                    presets.values.forEach { it.selected = false }
                     presets[presetName]!!.selected = true
                     loadPoints(File("${FileUtils.APP_PATH}${File.separator}$presetName.txt"))
                 }
@@ -124,7 +130,7 @@ class ActionPanel(infoLabel: InfoLabel) : JPanel() {
         val actionP = FlowLeftPanel()
         val numberOfRoundsL = JLabel("Number of rounds")
         actionP.addLeft(numberOfRoundsL)
-        val numberOfRoundsTF = JTextField("10", 4)
+        val numberOfRoundsTF = JTextField("1", 4)
         actionP.addLeft(numberOfRoundsTF)
 
         val waitAfterActionL = JLabel("Seconds after action")
@@ -170,7 +176,15 @@ class ActionPanel(infoLabel: InfoLabel) : JPanel() {
                 val yesNoResult = GuiUtils.showConfirmDialog(this, warningMsg)
                 if (yesNoResult == JOptionPane.YES_OPTION) {
                     logger.info { "passing $rare" }
-                    Thread(CryptMarcher(points, numberOfRoundsTF.text.toInt(), waitAfterSpeedUpsTF.text.toInt(), rare, infoLabel)).start()
+                    Thread(
+                        CryptMarcher(
+                            points,
+                            numberOfRoundsTF.text.toInt(),
+                            waitAfterSpeedUpsTF.text.toInt(),
+                            rare,
+                            infoLabel
+                        )
+                    ).start()
                 }
             }
         }
@@ -184,14 +198,32 @@ class ActionPanel(infoLabel: InfoLabel) : JPanel() {
             }
 
         }
+        val fightB = createButton(color = Color(147, 0, 0), buttonLabel = "Fight") {
+            Thread(
+                Fighter(
+                    points,
+                    numberOfRoundsTF.text.toInt(),
+                    waitAfterSpeedUpsTF.text.toInt(),
+                    troopsCountTF.text,
+                    infoLabel)
+            ).start()
+        }
+
         actionP.addLeft(rareCryptCB)
         actionP.addLeft(goB)
+        actionP.addLeft(fightB)
+
+        val troopsCountP = FlowLeftPanel()
+        val troopsCountL = JLabel("Comma separated troops count")
+        troopsCountP.addLeft(troopsCountL)
+        troopsCountP.addLeft(troopsCountTF)
 
         this.addLeft(presetNameFileNameL)
         this.addLeft(presetP)
         this.addLeft(presetTableSP)
         this.addLeft(presetControlsP)
         this.addLeft(actionP)
+        this.addLeft(troopsCountP)
 
         val scrollPane = JScrollPane(
             pointsTextArea,

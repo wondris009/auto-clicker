@@ -22,37 +22,21 @@ class CryptMarcher(
 
         val clicker = Clicker()
 
-        for (round in 1..rounds) {
+        repeat(rounds) { round ->
 
-            clicker.mouseMove(points[0].x, points[0].y)
-            clicker.clickLeftMouse()
-            Thread.sleep(2_800)
-
-            clicker.mouseMove(points[1].x, points[1].y)
-            clicker.clickLeftMouse()
-            Thread.sleep(2_800)
-
-            clicker.mouseMove(points[2].x, points[2].y)
-            clicker.clickLeftMouse()
-            Thread.sleep(2_800)
+            clicker.openWatchTower(points[0])
+            clicker.locateTarget(points[1])
+            clicker.selectTarget(points[2])
 
             if (rare) {
-                clicker.mouseMove(points[3].x, points[3].y)
-                clicker.clickLeftMouse()
-                Thread.sleep(2_800)
+                clicker.clickAndWait(points[3])
             }
 
             setText("Round $round of $rounds")
 
-            clicker.mouseMove(points[4].x, points[4].y)
-            clicker.clickLeftMouse()
-            Thread.sleep(2_800)
-
-            clicker.mouseMove(points[5].x, points[5].y)
-            clicker.clickLeftMouse()
-            Thread.sleep(2_800)
-
-            clicker.speedUp(points, 6)
+            clicker.doAction(points[points.size - 3])
+            clicker.openSpeedupPage(points[points.size - 2])
+            clicker.speedUp(points[points.size - 1])
             clicker.waitAfterSpeedUps(rounds, waitAfterSpeedUps, round, this)
         }
         setText("$rounds crypts finished")
