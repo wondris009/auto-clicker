@@ -9,19 +9,19 @@ import javax.swing.JTextArea
 
 class AddPointMouseListener(
     private val presets: MutableMap<String, Preset>,
-    private val points: MutableList<Point>,
-    private val pointsTextArea: JTextArea
+    private val coordinatesTable: CoordinatesTable
 ) : NativeMouseListener {
 
     override fun nativeMouseClicked(e: NativeMouseEvent) {
         if (ctrlAltPressed(e)) {
             if(presets.isEmpty()) {
-                GuiUtils.showErrorMessage(pointsTextArea, JLabel("Create preset first !!!"))
+                GuiUtils.showErrorMessage(coordinatesTable, JLabel("Create preset first !!!"))
             } else {
+                val preset = presets.getSelectedPreset()
                 val position = MouseInfo.getPointerInfo().location
-                pointsTextArea.append("$position\n")
-                points.add(position)
-                FileUtils.savePoints(presets.values.first { it.selected }, points)
+                preset.add(PointAmount(position))
+                FileUtils.savePoints(preset)
+                coordinatesTable.reloadData(preset)
             }
         }
     }

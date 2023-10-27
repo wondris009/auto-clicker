@@ -7,10 +7,9 @@ import javax.swing.JLabel
 import javax.swing.SwingUtilities
 
 class Fighter(
-    private val points: List<Point>,
+    private val preset: Preset,
     private val rounds: Int,
     private val waitAfterSpeedUps: Int,
-    private val input: String,
     private val label: JLabel
 ) : Runnable, Notifier {
 
@@ -22,12 +21,14 @@ class Fighter(
             Thread.sleep(1_000)
         }
 
-        val amounts = getAmounts(input)
-        val indexes = amounts.keys
+        val pointsAmounts = preset.pointsAndAmounts
+        val points = pointsAmounts.map { it.point }
+        val amounts = preset.pointsAndAmounts.map { it.amount }
 
         val numberOfPointsBeforeSelectingTroops = 4
 
         repeat(rounds) { round ->
+
             clicker.openWatchTower(points[0])
             clicker.locateTarget(points[1])
             clicker.selectTarget(points[2])
@@ -40,7 +41,7 @@ class Fighter(
                 val point = points[realIndex]
 
                 //enter amount
-                if (indexes.contains(realIndex)) {
+                if (pointsAmounts[realIndex].amount.isNotEmpty()) {
 
                     val amount = amounts[realIndex]
 
@@ -50,7 +51,7 @@ class Fighter(
                     Thread.sleep(1000)
                     clicker.clickLeftMouse()
                     Thread.sleep(1000)
-                    clicker.enterInput(amount!!)
+                    clicker.enterInput(amount)
                 } else {
                     logger.info { "Moving" }
                     //scroll to troop selection
@@ -65,7 +66,7 @@ class Fighter(
             clicker.speedUp(points[points.size - 1])
             clicker.waitAfterSpeedUps(rounds, waitAfterSpeedUps, round, this)
         }
-        setText("$rounds rounds of fighting finished")
+        setText("$rounds round(s) of fighting finished")
     }
 
     private fun getAmounts(input: String): Map<Int, String> = try {

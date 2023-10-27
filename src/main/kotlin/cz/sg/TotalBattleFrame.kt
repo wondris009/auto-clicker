@@ -12,6 +12,7 @@ class TotalBattleFrame(title: String) : JFrame() {
 
     init {
         UIManager.getLookAndFeelDefaults().putIfAbsent("Table.alternateRowColor", Color(240, 240, 240))
+        UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName())
 
         this.title = title
 

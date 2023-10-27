@@ -1,12 +1,11 @@
 package cz.sg
 
 import cz.sg.Constants.WAIT_BEFORE_SECONDS
-import java.awt.Point
 import javax.swing.JLabel
 import javax.swing.SwingUtilities
 
 class CryptMarcher(
-    private val points: MutableList<Point>,
+    private val preset: Preset,
     private val rounds: Int,
     private val waitAfterSpeedUps: Int,
     private val rare: Boolean,
@@ -24,6 +23,8 @@ class CryptMarcher(
 
         repeat(rounds) { round ->
 
+            val points = preset.pointsAndAmounts.map { it.point }
+
             clicker.openWatchTower(points[0])
             clicker.locateTarget(points[1])
             clicker.selectTarget(points[2])
@@ -39,7 +40,7 @@ class CryptMarcher(
             clicker.speedUp(points[points.size - 1])
             clicker.waitAfterSpeedUps(rounds, waitAfterSpeedUps, round, this)
         }
-        setText("$rounds crypts finished")
+        setText("$rounds crypt(s) finished")
     }
 
     override fun setText(text: String) {

@@ -28,3 +28,6 @@ fun String.toKeys(): List<Int> {
         convertCharacter(it)
     }.toList()
 }
+
+fun Map<String, Preset>.getSelectedPreset() = this.values.first { it.selected }
+

@@ -6,7 +6,6 @@ import mu.KotlinLogging
 import java.awt.Color
 import java.awt.Dimension
 import java.awt.Font
-import java.awt.Point
 import java.awt.event.MouseAdapter
 import java.awt.event.MouseEvent
 import java.io.File
@@ -21,30 +20,29 @@ private const val PREFIX = "File name will be: "
 class ActionPanel(infoLabel: InfoLabel) : JPanel() {
 
     private val presets = mutableMapOf<String, Preset>()
-    private val points = mutableListOf<Point>()
 
-    private val presetNameFileNameL = JLabel()
+    private val presetNameFileNameL1 = JLabel(PREFIX)
+    private val presetNameFileNameL2 = JLabel("test")
+
     private var presetNameTF: JTextField
-    private var troopsCountTF = JTextField("6-1000", 48)
     private val presetTable = JTable()
     private val presetTableModel = object : DefaultTableModel(0, 0) {
         override fun isCellEditable(row: Int, column: Int): Boolean {
             return false
         }
     }
+    private lateinit var coordinatesTable: CoordinatesTable
     private val pointsTextArea = JTextArea()
 
     private var rare = false
 
     init {
-        GlobalScreen.addNativeMouseListener(AddPointMouseListener(presets, points, pointsTextArea))
+        loadPresets()
 
         this.layout = BoxLayout(this, BoxLayout.Y_AXIS)
         this.preferredSize = Dimension(800, 400)
         @Suppress("DEPRECATION")
         pointsTextArea.enable(false)
-
-        loadPresets()
 
         setFileNameLabel()
 
@@ -60,7 +58,7 @@ class ActionPanel(infoLabel: InfoLabel) : JPanel() {
 
         val addPresetB = createButton(buttonLabel = "+") {
             if (presetNameTF.text.isNotEmpty()) {
-                val presetName = presetNameFileNameL.text.replace(PREFIX, "").replace(FileUtils.EXTENSION, "")
+                val presetName = presetNameFileNameL2.text.replace(FileUtils.EXTENSION, "")
                 if (!getPresetNames().contains(presetName)) {
                     addPreset(presetName, infoLabel)
                 } else {
@@ -94,8 +92,10 @@ class ActionPanel(infoLabel: InfoLabel) : JPanel() {
                     val presetName = presetTable.model.getValueAt(presetTable.selectedRow, 0)
                     logger.info { "Selecting preset $presetName" }
                     presets.values.forEach { it.selected = false }
-                    presets[presetName]!!.selected = true
-                    loadPoints(File("${FileUtils.APP_PATH}${File.separator}$presetName.txt"))
+                    val preset = presets[presetName]!!
+                    preset.selected = true
+                    preset.pointsAndAmounts = FileUtils.loadPoints(preset.getPath())
+                    coordinatesTable.reloadData(preset)
                 }
             }
         })
@@ -108,22 +108,21 @@ class ActionPanel(infoLabel: InfoLabel) : JPanel() {
 
         val presetControlsP = FlowLeftPanel()
 
-        val removeLastValueB = createButton(buttonLabel = "Remove last value") {
-            if (points.isNotEmpty()) {
-                points.removeLast()
-                val linesCount = pointsTextArea.lineCount
-                val start = pointsTextArea.getLineStartOffset(linesCount - 2)
-                val end = pointsTextArea.getLineEndOffset(linesCount - 1)
-                pointsTextArea.replaceRange("", start, end)
-                FileUtils.savePoints(presets.values.first { it.selected }, points)
+        val removeSelectedPointB = createButton(buttonLabel = "Remove selected point") {
+            if (coordinatesTable.selectedRow != -1) {
+                val selectedPreset = presets.getSelectedPreset()
+                selectedPreset.pointsAndAmounts.removeAt(coordinatesTable.selectedRow)
+                coordinatesTable.reloadData(selectedPreset)
+                FileUtils.savePoints(selectedPreset)
             }
         }
-        presetControlsP.addLeft(removeLastValueB)
+        presetControlsP.addLeft(removeSelectedPointB)
 
-        val clearAllPointsB = createButton(buttonLabel = "Clear all") {
-            points.clear()
-            pointsTextArea.text = ""
-            FileUtils.savePoints(presets.values.first { it.selected }, points)
+        val clearAllPointsB = createButton(buttonLabel = "Clear all points") {
+            val selectedPreset = presets.getSelectedPreset()
+            selectedPreset.clear()
+            coordinatesTable.clear()
+            FileUtils.savePoints(selectedPreset)
         }
         presetControlsP.addLeft(clearAllPointsB)
 
@@ -139,8 +138,7 @@ class ActionPanel(infoLabel: InfoLabel) : JPanel() {
         actionP.addLeft(waitAfterSpeedUpsTF)
 
         val goB = createButton(color = Color.RED, buttonLabel = "Go common/epic") {
-
-            if (points.size != 7) {
+            if (presets.getSelectedPreset().pointsAndAmounts.size != 7) {
                 val errorMsg = InfoLabel(
                     "<html>You need to specify exactly 7 points." +
                             "<br/><br/>" +
@@ -163,7 +161,6 @@ class ActionPanel(infoLabel: InfoLabel) : JPanel() {
                     Font.PLAIN,
                     14
                 )
-
                 GuiUtils.showErrorMessage(this, errorMsg)
             } else {
                 val warningMsg = InfoLabel(
@@ -178,7 +175,7 @@ class ActionPanel(infoLabel: InfoLabel) : JPanel() {
                     logger.info { "passing $rare" }
                     Thread(
                         CryptMarcher(
-                            points,
+                            presets.getSelectedPreset(),
                             numberOfRoundsTF.text.toInt(),
                             waitAfterSpeedUpsTF.text.toInt(),
                             rare,
@@ -201,11 +198,11 @@ class ActionPanel(infoLabel: InfoLabel) : JPanel() {
         val fightB = createButton(color = Color(147, 0, 0), buttonLabel = "Fight") {
             Thread(
                 Fighter(
-                    points,
+                    presets.getSelectedPreset(),
                     numberOfRoundsTF.text.toInt(),
                     waitAfterSpeedUpsTF.text.toInt(),
-                    troopsCountTF.text,
-                    infoLabel)
+                    infoLabel
+                )
             ).start()
         }
 
@@ -213,20 +210,24 @@ class ActionPanel(infoLabel: InfoLabel) : JPanel() {
         actionP.addLeft(goB)
         actionP.addLeft(fightB)
 
-        val troopsCountP = FlowLeftPanel()
-        val troopsCountL = JLabel("Comma separated troops count")
-        troopsCountP.addLeft(troopsCountL)
-        troopsCountP.addLeft(troopsCountTF)
-
-        this.addLeft(presetNameFileNameL)
+        val labelP = FlowLeftPanel()
+        labelP.addLeft(presetNameFileNameL1)
+        labelP.addLeft(presetNameFileNameL2)
+        this.addLeft(labelP)
         this.addLeft(presetP)
         this.addLeft(presetTableSP)
         this.addLeft(presetControlsP)
         this.addLeft(actionP)
-        this.addLeft(troopsCountP)
 
+        coordinatesTable = CoordinatesTable(
+            if (presets.isEmpty()) {
+                null
+            } else {
+                presets.getSelectedPreset()
+            }
+        )
         val scrollPane = JScrollPane(
-            pointsTextArea,
+            coordinatesTable,
             JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
             JScrollPane.HORIZONTAL_SCROLLBAR_NEVER
         )
@@ -236,6 +237,17 @@ class ActionPanel(infoLabel: InfoLabel) : JPanel() {
         if (presets.isNotEmpty()) {
             presetTable.setRowSelectionInterval(0, 0)
         }
+
+        setGlobalAttributes()
+    }
+
+    private fun setGlobalAttributes() {
+        GlobalScreen.addNativeMouseListener(
+            AddPointMouseListener(
+                presets,
+                coordinatesTable
+            )
+        )
     }
 
     private fun addPreset(presetName: String, infoLabel: InfoLabel) {
@@ -252,13 +264,14 @@ class ActionPanel(infoLabel: InfoLabel) : JPanel() {
         logger.info { "Removing preset with name: $presetName" }
         val preset = presets[presetName]!!
         if (preset.selected) {
-            points.clear()
+            preset.clear()
             pointsTextArea.text = ""
         }
         presets.remove(presetName)
         infoLabel.text = "Preset $presetName deleted"
         FileUtils.deleteCoordsFile(preset)
         presetTableModel.removeRow(presetTable.selectedRow)
+        coordinatesTable.clear()
     }
 
     private fun reactOnPresetNameChange(fn: () -> Unit) {
@@ -302,11 +315,16 @@ class ActionPanel(infoLabel: InfoLabel) : JPanel() {
             .forEachIndexed { index, file ->
                 var selected = false
                 if (index == 0) {
-                    loadPoints(file)
                     selected = true
                 }
                 val presetName = file.name.removeSuffix(FileUtils.EXTENSION)
-                presets[presetName] = Preset(presetName, selected)
+                val preset = Preset(presetName, selected)
+                presets[presetName] = preset
+                if (selected) {
+                    preset.pointsAndAmounts = FileUtils.loadPoints(file.absolutePath)
+                    coordinatesTable = CoordinatesTable(preset)
+                    coordinatesTable.reloadData(preset)
+                }
             }
     }
 
@@ -314,16 +332,12 @@ class ActionPanel(infoLabel: InfoLabel) : JPanel() {
 
     private fun getPresetNameFromTable(selectedRow: Int) = presetTable.model.getValueAt(selectedRow, 0).toString()
 
-    private fun loadPoints(file: File) {
-        points.clear()
-        points.addAll(FileUtils.loadPoints(file.absolutePath))
-        pointsTextArea.text = ""
-        if (points.isNotEmpty()) pointsTextArea.text = points.joinToString(separator = "\n", postfix = "\n")
-    }
-
     private fun setFileNameLabel(text: String = "") {
-        presetNameFileNameL.text = "${PREFIX}coords-$text${FileUtils.EXTENSION}"
-        presetNameFileNameL.border = BorderFactory.createLineBorder(Color.DARK_GRAY)
+        presetNameFileNameL1.border = BorderFactory.createEmptyBorder(2, 0, 0, 0)
+
+        presetNameFileNameL2.text = "coords-$text${FileUtils.EXTENSION}"
+        presetNameFileNameL2.foreground = Color(0, 102, 204)
+        presetNameFileNameL2.border = BorderFactory.createEmptyBorder(2, 0, 0, 0)
     }
 
     private val logger = KotlinLogging.logger { }
