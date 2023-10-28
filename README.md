@@ -40,43 +40,10 @@ OpenJDK Runtime Environment Zulu19.32+13-CA (build 19.0.2+7)
 OpenJDK 64-Bit Server VM Zulu19.32+13-CA (build 19.0.2+7, mixed mode, sharing)
 ```
 
-## Auto Clicker Screenshot
-![Alt text](pic/auto-clicker.png)
-
-## Crypt Hunter Screenshot
-![Alt text](pic/crypter.png)
-
-## How to use the application?
-
-### Download
-
-Download application [from](https://github.com/wondris009/auto-clicker/tree/main/downloads)
-
-### Run application
-Run command line / bash / terminal and run there command:
-> java -jar TotalBattleApp-all.jar
-
-Note to say that screenshots are from MacOS. On windows it looks a little bit different.
-
-Application store the points where it clicks on file system. It expects te be under **HOME_DIRECTORY/tmp/tbapp**. So be sure you have this directory created. Applications always stores all the points before exit to the **coords.txt** file.
-
-At the end it should look like:
-
-> /Users/SomeUserName/tmp/tbapp/coords.txt
-
-> /Users/SomeUserName/tmp/tbapp/TotalBattleApp-all.jar
-
-or prefixed with c:/ on windows
-
-### HotKeys
-
-**CTRL + F1** | exit application
-
-**CTRL + ALT + left mouse click** | add new click point for crypting
-
-## [How to use the application for hunting common and epic crypts?](https://github.com/wondris009/auto-clicker/wiki/Crypt-hunter)
-
-# Planned features / upgrades
-* be able to hunt also rare crypts
-* moving map just by keys
-* hunt citadels
+# v0.1.0 [wiki](https://github.com/wondris009/auto-clicker/wiki/Crypt-hunter-v0.1.0)
+Features:
+* crypt hunter
+* auto clicker
+# v0.2.0 [wiki](https://github.com/wondris009/auto-clicker/wiki/Crypting-Fighting-Auto-click-Move-screen)
+Features:
+* crypt hunter can make rare crypts, and also fight
