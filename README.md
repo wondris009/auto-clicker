@@ -47,3 +47,5 @@ Features:
 # v0.2.0 [wiki](https://github.com/wondris009/auto-clicker/wiki/Crypting-Fighting-Auto-click-Move-screen)
 Features:
 * crypt hunter can make rare crypts, and also fight
+* auto clicker
+* move screen by keys
