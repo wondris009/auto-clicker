@@ -36,13 +36,6 @@ class Clicker(private var delay: Int = 70) {
         delay()
     }
 
-    private fun keyPress(keyEvent: Int) {
-        robot.keyPress(keyEvent)
-        delay()
-        robot.keyRelease(keyEvent)
-        delay()
-    }
-
     private fun cleanFailures(numberOfEscapePress: Int = 3) {
         repeat(numberOfEscapePress) {
             pressEscape()

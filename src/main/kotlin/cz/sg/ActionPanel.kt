@@ -22,7 +22,7 @@ class ActionPanel(infoLabel: InfoLabel) : JPanel() {
     private val presets = mutableMapOf<String, Preset>()
 
     private val presetNameFileNameL1 = JLabel(PREFIX)
-    private val presetNameFileNameL2 = JLabel("test")
+    private val presetNameFileNameL2 = JLabel("")
 
     private var presetNameTF: JTextField
     private val presetTable = JTable()
@@ -129,7 +129,7 @@ class ActionPanel(infoLabel: InfoLabel) : JPanel() {
         val actionP = FlowLeftPanel()
         val numberOfRoundsL = JLabel("Number of rounds")
         actionP.addLeft(numberOfRoundsL)
-        val numberOfRoundsTF = JTextField("1", 4)
+        val numberOfRoundsTF = JTextField("10", 4)
         actionP.addLeft(numberOfRoundsTF)
 
         val waitAfterActionL = JLabel("Seconds after action")

@@ -52,6 +52,7 @@ class Fighter(
                     clicker.clickLeftMouse()
                     Thread.sleep(1000)
                     clicker.enterInput(amount)
+                    Thread.sleep(1000)
                 } else {
                     logger.info { "Moving" }
                     //scroll to troop selection
