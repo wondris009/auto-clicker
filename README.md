@@ -14,12 +14,12 @@ If the app helped you, feel free to donate.
 [![Donate with PayPal USD](pic/pp.png)](https://www.paypal.com/donate/?hosted_button_id=GQTGJMF2CR592)
 
 ## Technology stack
-**Kotlin, Swing, Gradle** 
+**Kotlin, Swing, Gradle**
 
 ## Prerequisites
 Be able to run java program. To do this you must install JDK (java development kit). Yes for just running java program, JRE (java runtime environment) is enough (advanced people can try it). But because I am programmer I am using JDK and I didn't try that just with JRE.
 
-So install JDK17. 
+So install JDK17.
 
 ### MacOS
 
@@ -44,7 +44,7 @@ OpenJDK 64-Bit Server VM Zulu19.32+13-CA (build 19.0.2+7, mixed mode, sharing)
 Features:
 * crypt hunter
 * auto clicker
-# v0.2.0 [wiki](https://github.com/wondris009/auto-clicker/wiki/Crypting-Fighting-Auto-click-Move-screen)
+# v0.2.0 [wiki](https://github.com/wondris009/auto-clicker/wiki/Crypting-Fighting-Auto-click-Move-screen-v0.2.0)
 Features:
 * crypt hunter can make rare crypts, and also fight
 * auto clicker
