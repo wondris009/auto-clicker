@@ -44,7 +44,7 @@ OpenJDK 64-Bit Server VM Zulu19.32+13-CA (build 19.0.2+7, mixed mode, sharing)
 Features:
 * crypt hunter
 * auto clicker
-# v0.2.0 [wiki](https://github.com/wondris009/auto-clicker/wiki/Crypting-Fighting-Auto-click-Move-screen)
+# v0.2.0 [wiki](https://github.com/wondris009/auto-clicker/wiki/Crypting-Fighting-Auto-click-Move-screen-v0.2.0)
 Features:
 * crypt hunter can make rare crypts, and also fight
 * auto clicker
