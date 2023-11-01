@@ -23,7 +23,7 @@ class TotalBattleApp {
         fun main(args: Array<String>) {
             GlobalScreen.registerNativeHook()
 
-            SwingUtilities.invokeAndWait {
+            SwingUtilities.invokeLater {
                 TotalBattleApp().initGui()
             }
         }

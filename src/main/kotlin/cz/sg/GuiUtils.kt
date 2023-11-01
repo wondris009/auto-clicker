@@ -21,6 +21,13 @@ object GuiUtils {
         return button
     }
 
+    fun createButton2(color: Color = Color.DARK_GRAY, buttonLabel: String): JButton {
+        val button = JButton(buttonLabel)
+        button.setFont(Font(Font.MONOSPACED, Font.PLAIN, 12))
+        button.foreground = color
+        return button
+    }
+
     fun createExitButton(): JButton {
         val button = JButton("EXIT")
         button.setFont(Font(Font.MONOSPACED, Font.BOLD, 12))

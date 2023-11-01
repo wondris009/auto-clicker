@@ -1,7 +1,8 @@
-package cz.sg
+package cz.sg.action
 
 import com.github.kwhat.jnativehook.GlobalScreen
-import cz.sg.GuiUtils.createButton
+import cz.sg.*
+import cz.sg.model.Presets
 import mu.KotlinLogging
 import java.awt.Color
 import java.awt.Dimension
@@ -13,7 +14,6 @@ import javax.swing.*
 import javax.swing.event.DocumentEvent
 import javax.swing.event.DocumentListener
 import javax.swing.table.DefaultTableModel
-
 
 private const val PREFIX = "File name will be: "
 
@@ -32,7 +32,6 @@ class ActionPanel(infoLabel: InfoLabel) : JPanel() {
         }
     }
     private lateinit var coordinatesTable: CoordinatesTable
-    private val pointsTextArea = JTextArea()
 
     private var rare = false
 
@@ -41,8 +40,6 @@ class ActionPanel(infoLabel: InfoLabel) : JPanel() {
 
         this.layout = BoxLayout(this, BoxLayout.Y_AXIS)
         this.preferredSize = Dimension(800, 400)
-        @Suppress("DEPRECATION")
-        pointsTextArea.enable(false)
 
         setFileNameLabel()
 
@@ -56,7 +53,7 @@ class ActionPanel(infoLabel: InfoLabel) : JPanel() {
         }
         presetP.addLeft(presetNameTF)
 
-        val addPresetB = createButton(buttonLabel = "+") {
+        val addPresetB = GuiUtils.createButton(buttonLabel = "+") {
             if (presetNameTF.text.isNotEmpty()) {
                 val presetName = presetNameFileNameL2.text.replace(FileUtils.EXTENSION, "")
                 if (!getPresetNames().contains(presetName)) {
@@ -70,13 +67,8 @@ class ActionPanel(infoLabel: InfoLabel) : JPanel() {
         }
         presetP.addLeft(addPresetB)
 
-        val removePresetB = createButton(buttonLabel = "-") {
-            if (presetTable.selectedRow != -1) {
-                removePreset(infoLabel)
-            } else {
-                infoLabel.text = "Select preset from the table"
-            }
-        }
+        val removePresetB = GuiUtils.createButton2(buttonLabel = "-")
+        removePresetB.addActionListener(RemovePresetListener(presetTable, coordinatesTable, infoLabel, Presets(presets)))
         presetP.addLeft(removePresetB)
 
         presetTableModel.setColumnIdentifiers(arrayOf("Preset name"))
@@ -108,7 +100,7 @@ class ActionPanel(infoLabel: InfoLabel) : JPanel() {
 
         val presetControlsP = FlowLeftPanel()
 
-        val removeSelectedPointB = createButton(buttonLabel = "Remove selected point") {
+        val removeSelectedPointB = GuiUtils.createButton(buttonLabel = "Remove selected point") {
             if (coordinatesTable.selectedRow != -1) {
                 val selectedPreset = presets.getSelectedPreset()
                 selectedPreset.pointsAndAmounts.removeAt(coordinatesTable.selectedRow)
@@ -118,7 +110,7 @@ class ActionPanel(infoLabel: InfoLabel) : JPanel() {
         }
         presetControlsP.addLeft(removeSelectedPointB)
 
-        val clearAllPointsB = createButton(buttonLabel = "Clear all points") {
+        val clearAllPointsB = GuiUtils.createButton(buttonLabel = "Clear all points") {
             val selectedPreset = presets.getSelectedPreset()
             selectedPreset.clear()
             coordinatesTable.clear()
@@ -137,7 +129,7 @@ class ActionPanel(infoLabel: InfoLabel) : JPanel() {
         val waitAfterSpeedUpsTF = JTextField("40", 4)
         actionP.addLeft(waitAfterSpeedUpsTF)
 
-        val goB = createButton(color = Color.RED, buttonLabel = "Go common/epic") {
+        val goB = GuiUtils.createButton(color = Color.RED, buttonLabel = "Go common/epic") {
             if (presets.getSelectedPreset().pointsAndAmounts.size != 7) {
                 val errorMsg = InfoLabel(
                     "<html>You need to specify exactly 7 points." +
@@ -195,7 +187,7 @@ class ActionPanel(infoLabel: InfoLabel) : JPanel() {
             }
 
         }
-        val fightB = createButton(color = Color(147, 0, 0), buttonLabel = "Fight") {
+        val fightB = GuiUtils.createButton(color = Color(147, 0, 0), buttonLabel = "Fight") {
             Thread(
                 Fighter(
                     presets.getSelectedPreset(),
@@ -265,7 +257,6 @@ class ActionPanel(infoLabel: InfoLabel) : JPanel() {
         val preset = presets[presetName]!!
         if (preset.selected) {
             preset.clear()
-            pointsTextArea.text = ""
         }
         presets.remove(presetName)
         infoLabel.text = "Preset $presetName deleted"
@@ -342,4 +333,3 @@ class ActionPanel(infoLabel: InfoLabel) : JPanel() {
 
     private val logger = KotlinLogging.logger { }
 }
-
