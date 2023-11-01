@@ -2,9 +2,7 @@ package cz.sg
 
 import com.github.kwhat.jnativehook.GlobalScreen
 import java.awt.BorderLayout
-import javax.swing.BoxLayout
-import javax.swing.JCheckBox
-import javax.swing.JPanel
+import javax.swing.*
 
 
 class MoveScreenPanel : JPanel() {
@@ -23,7 +21,7 @@ class MoveScreenPanel : JPanel() {
         cb.addActionListener {
             enableScreenMove = !enableScreenMove
 
-            if(enableScreenMove) {
+            if (enableScreenMove) {
                 GlobalScreen.addNativeKeyListener(moveScreenKeyListener)
             } else {
                 GlobalScreen.removeNativeKeyListener(moveScreenKeyListener)
@@ -31,6 +29,20 @@ class MoveScreenPanel : JPanel() {
 
         }
         controlsP.add(cb)
+
+        val info = JLabel(
+            """
+                <html>
+                    Use arrows to move map using keys. 
+                    <br/>
+                    Sometimes it goes little but further, not just one move but multiple moves.
+                    <br/>
+                    Just use opposite arrow to get back a bit.
+                </html>
+            """.trimIndent()
+        )
+        info.border = BorderFactory.createEmptyBorder(20, 30, 0, 0)
+        controlsP.add(info)
 
         this.add(controlsP)
     }
