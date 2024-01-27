@@ -163,4 +163,15 @@ class Clicker(private var delay: Int = 70) {
         clickLeftMouse()
         Thread.sleep(2_800)
     }
+
+    fun revive(points: List<Point>) {
+
+        val reviveIconPosition = points[points.size - 5]
+        val reviveButtonPosition = points[points.size - 4]
+
+        clickAndWait(reviveIconPosition)
+        clickAndWait(reviveButtonPosition)
+
+        cleanFailures()
+    }
 }

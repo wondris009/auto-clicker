@@ -40,7 +40,7 @@ class ActionPanel(infoLabel: InfoLabel) : JPanel() {
         loadPresets()
 
         this.layout = BoxLayout(this, BoxLayout.Y_AXIS)
-        this.preferredSize = Dimension(800, 400)
+        this.preferredSize = Dimension(900, 400)
         @Suppress("DEPRECATION")
         pointsTextArea.enable(false)
 
@@ -137,7 +137,12 @@ class ActionPanel(infoLabel: InfoLabel) : JPanel() {
         val waitAfterSpeedUpsTF = JTextField("40", 4)
         actionP.addLeft(waitAfterSpeedUpsTF)
 
-        val goB = createButton(color = Color.RED, buttonLabel = "Go common/epic") {
+        val reviveAfterNRoundsL = JLabel("Revive after N rounds")
+        actionP.addLeft(reviveAfterNRoundsL)
+        val reviveAfterNRoundsTF = JTextField("0", 4)
+        actionP.addLeft(reviveAfterNRoundsTF)
+
+        val goCryptingB = createButton(color = Color.RED, buttonLabel = "Go common/epic") {
             if (presets.getSelectedPreset().pointsAndAmounts.size != 7) {
                 val errorMsg = InfoLabel(
                     "<html>You need to specify exactly 7 points." +
@@ -189,9 +194,9 @@ class ActionPanel(infoLabel: InfoLabel) : JPanel() {
         rareCryptCB.addActionListener {
             rare = !rare
             if (rare) {
-                goB.text = "Go rare"
+                goCryptingB.text = "Go rare"
             } else {
-                goB.text = "Go common/epic"
+                goCryptingB.text = "Go common/epic"
             }
 
         }
@@ -201,13 +206,14 @@ class ActionPanel(infoLabel: InfoLabel) : JPanel() {
                     presets.getSelectedPreset(),
                     numberOfRoundsTF.text.toInt(),
                     waitAfterSpeedUpsTF.text.toInt(),
+                    reviveAfterNRoundsTF.text.toInt(),
                     infoLabel
                 )
             ).start()
         }
 
         actionP.addLeft(rareCryptCB)
-        actionP.addLeft(goB)
+        actionP.addLeft(goCryptingB)
         actionP.addLeft(fightB)
 
         val labelP = FlowLeftPanel()
