@@ -60,10 +60,10 @@ class Clicker(private var delay: Int = 70) {
     }
 
     fun moveUpDoubleScreen() {
-        robot.mouseMove(-1240, 159)
+        robot.mouseMove(-1240, 819)
         robot.mousePress(InputEvent.BUTTON1_DOWN_MASK)
         Thread.sleep(100)
-        robot.mouseMove(-1240, 459)
+        robot.mouseMove(-1240, 1119)
         robot.mouseRelease(InputEvent.BUTTON1_DOWN_MASK)
     }
 
